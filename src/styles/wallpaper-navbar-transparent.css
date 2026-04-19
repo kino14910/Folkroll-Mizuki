@@ -71,6 +71,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"]:not(.scroll
   --nav-shadow: none;
   --nav-radius: 0;
 }
+
 /* 移动端首页特殊处理 */
 body.wallpaper-transparent #navbar[data-transparent-mode="semifull"][data-is-home="true"]:not(.scrolled) {
   --nav-bg: transparent;
@@ -88,7 +89,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
 }
 
 /* 导航栏样式核心 (Navbar Core) */
-#navbar > div {
+#navbar>div {
   border: none !important;
   outline: none;
 
@@ -125,14 +126,16 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
   body.wallpaper-transparent :is(.dropdown-content, #display-setting, #search-panel) {
     background: rgba(255, 255, 255, 0.85);
   }
+
   :root.dark body.wallpaper-transparent :is(.dropdown-content, #display-setting, #search-panel) {
-    background: rgba(24, 25, 38, 0.85);
+    background: rgb(24, 25, 38, 0.85);
   }
 }
 
 @media (max-width: 1279px) {
+
   /* 修正移动端 Navbar 布局 */
-  #navbar > div {
+  #navbar>div {
     border-radius: 0.5rem;
     margin: 0;
     width: 100%;
@@ -143,6 +146,7 @@ body.wallpaper-transparent #navbar[data-transparent-mode="semifull"].scrolled {
   body:has(#navbar[data-dynamic-transparent="none"]) #search-panel #search-bar-inside {
     background: rgba(0, 0, 0, 0.08);
   }
+
   :root.dark body:has(#navbar[data-dynamic-transparent="none"]) #search-panel #search-bar-inside {
     background: rgba(255, 255, 255, 0.15);
   }

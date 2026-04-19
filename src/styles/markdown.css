@@ -99,18 +99,17 @@
 
   /* --- 表格样式 --- */
   .table-wrapper {
-    @apply w-full overflow-x-auto m-0 rounded-(--radius-large);
+    @apply w-full overflow-x-auto m-0 rounded-(--radius-3xl);
     -webkit-overflow-scrolling: touch;
 
     /* --- 滚动条样式 --- */
     &::-webkit-scrollbar {
       height: 6px;
-      width: 6px;
     }
 
     &::-webkit-scrollbar-track {
       background: transparent;
-      margin: 0 calc(var(--radius-large) + 2px);
+      margin: 0 calc(var(--radius-3xl) + 2px);
     }
 
     &::-webkit-scrollbar-thumb {
@@ -132,7 +131,7 @@
     border-spacing: 0;
 
     border: 1px solid var(--line-divider);
-    border-radius: var(--radius-large);
+    border-radius: var(--radius-3xl);
 
     overflow: hidden;
   }

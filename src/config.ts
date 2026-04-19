@@ -94,9 +94,9 @@ export const siteConfig: SiteConfig = {
 	postListLayout: {
 		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
 		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
-		defaultMode: "list",
+		defaultMode: "grid",
 		// 是否允许用户切换布局
-		allowSwitch: true,
+		allowSwitch: false,
 		// 文章列表页分类导航条配置
 		categoryBar: {
 			enable: true, // 是否在文章列表页显示分类导航条

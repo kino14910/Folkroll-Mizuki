@@ -110,23 +110,19 @@ const archiveUrl = url("/archive/");
 	}
 	.category-pill {
 		border: 1.5px solid var(--line-divider);
-		color: var(--btn-content);
-		background: transparent;
-	}
-	.category-pill:hover {
-		border-color: var(--primary);
 		color: var(--primary);
 		background: transparent;
 	}
+	.category-pill:hover {
+		color: var(--primary);
+		background: #323b48;
+	}
 	.category-pill[data-active] {
-		background: var(--primary);
-		border-color: var(--primary);
-		color: white;
+		background: color-mix(in srgb, var(--primary) 75%, transparent);
+		color: color-mix(in srgb, var(--primary) 20%, white);
 	}
 	.category-pill[data-active]:hover {
-		background: var(--primary);
-		border-color: var(--primary);
-		opacity: 0.9;
+		background: color-mix(in srgb, var(--primary) 85%, transparent);
 	}
 </style>
 
