@@ -20,19 +20,18 @@ export interface Project {
 }
 export const projectsData: Project[] = [
 	{
-		id: "folkroll",
-		title: "Interactive Blog System",
-		description:
-			"A personal blog and knowledge management system built with Astro + Svelte, featuring MDX content, RSS, and advanced interactive UI components.",
+		id: "kinomotion",
+		title: "Kino Motion",
+		description: "A personal interactive system built with Astro + Svelte.",
 		image: "",
 		category: "web",
-		techStack: ["Astro", "Svelte", "TypeScript", "MDX"],
+		techStack: ["Astro", "Svelte", "TypeScript"],
 		status: "in-progress",
-		sourceCode: "https://github.com/kino14910/folkroll",
-		visitUrl: "https://folkroll.vercel.app/",
+		sourceCode: "https://github.com/kino14910/kinomotion",
+		visitUrl: "https://kinomotion.vercel.app/",
 		startDate: "2026-03-01",
 		featured: true,
-		tags: ["Blog", "Interactive", "Frontend"],
+		tags: ["Personal Website", "Interactive", "Frontend"],
 	},
 
 	{
@@ -65,7 +64,7 @@ export const projectsData: Project[] = [
 		visitUrl: "https://the-wild-oasis-kino.vercel.app/",
 		startDate: "2025-11-01",
 		endDate: "2026-01-01",
-		tags: ["Admin", "Dashboard", "Data"],
+		tags: ["Fullstack", "Dashboard", "Admin"],
 	},
 
 	{
