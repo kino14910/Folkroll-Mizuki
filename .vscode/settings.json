@@ -1,24 +1,23 @@
 {
 	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[javascriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
 	"[astro]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "astro-build.astro-vscode",
 	},
 	"[svelte]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "svelte.svelte-vscode"
 	},
 	"liveServer.settings.root": "/dist",
-	"frontMatter.dashboard.openOnStart": false
+	"frontMatter.dashboard.openOnStart": false,
+	"css.lint.unknownAtRules": "ignore",
+	"js/ts.format.semicolons": "remove",
+	"svelte.plugin.svelte.format.config.singleQuote": true,
+	"svelte.enable-ts-plugin": true,
+	"editor.fontSize": 16,
+	"editor.fontFamily": "'Roboto mono', Consolas, 'Courier New', monospace",
+	"js/ts.preferences.organizeImports": {
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+		}
+	},
+	"editor.defaultFormatter": "vscode.typescript-language-features"
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CalendarStats } from "../types/calendar";
+	import type { CalendarStats } from '../types/calendar'
 
 	interface Props {
 		monthNames: string[];
@@ -15,21 +15,21 @@
 		currentMonth,
 		stats,
 		onMonthSelect,
-	}: Props = $props();
+	}: Props = $props()
 
 	function getMonthClass(index: number, hasPost: boolean): string {
-		const isCurrentMonth = index === currentMonth;
+		const isCurrentMonth = index === currentMonth
 		let baseClass =
-			"cursor-pointer rounded-lg flex flex-col items-center justify-center p-2 transition-all hover:bg-[var(--btn-plain-bg-hover)] relative border border-transparent";
+			'cursor-pointer rounded-lg flex flex-col items-center justify-center p-2 transition-all hover:bg-[var(--btn-plain-bg-hover)] relative border border-transparent'
 
 		if (isCurrentMonth) {
 			baseClass +=
-				" border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5";
+				' border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5'
 		} else {
-			baseClass += " text-neutral-700 dark:text-neutral-300";
+			baseClass += ' text-neutral-700 dark:text-neutral-300'
 		}
 
-		return baseClass;
+		return baseClass
 	}
 </script>
 

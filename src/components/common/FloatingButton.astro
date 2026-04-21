@@ -1,28 +1,28 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from 'astro-icon/components'
 
 interface Props {
-	id: string;
-	icon: string;
-	ariaLabel?: string;
-	onclick?: string;
-	class?: string;
+	id: string
+	icon: string
+	ariaLabel?: string
+	onclick?: string
+	class?: string
 }
 
-const { id, icon, ariaLabel, onclick, class: className = "" } = Astro.props;
+const { id, icon, ariaLabel, onclick, class: className = '' } = Astro.props
 ---
 
 <div
 	id={id}
 	class:list={[
-		"floating-btn",
+		'floating-btn',
 		className,
-		"btn-card flex items-center rounded-2xl overflow-hidden transition",
+		'btn-card flex items-center rounded-2xl overflow-hidden transition',
 	]}
 	onclick={onclick}
 >
-	<button aria-label={ariaLabel} class="h-full w-full rounded-2xl">
-		<Icon name={icon} class="mx-auto" />
+	<button aria-label={ariaLabel} class='h-full w-full rounded-2xl'>
+		<Icon name={icon} class='mx-auto' />
 	</button>
 </div>
 

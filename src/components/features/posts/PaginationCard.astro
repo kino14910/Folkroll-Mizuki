@@ -1,0 +1,71 @@
+---
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+	href: string
+	title: string
+	label: string
+	isNext?: boolean
+}
+
+const { href, title, label, isNext = false } = Astro.props
+
+// 统一图标逻辑
+const iconName = `material-symbols:arrow-${isNext ? 'right' : 'left'}-alt-rounded`
+const iconOrder = isNext ? 0 : 2
+---
+
+<div class='btn-card w-full max-w-full bg-transparent'>
+	<a
+		href={href}
+		class='w-full rounded-(--radius-large) font-medium overflow-hidden bg-(--card-bg)'
+	>
+		<div class='m-6 grid gap-2'>
+			<span class='inline-flex items-center'>
+				<span style='order: 1;'>
+					<Icon
+						name={iconName}
+						class='text-2xl text-black/75 dark:text-white/75'
+					/>
+				</span>
+				<span
+					class='label transition text-[1rem] text-black/75 dark:text-white/75 capitalize'
+					style={`order: ${iconOrder};`}
+				>
+					{label}
+				</span>
+			</span>
+			<div
+				class='title overflow-hidden text-2xl transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/85'
+			>
+				{title}
+			</div>
+		</div>
+	</a>
+</div>
+
+<style scoped>
+	.title {
+		font-family: 'Google Sans';
+	}
+
+	.label {
+		font-family: 'Google Sans Text';
+	}
+
+	a {
+		transition:
+			border-radius 0.3s cubic-bezier(0.2, 0, 0, 1),
+			background-color 0.3s cubic-bezier(0.2, 0, 0, 1);
+	}
+
+	a:hover,
+	a:focus {
+		background-color: var(--btn-card-bg-hover);
+	}
+
+	a:focus {
+		outline: 2px solid white;
+		border-radius: 3rem;
+	}
+</style>

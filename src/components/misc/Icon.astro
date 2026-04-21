@@ -8,20 +8,20 @@
  * @deprecated 请使用 import from "@components/atoms/Icon"
  */
 
-import BaseIcon from "../atoms/Icon/Icon.astro";
-import type { IconProps } from "../atoms/Icon/types";
+import BaseIcon from '../atoms/Icon/Icon.astro'
+import type { IconProps } from '../atoms/Icon/types'
 
 export interface Props extends IconProps {}
 
 const {
 	icon,
-	class: className = "",
-	style = "",
-	size = "md",
+	class: className = '',
+	style = '',
+	size = 'md',
 	color,
-	fallback = "●",
-	loading = "lazy",
-} = Astro.props;
+	fallback = '●',
+	loading = 'lazy',
+} = Astro.props
 ---
 
 <BaseIcon

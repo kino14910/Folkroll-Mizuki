@@ -1,34 +1,34 @@
 ---
-import { PhotoCard } from "@components/features/albums";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { Icon } from "astro-icon/components";
+import { PhotoCard } from '@components/features/albums'
+import MainGridLayout from '@layouts/MainGridLayout.astro'
+import { Icon } from 'astro-icon/components'
 
-import { siteConfig } from "../../../config";
-import I18nKey from "../../../i18n/i18nKey";
-import { i18n } from "../../../i18n/translation";
-import type { AlbumGroup, Photo } from "../../../types/album";
-import { scanAlbums } from "../../../utils/album-scanner";
+import { siteConfig } from '../../../config'
+import I18nKey from '../../../i18n/i18nKey'
+import { i18n } from '../../../i18n/translation'
+import type { AlbumGroup, Photo } from '../../../types/album'
+import { scanAlbums } from '../../../utils/album-scanner'
 
 if (!siteConfig.featurePages.albums) {
-	return Astro.redirect("/404/");
+	return Astro.redirect('/404/')
 }
 
 export const getStaticPaths = async () => {
-	const albumsData = await scanAlbums();
+	const albumsData = await scanAlbums()
 	return albumsData.map((album) => ({
 		params: { id: album.id },
 		props: { album },
-	}));
-};
+	}))
+}
 
 interface Props {
 	album: AlbumGroup;
 }
 
-const { album } = Astro.props;
+const { album } = Astro.props
 
 if (!album) {
-	return Astro.redirect("/404/");
+	return Astro.redirect('/404/')
 }
 ---
 
@@ -37,16 +37,16 @@ if (!album) {
 	description={album.description || album.title}
 >
 	<script>
-		import("../../../scripts/right-sidebar-layout.js");
-		import { loadIconify } from "../../../utils/icon-loader";
+		import('../../../scripts/right-sidebar-layout.js')
+import { loadIconify } from '../../../utils/icon-loader'
 
-		loadIconify().catch((error) => {
-			console.error("Failed to load Iconify:", error);
-		});
+loadIconify().catch((error) => {
+			console.error('Failed to load Iconify:', error)
+})
 	</script>
 
 	<!-- Cover Banner -->
-	<div class="w-full rounded-(--radius-large) overflow-hidden relative">
+	<div class="w-full rounded-(--radius-large) relative">
 		{
 			album.cover ? (
 				<div class="relative w-full aspect-3/1 min-h-50 max-h-90">
@@ -86,7 +86,7 @@ if (!album) {
 									class="text-sm"
 								/>
 								{new Date(album.date).toLocaleDateString(
-									"zh-CN",
+									'zh-CN',
 								)}
 							</span>
 							{album.location && (
@@ -103,7 +103,7 @@ if (!album) {
 									name="material-symbols:photo-library"
 									class="text-sm"
 								/>
-								{album.photos.length}{" "}
+								{album.photos.length}{' '}
 								{i18n(I18nKey.albumsPhotosCount)}
 							</span>
 						</div>
@@ -139,7 +139,7 @@ if (!album) {
 								name="material-symbols:calendar-today"
 								class="text-sm"
 							/>
-							{new Date(album.date).toLocaleDateString("zh-CN")}
+							{new Date(album.date).toLocaleDateString('zh-CN')}
 						</span>
 						{album.location && (
 							<span class="inline-flex items-center gap-1">
@@ -151,7 +151,7 @@ if (!album) {
 							</span>
 						)}
 						<span>
-							{album.photos.length}{" "}
+							{album.photos.length}{' '}
 							{i18n(I18nKey.albumsPhotosCount)}
 						</span>
 					</div>
@@ -161,15 +161,15 @@ if (!album) {
 	</div>
 
 	<!-- Photo Masonry Grid -->
-	<div class="w-full rounded-(--radius-large) overflow-hidden relative mt-4">
-		<div class="card-base z-10 px-6 py-6 relative w-full">
+	<div class="w-full rounded-(--radius-large) relative mt-4">
+		<div class="card-base z-10 px-6 py-6 relative w-full max-w-full">
 			{
 				album.photos.length > 0 ? (
 					<div class="gallery-masonry">
 						{album.photos.map((photo: Photo) => (
 							<PhotoCard
 								src={photo.src}
-								alt={photo.alt || photo.title || ""}
+								alt={photo.alt || photo.title || ''}
 								albumId={album.id}
 							/>
 						))}

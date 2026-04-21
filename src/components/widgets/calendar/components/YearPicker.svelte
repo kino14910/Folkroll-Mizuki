@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte'
 
-	import type { CalendarStats } from "../types/calendar";
+	import type { CalendarStats } from '../types/calendar'
 
 	interface Props {
 		currentYear: number;
@@ -9,47 +9,47 @@
 		onYearSelect: (year: number) => void;
 	}
 
-	const { currentYear, stats, onYearSelect }: Props = $props();
+	const { currentYear, stats, onYearSelect }: Props = $props()
 
-	let containerEl: HTMLDivElement;
+	let containerEl: HTMLDivElement
 
 	const years = $derived(() => {
-		const result: number[] = [];
+		const result: number[] = []
 		for (let y = stats.minYear; y <= stats.maxYear; y++) {
-			result.push(y);
+			result.push(y)
 		}
-		return result;
-	});
+		return result
+	})
 
 	function getYearClass(year: number): string {
-		const isCurrent = year === currentYear;
+		const isCurrent = year === currentYear
 		let baseClass =
-			"cursor-pointer rounded-lg flex flex-col items-center justify-center py-3 transition-all hover:bg-[var(--btn-plain-bg-hover)] relative border border-transparent";
+			'cursor-pointer rounded-lg flex flex-col items-center justify-center py-3 transition-all hover:bg-[var(--btn-plain-bg-hover)] relative border border-transparent'
 
 		if (isCurrent) {
 			baseClass +=
-				" border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5";
+				' border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5'
 		} else {
-			baseClass += " text-neutral-700 dark:text-neutral-300";
+			baseClass += ' text-neutral-700 dark:text-neutral-300'
 		}
 
-		return baseClass;
+		return baseClass
 	}
 
 	function scrollToCurrentYear() {
 		setTimeout(() => {
 			const el = containerEl?.querySelector(
 				`[data-year="${currentYear}"]`,
-			);
+			)
 			if (el) {
-				el.scrollIntoView({ block: "center", behavior: "smooth" });
+				el.scrollIntoView({ block: 'center', behavior: 'smooth' })
 			}
-		}, 50);
+		}, 50)
 	}
 
 	onMount(() => {
-		scrollToCurrentYear();
-	});
+		scrollToCurrentYear()
+	})
 </script>
 
 <div

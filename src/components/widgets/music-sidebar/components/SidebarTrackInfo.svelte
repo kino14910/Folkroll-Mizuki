@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import type { Song } from "../../music-player/types";
+	import type { Song } from '../../music-player/types'
 
 	interface Props {
 		currentSong: Song;
@@ -21,56 +21,56 @@
 		isMuted,
 		onToggleMute,
 		onSetVolume,
-	}: Props = $props();
+	}: Props = $props()
 
 	const currentTimeLabel = $derived(
-		`${Math.floor(currentTime / 60)}:${String(Math.floor(currentTime % 60)).padStart(2, "0")}`,
-	);
+		`${Math.floor(currentTime / 60)}:${String(Math.floor(currentTime % 60)).padStart(2, '0')}`,
+	)
 
 	const durationLabel = $derived(
-		`${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, "0")}`,
-	);
+		`${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`,
+	)
 
 	const volumePercent = $derived(
 		isMuted ? 0 : Math.max(0, Math.min(100, volume * 100)),
-	);
+	)
 
-	let isVolumeDragging = false;
+	let isVolumeDragging = false
 
 	function handleVolumePointer(event: PointerEvent) {
-		const el = event.currentTarget as HTMLElement | null;
+		const el = event.currentTarget as HTMLElement | null
 		if (!el) {
-			return;
+			return
 		}
-		isVolumeDragging = true;
-		const rect = el.getBoundingClientRect();
-		const percent = (event.clientX - rect.left) / rect.width;
-		const nextVolume = Math.max(0, Math.min(1, percent));
-		onSetVolume(nextVolume);
-		el.setPointerCapture(event.pointerId);
+		isVolumeDragging = true
+		const rect = el.getBoundingClientRect()
+		const percent = (event.clientX - rect.left) / rect.width
+		const nextVolume = Math.max(0, Math.min(1, percent))
+		onSetVolume(nextVolume)
+		el.setPointerCapture(event.pointerId)
 	}
 
 	function handleVolumeMove(event: PointerEvent) {
 		if (!isVolumeDragging) {
-			return;
+			return
 		}
-		handleVolumePointer(event);
+		handleVolumePointer(event)
 	}
 
 	function handleVolumeEnd() {
-		isVolumeDragging = false;
+		isVolumeDragging = false
 	}
 
 	function handleVolumeKeyDown(event: KeyboardEvent) {
-		if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-			event.preventDefault();
-			onSetVolume(Math.max(0, volume - 0.05));
-		} else if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-			event.preventDefault();
-			onSetVolume(Math.min(1, volume + 0.05));
-		} else if (event.key === "Enter") {
-			event.preventDefault();
-			onToggleMute();
+		if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+			event.preventDefault()
+			onSetVolume(Math.max(0, volume - 0.05))
+		} else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+			event.preventDefault()
+			onSetVolume(Math.min(1, volume + 0.05))
+		} else if (event.key === 'Enter') {
+			event.preventDefault()
+			onToggleMute()
 		}
 	}
 </script>
@@ -98,8 +98,8 @@
 			>
 				<Icon
 					icon={isMuted || volume === 0
-						? "material-symbols:volume-off-rounded"
-						: "material-symbols:volume-up-rounded"}
+						? 'material-symbols:volume-off-rounded'
+						: 'material-symbols:volume-up-rounded'}
 					class="text-base"
 				/>
 			</button>
@@ -232,7 +232,7 @@
 		outline-offset: 2px;
 	}
 
-	@media (max-width: 520px) {
+	@media (width <= 520px) {
 		.artist-row {
 			margin-bottom: 0.28rem;
 		}

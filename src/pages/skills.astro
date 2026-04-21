@@ -1,60 +1,60 @@
 ---
-import { FilterTabs } from "@components/atoms/filter-tabs";
-import { PageHeader } from "@components/features/page-header";
-import { SkillCard } from "@components/features/skills";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { Icon } from "astro-icon/components";
+import { FilterTabs } from '@components/atoms/filter-tabs'
+import { PageHeader } from '@components/features/page-header'
+import { SkillCard } from '@components/features/skills'
+import MainGridLayout from '@layouts/MainGridLayout.astro'
+import { Icon } from 'astro-icon/components'
 
-import { siteConfig } from "../config";
-import { skillsData } from "../data/skills";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { siteConfig } from '../config'
+import { skillsData } from '../data/skills'
+import I18nKey from '../i18n/i18nKey'
+import { i18n } from '../i18n/translation'
 
 if (!siteConfig.featurePages.skills) {
-	return Astro.redirect("/404/");
+	return Astro.redirect('/404/')
 }
 
-const categories = [...new Set(skillsData.map((skill) => skill.category))];
+const categories = [...new Set(skillsData.map((skill) => skill.category))]
 
 const getCategoryText = (category: string) => {
 	switch (category) {
-		case "frontend":
-			return i18n(I18nKey.skillsFrontend);
-		case "backend":
-			return i18n(I18nKey.skillsBackend);
-		case "database":
-			return i18n(I18nKey.skillsDatabase);
-		case "tools":
-			return i18n(I18nKey.skillsTools);
-		case "other":
-			return i18n(I18nKey.skillsOther);
+		case 'frontend':
+			return i18n(I18nKey.skillsFrontend)
+		case 'backend':
+			return i18n(I18nKey.skillsBackend)
+		case 'database':
+			return i18n(I18nKey.skillsDatabase)
+		case 'tools':
+			return i18n(I18nKey.skillsTools)
+		case 'other':
+			return i18n(I18nKey.skillsOther)
 		default:
-			return category;
+			return category
 	}
-};
+}
 
 const getCategoryIcon = (category: string) => {
 	switch (category) {
-		case "frontend":
-			return "material-symbols:web";
-		case "backend":
-			return "material-symbols:dns";
-		case "database":
-			return "material-symbols:storage";
-		case "tools":
-			return "material-symbols:build";
-		case "other":
-			return "material-symbols:widgets";
+		case 'frontend':
+			return 'material-symbols:web'
+		case 'backend':
+			return 'material-symbols:dns'
+		case 'database':
+			return 'material-symbols:storage'
+		case 'tools':
+			return 'material-symbols:build'
+		case 'other':
+			return 'material-symbols:widgets'
 		default:
-			return "material-symbols:category";
+			return 'material-symbols:category'
 	}
-};
+}
 
 const filterTabs = [
 	{
-		value: "all",
+		value: 'all',
 		label: i18n(I18nKey.friendsFilterAll),
-		icon: "material-symbols:apps",
+		icon: 'material-symbols:apps',
 		count: skillsData.length,
 	},
 	...categories.map((category) => ({
@@ -63,28 +63,28 @@ const filterTabs = [
 		icon: getCategoryIcon(category),
 		count: skillsData.filter((s) => s.category === category).length,
 	})),
-];
+]
 
-const title = i18n(I18nKey.skills);
+const title = i18n(I18nKey.skills)
 const subtitle = i18n(I18nKey.skillsSubtitle);
 ---
 
 <MainGridLayout title={title} description={subtitle}>
 	<script>
-		import("../scripts/right-sidebar-layout.js");
-		import { loadIconify } from "../utils/icon-loader";
+		import('../scripts/right-sidebar-layout.js')
+import { loadIconify } from '../utils/icon-loader'
 
-		loadIconify().catch((error) => {
-			console.error("Failed to load Iconify:", error);
-		});
+loadIconify().catch((error) => {
+			console.error('Failed to load Iconify:', error)
+})
 	</script>
 
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
 	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) relative min-h-32"
 	>
-		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full max-w-full">
 			<PageHeader title={title} subtitle={subtitle} />
 
 			<div class="mb-8">
@@ -113,7 +113,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: 1fr;
 	}
 
-	@media (min-width: 640px) {
+	@media (width >= 640px) {
 		#skills-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
@@ -123,7 +123,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	@media (max-width: 639px) {
+	 @media (width < 640px) {
 		#main-grid[data-layout-mode="grid"] #skills-grid {
 			grid-template-columns: 1fr;
 		}

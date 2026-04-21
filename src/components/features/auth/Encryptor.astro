@@ -1,27 +1,27 @@
 ---
-import "@/styles/markdown.css";
-import "@/styles/expressive-code.css";
-import "@/styles/encrypted-content.css";
-import "@/styles/markdown-extend.styl";
+import '@/styles/encrypted-content.css'
+import '@/styles/expressive-code.css'
+import '@/styles/markdown-extend.styl'
+import '@/styles/markdown.css'
 
-import CryptoJS from "crypto-js";
+import CryptoJS from 'crypto-js'
 
-import PasswordProtection from "./PasswordProtection.astro";
+import PasswordProtection from './PasswordProtection.astro'
 
 export interface Props {
-	password: string | number;
-	hint?: string;
+	password: string | number
+	hint?: string
 }
 
-const { password, hint = "" } = Astro.props;
+const { password, hint = '' } = Astro.props
 
-const htmlContent = await Astro.slots.render("default");
+const htmlContent = await Astro.slots.render('default')
 
-const contentToEncrypt = "MIZUKI-VERIFY:" + htmlContent;
+const contentToEncrypt = 'MIZUKI-VERIFY:' + htmlContent
 const encryptedContent = CryptoJS.AES.encrypt(
 	contentToEncrypt,
 	String(password),
-).toString();
+).toString()
 ---
 
 <PasswordProtection encryptedContent={encryptedContent} hint={hint} />

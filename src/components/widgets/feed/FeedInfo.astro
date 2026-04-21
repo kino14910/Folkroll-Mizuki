@@ -1,28 +1,28 @@
 ---
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { getSortedPosts } from "@utils/content-utils";
-import { formatDateToYYYYMMDD } from "@utils/date-utils";
-import { Icon } from "astro-icon/components";
+import I18nKey from '@i18n/i18nKey'
+import { i18n } from '@i18n/translation'
+import MainGridLayout from '@layouts/MainGridLayout.astro'
+import { getSortedPosts } from '@utils/content-utils'
+import { formatDateToYYYYMMDD } from '@utils/date-utils'
+import { Icon } from 'astro-icon/components'
 
 interface Props {
-	type: "rss" | "atom";
+	type: 'rss' | 'atom';
 }
 
-const { type } = Astro.props;
-const posts = (await getSortedPosts()).filter((post) => !post.data.encrypted);
-const recentPosts = posts.slice(0, 6);
+const { type } = Astro.props
+const posts = (await getSortedPosts()).filter((post) => !post.data.encrypted)
+const recentPosts = posts.slice(0, 6)
 
-const feedUrl = type === "rss" ? "rss.xml" : "atom.xml";
-const prefix = type === "rss" ? "rss" : "atom";
+const feedUrl = type === 'rss' ? 'rss.xml' : 'atom.xml'
+const prefix = type === 'rss' ? 'rss' : 'atom'
 
 const t = (key: string) => i18n(key as I18nKey);
 ---
 
 <MainGridLayout title={t(`${prefix}`)}>
 	<script>
-		import("../../../scripts/right-sidebar-layout.js");
+		import('../../../scripts/right-sidebar-layout.js')
 	</script>
 	<div class="onload-animation">
 		<div class="card-base rounded-(--radius-large) p-8 mb-6">
@@ -158,40 +158,40 @@ const t = (key: string) => i18n(key as I18nKey);
 	<script>
 		const init = () => {
 			const btn =
-				document.getElementById("copy-rss-btn") ||
-				document.getElementById("copy-atom-btn");
-			if (btn) {
-				btn.addEventListener("click", async function () {
-					const url = this.getAttribute("data-url");
-					if (!url) {
-						return;
-					}
-					try {
-						await navigator.clipboard.writeText(url);
-						const originalText = this.textContent || "Copy Link";
-						this.textContent = url.includes("rss")
-							? "RSS link copied to clipboard!"
-							: "Atom link copied to clipboard!";
-						this.style.backgroundColor =
-							"var(--success-color, #10b981)";
-
-						setTimeout(() => {
-							this.textContent = originalText;
-							this.style.backgroundColor = "";
-						}, 2000);
-					} catch (err) {
-						console.error("复制失败:", err);
-						const originalText = this.textContent || "Copy Link";
-						this.textContent =
-							"Copy failed, please copy the link manually";
-						setTimeout(() => {
-							this.textContent = originalText;
-						}, 2000);
-					}
-				});
+				document.getElementById('copy-rss-btn') ||
+				document.getElementById('copy-atom-btn')
+	if (btn) {
+				btn.addEventListener('click', async function () {
+					const url = this.getAttribute('data-url')
+			if (!url) {
+						return
 			}
-		};
-		init();
-		document.addEventListener("astro:after-swap", init);
+					try {
+						await navigator.clipboard.writeText(url)
+				const originalText = this.textContent || 'Copy Link'
+				this.textContent = url.includes('rss')
+							? 'RSS link copied to clipboard!'
+							: 'Atom link copied to clipboard!'
+				this.style.backgroundColor =
+							'var(--success-color, #10b981)'
+
+				setTimeout(() => {
+							this.textContent = originalText
+					this.style.backgroundColor = ''
+				}, 2000)
+			} catch (err) {
+						console.error('复制失败:', err)
+				const originalText = this.textContent || 'Copy Link'
+				this.textContent =
+							'Copy failed, please copy the link manually'
+				setTimeout(() => {
+							this.textContent = originalText
+				}, 2000)
+			}
+				})
+	}
+		}
+init()
+document.addEventListener('astro:after-swap', init)
 	</script>
 </MainGridLayout>

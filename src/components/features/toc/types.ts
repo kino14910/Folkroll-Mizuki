@@ -25,7 +25,7 @@ export interface TOCConfig {
 	/** 是否启用 TOC */
 	enable: boolean;
 	/** 显示模式 */
-	mode: "float" | "sidebar";
+	mode: 'float' | 'sidebar';
 	/** 标题深度（1-6） */
 	depth: number;
 	/** 是否使用日语徽章 */

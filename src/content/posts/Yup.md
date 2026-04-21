@@ -3,6 +3,7 @@ title: 'Yup'
 description: 'Yup对象schema验证库'
 published: 2024-02-01
 category: '前端'
+tags: ['React', 'API']
 ---
 
 **Yup** 是一个用于 **JavaScript 和 TypeScript 的轻量级、可扩展的对象 schema 验证库**，主要用于**表单验证**（如用户注册、登录、设置等场景）。它由 **Jason Quense**（React Final Form 的作者）开发，因其简洁的链式 API 和与 React 生态的良好集成而广受欢迎。

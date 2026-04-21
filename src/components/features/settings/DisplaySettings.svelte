@@ -1,30 +1,29 @@
 <script lang="ts">
-	import I18nKey from "@i18n/i18nKey";
-	import { i18n } from "@i18n/translation";
-	import Icon from "@iconify/svelte";
-	import { getDefaultHue, getHue, setHue } from "@utils/setting-utils";
-	import { onMount } from "svelte";
+	import I18nKey from '@i18n/i18nKey'
+	import { i18n } from '@i18n/translation'
+	import Icon from '@iconify/svelte'
+	import { getDefaultHue, getHue, setHue } from '@utils/setting-utils'
+	import { onMount } from 'svelte'
 
-	import type { DisplaySettingsProps } from "./types";
 
-	export let className = "";
+	export let className = ''
 
-	let hue = 250;
-	let defaultHue = 250;
-	let isMounted = false;
+	let hue = 250
+	let defaultHue = 250
+	let isMounted = false
 
 	function resetHue() {
-		hue = defaultHue;
+		hue = defaultHue
 	}
 
 	onMount(() => {
-		isMounted = true;
-		defaultHue = getDefaultHue();
-		hue = getHue();
-	});
+		isMounted = true
+		defaultHue = getDefaultHue()
+		hue = getHue()
+	})
 
 	$: if (isMounted && (hue || hue === 0)) {
-		setHue(hue);
+		setHue(hue)
 	}
 </script>
 
@@ -45,7 +44,7 @@
 				class="btn-regular w-7 h-7 rounded-md active:scale-90"
 				class:opacity-0={hue === defaultHue}
 				class:pointer-events-none={hue === defaultHue}
-				on:click={resetHue}
+				onclick={resetHue}
 			>
 				<div class="text-[var(--btn-content)]">
 					<Icon

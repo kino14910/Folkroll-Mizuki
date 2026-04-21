@@ -1,34 +1,34 @@
 ---
-import DeviceCard from "@components/features/devices/DeviceCard.astro";
+import DeviceCard from '@components/features/devices/DeviceCard.astro'
 
-import { siteConfig } from "../config";
-import { devicesData } from "../data/devices";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { siteConfig } from '../config'
+import { devicesData } from '../data/devices'
+import I18nKey from '../i18n/i18nKey'
+import { i18n } from '../i18n/translation'
+import MainGridLayout from '../layouts/MainGridLayout.astro'
 
-export const prerender = true;
+export const prerender = true
 
 // 检查设备页面是否启用
 if (!siteConfig.featurePages.devices) {
-	return Astro.redirect("/404/");
+	return Astro.redirect('/404/')
 }
 
 // 设备数据
-const devices = devicesData;
-const brands = Object.keys(devices);
+const devices = devicesData
+const brands = Object.keys(devices)
 const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 ---
 
 <MainGridLayout title={i18n(I18nKey.devices)}>
 	<!-- 引入右侧边栏布局管理器 -->
 	<script>
-		import("../scripts/right-sidebar-layout.js");
+		import('../scripts/right-sidebar-layout.js')
 	</script>
 	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) relative min-h-32"
 	>
-		<div class="card-base z-10 px-9 py-6 relative w-full">
+		<div class="card-base z-10 px-9 py-6 relative w-full max-w-full">
 			<!-- 页面标题 -->
 			<div class="flex flex-col items-start justify-center mb-8">
 				<h1
@@ -49,7 +49,7 @@ const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 							<button
 								data-brand={brand}
 								class={`filter-tag px-6 py-2.5 rounded-lg font-medium transition-all ${
-									index === 0 ? "active" : ""
+									index === 0 ? 'active' : ''
 								}`}
 							>
 								{brand}
@@ -203,7 +203,7 @@ const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 	}
 
 	/* 响应式调整 */
-	@media (max-width: 768px) {
+	@media (width <= 768px) {
 		.filter-container {
 			gap: 0.5rem;
 		}

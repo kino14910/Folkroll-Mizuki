@@ -15,7 +15,7 @@ export interface CalendarState {
 	currentYear: number;
 	currentMonth: number;
 	selectedDateKey: string | null;
-	currentView: "day" | "month" | "year";
+	currentView: 'day' | 'month' | 'year';
 }
 
 export interface CalendarDataIndexes {
@@ -35,8 +35,8 @@ export interface CalendarGridCell {
 	isEmpty: boolean;
 }
 
-export type MonthNames = string[];
-export type WeekDays = string[];
+export type MonthNames = string[]
+export type WeekDays = string[]
 
 export interface CalendarHeaderProps {
 	monthNames: MonthNames;
@@ -44,7 +44,7 @@ export interface CalendarHeaderProps {
 	yearSuffix: string;
 	currentYear: number;
 	currentMonth: number;
-	currentView: "day" | "month" | "year";
+	currentView: 'day' | 'month' | 'year';
 	isBackToTodayVisible: boolean;
 	onPrevMonth: () => void;
 	onNextMonth: () => void;

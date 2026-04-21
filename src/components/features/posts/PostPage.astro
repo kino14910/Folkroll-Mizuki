@@ -12,7 +12,7 @@ const hasRightSidebars =
 	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length >
 		0;
 
-const defaultLayout = siteConfig.postListLayout.defaultMode || "list";
+const defaultLayout = siteConfig.postListLayout.defaultMode || "grid";
 const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 ---
 
@@ -45,7 +45,7 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 
 			const savedLayout = localStorage.getItem("postListLayout");
 			const defaultLayout =
-				postListContainer.getAttribute("data-default-layout") || "list";
+				postListContainer.getAttribute("data-default-layout") || "grid";
 			const currentLayout = savedLayout || defaultLayout;
 
 			const hasGridClass =
@@ -60,7 +60,7 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 				return;
 			}
 
-			if (window.innerWidth >= 769) {
+			if (window.innerWidth > 768) {
 				updatePostListLayout(currentLayout);
 			} else {
 				postListContainer.classList.add("js-initialized");
@@ -127,12 +127,12 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 	window.addEventListener("resize", () => {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = window.setTimeout(() => {
-			if (window.innerWidth >= 769) {
+			if (window.innerWidth > 768) {
 				const savedLayout = localStorage.getItem("postListLayout");
 				const defaultLayout =
 					document
 						.getElementById("post-list-container")
-						?.getAttribute("data-default-layout") || "list";
+						?.getAttribute("data-default-layout") || "grid";
 				updatePostListLayout(savedLayout || defaultLayout);
 			}
 		}, 100);

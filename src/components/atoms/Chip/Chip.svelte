@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte'
 
-	import type { ChipProps } from "./types";
+	import type { ChipProps } from './types'
 
 	interface Props extends ChipProps {
-		children?: Snippet;
+		children?: Snippet
 	}
 	const {
 		href,
 		label,
 		dot = false,
 		badge,
-		class: className = "",
+		class: className = '',
 		children,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
 {#if href}
@@ -25,7 +25,7 @@
 			<span class="chip-content">
 				{@render children?.()}
 			</span>
-			{#if badge !== undefined && badge !== null && badge !== ""}
+			{#if badge !== undefined && badge !== null && badge !== ''}
 				<div class="chip-badge">{badge}</div>
 			{/if}
 		</button>
@@ -38,7 +38,7 @@
 		<span class="chip-content">
 			{@render children?.()}
 		</span>
-		{#if badge !== undefined && badge !== null && badge !== ""}
+		{#if badge !== undefined && badge !== null && badge !== ''}
 			<div class="chip-badge">{badge}</div>
 		{/if}
 	</button>

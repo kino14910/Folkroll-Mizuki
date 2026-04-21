@@ -5,7 +5,7 @@
  */
 
 /* 移动端页面切换性能优化 */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   /* 为所有动画元素添加硬件加速 */
   .transition-main,
   .transition-leaving,
@@ -93,7 +93,7 @@
 }
 
 /* 超小屏幕设备优化 */
-@media (max-width: 480px) {
+@media (width <= 480px) {
   /* 进一步减少动画效果 */
   html.is-animating .transition-main {
     transform: translateY(0.3rem) translateX(0.1rem);
@@ -110,21 +110,5 @@
 
   .widget-container {
     transition: all 0.15s ease-in-out;
-  }
-}
-
-/* 性能优化：为减少动画的用户提供支持 */
-@media (prefers-reduced-motion: reduce) {
-  .transition-main,
-  .transition-leaving,
-  .onload-animation,
-  .transition-slide-in,
-  .card-animation,
-  .nav-animation,
-  #dynamic-sidebar,
-  .widget-container {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }

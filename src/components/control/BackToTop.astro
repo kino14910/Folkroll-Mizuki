@@ -1,74 +1,74 @@
 ---
-import FloatingButton from "@components/common/FloatingButton.astro";
+import FloatingButton from '@components/common/FloatingButton.astro'
 ---
 
 <FloatingButton
-	id="back-to-top-btn"
-	icon="material-symbols:keyboard-arrow-up-rounded"
-	ariaLabel="Back to Top"
-	onclick="backToTop()"
-	class="hide"
+	id='back-to-top-btn'
+	icon='material-symbols:keyboard-arrow-up-rounded'
+	ariaLabel='Back to Top'
+	onclick='backToTop()'
+	class='hide'
 />
 
 <script is:raw is:inline>
 	function backToTop() {
-		window.scroll({ top: 0, behavior: "smooth" });
+		window.scroll({ top: 0, behavior: 'smooth' })
 	}
 
-	if (typeof window.BackToTopManager === "undefined") {
+	if (typeof window.BackToTopManager === 'undefined') {
 		window.BackToTopManager = class BackToTopManager {
 			constructor() {
-				this.button = document.getElementById("back-to-top-btn");
-				this.isVisible = false;
-				this.rafId = null;
-				this.init();
+				this.button = document.getElementById('back-to-top-btn')
+				this.isVisible = false
+				this.rafId = null
+				this.init()
 			}
 
 			init() {
 				if (!this.button) {
-					return;
+					return
 				}
-				this.setupScrollListener();
+				this.setupScrollListener()
 			}
 
 			setupScrollListener() {
 				const updateVisibility = () => {
 					if (this.rafId !== null) {
-						cancelAnimationFrame(this.rafId);
+						cancelAnimationFrame(this.rafId)
 					}
 
 					this.rafId = requestAnimationFrame(() => {
 						const scrollTop =
-							window.pageYOffset ||
-							document.documentElement.scrollTop;
+							window.pageYOffset
+							|| document.documentElement.scrollTop
 
-						const shouldBeVisible = scrollTop > 200;
+						const shouldBeVisible = scrollTop > 200
 
 						if (shouldBeVisible !== this.isVisible) {
-							this.isVisible = shouldBeVisible;
+							this.isVisible = shouldBeVisible
 							if (shouldBeVisible) {
-								this.button.classList.remove("hide");
+								this.button.classList.remove('hide')
 							} else {
-								this.button.classList.add("hide");
+								this.button.classList.add('hide')
 							}
 						}
 
-						this.rafId = null;
-					});
-				};
+						this.rafId = null
+					})
+				}
 
-				window.addEventListener("scroll", updateVisibility, {
+				window.addEventListener('scroll', updateVisibility, {
 					passive: true,
-				});
+				})
 			}
-		};
+		}
 	}
 
-	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", () => {
-			new window.BackToTopManager();
-		});
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', () => {
+			new window.BackToTopManager()
+		})
 	} else {
-		new window.BackToTopManager();
+		new window.BackToTopManager()
 	}
 </script>

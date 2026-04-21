@@ -26,25 +26,25 @@ export interface SizeConfig {
  */
 export async function loadImage(src: string): Promise<HTMLImageElement | null> {
 	return new Promise((resolve) => {
-		const img = new Image();
-		img.crossOrigin = "anonymous";
+		const img = new Image()
+		img.crossOrigin = 'anonymous'
 
-		img.onload = () => resolve(img);
+		img.onload = () => resolve(img)
 		img.onerror = () => {
-			if (src.includes("images.weserv.nl") || src.startsWith("data:")) {
-				resolve(null);
-				return;
+			if (src.includes('images.weserv.nl') || src.startsWith('data:')) {
+				resolve(null)
+				return
 			}
 
-			const proxyImg = new Image();
-			proxyImg.crossOrigin = "anonymous";
-			proxyImg.onload = () => resolve(proxyImg);
-			proxyImg.onerror = () => resolve(null);
-			proxyImg.src = `https://images.weserv.nl/?url=${encodeURIComponent(src)}&output=png`;
-		};
+			const proxyImg = new Image()
+			proxyImg.crossOrigin = 'anonymous'
+			proxyImg.onload = () => resolve(proxyImg)
+			proxyImg.onerror = () => resolve(null)
+			proxyImg.src = `https://images.weserv.nl/?url=${encodeURIComponent(src)}&output=png`
+		}
 
-		img.src = src;
-	});
+		img.src = src
+	})
 }
 
 /**
@@ -55,22 +55,22 @@ export function getLines(
 	text: string,
 	maxWidth: number,
 ): string[] {
-	const lines: string[] = [];
-	let currentLine = "";
+	const lines: string[] = []
+	let currentLine = ''
 
 	for (const char of text) {
 		if (ctx.measureText(currentLine + char).width < maxWidth) {
-			currentLine += char;
+			currentLine += char
 		} else {
-			lines.push(currentLine);
-			currentLine = char;
+			lines.push(currentLine)
+			currentLine = char
 		}
 	}
 
 	if (currentLine) {
-		lines.push(currentLine);
+		lines.push(currentLine)
 	}
-	return lines;
+	return lines
 }
 
 /**
@@ -84,17 +84,17 @@ export function drawRoundedRect(
 	height: number,
 	radius: number,
 ): void {
-	ctx.beginPath();
-	ctx.moveTo(x + radius, y);
-	ctx.lineTo(x + width - radius, y);
-	ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-	ctx.lineTo(x + width, y + height - radius);
-	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-	ctx.lineTo(x + radius, y + height);
-	ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-	ctx.lineTo(x, y + radius);
-	ctx.quadraticCurveTo(x, y, x + radius, y);
-	ctx.closePath();
+	ctx.beginPath()
+	ctx.moveTo(x + radius, y)
+	ctx.lineTo(x + width - radius, y)
+	ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
+	ctx.lineTo(x + width, y + height - radius)
+	ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+	ctx.lineTo(x + radius, y + height)
+	ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
+	ctx.lineTo(x, y + radius)
+	ctx.quadraticCurveTo(x, y, x + radius, y)
+	ctx.closePath()
 }
 
 /**
@@ -104,18 +104,18 @@ export function parseDate(
 	dateStr: string,
 ): { day: string; month: string; year: string } | null {
 	try {
-		const d = new Date(dateStr);
+		const d = new Date(dateStr)
 		if (Number.isNaN(d.getTime())) {
-			return null;
+			return null
 		}
 
 		return {
-			day: d.getDate().toString().padStart(2, "0"),
-			month: (d.getMonth() + 1).toString().padStart(2, "0"),
+			day: d.getDate().toString().padStart(2, '0'),
+			month: (d.getMonth() + 1).toString().padStart(2, '0'),
 			year: d.getFullYear().toString(),
-		};
+		}
 	} catch {
-		return null;
+		return null
 	}
 }
 
@@ -134,25 +134,25 @@ export function calculateDimensions(
 	descHeight: number;
 	canvasHeight: number;
 } {
-	const { scale, padding, contentWidth } = config;
-	const FONT_FAMILY = "'Roboto', sans-serif";
+	const { scale, padding, contentWidth } = config
+	const FONT_FAMILY = "'Roboto', sans-serif"
 
-	const coverHeight = (hasCover ? 200 : 120) * scale;
-	const titleFontSize = 24 * scale;
-	const descFontSize = 14 * scale;
-	const titleLineHeight = 30 * scale;
+	const coverHeight = (hasCover ? 200 : 120) * scale
+	const titleFontSize = 24 * scale
+	const descFontSize = 14 * scale
+	const titleLineHeight = 30 * scale
 
 	// Calculate title height
-	ctx.font = `700 ${titleFontSize}px ${FONT_FAMILY}`;
-	const titleLines = getLines(ctx, title, contentWidth);
-	const titleHeight = titleLines.length * titleLineHeight;
+	ctx.font = `700 ${titleFontSize}px ${FONT_FAMILY}`
+	const titleLines = getLines(ctx, title, contentWidth)
+	const titleHeight = titleLines.length * titleLineHeight
 
 	// Calculate description height
-	let descHeight = 0;
+	let descHeight = 0
 	if (description) {
-		ctx.font = `${descFontSize}px ${FONT_FAMILY}`;
-		const descLines = getLines(ctx, description, contentWidth - 16 * scale);
-		descHeight = Math.min(descLines.length, 6) * (25 * scale);
+		ctx.font = `${descFontSize}px ${FONT_FAMILY}`
+		const descLines = getLines(ctx, description, contentWidth - 16 * scale)
+		descHeight = Math.min(descLines.length, 6) * (25 * scale)
 	}
 
 	const canvasHeight =
@@ -164,9 +164,9 @@ export function calculateDimensions(
 		(description ? 24 * scale : 8 * scale) +
 		24 * scale +
 		80 * scale + // QR size
-		padding;
+		padding
 
-	return { coverHeight, titleHeight, descHeight, canvasHeight };
+	return { coverHeight, titleHeight, descHeight, canvasHeight }
 }
 
 /**
@@ -179,16 +179,16 @@ export function drawDecorativeCircles(
 	themeColor: string,
 	scale: number,
 ): void {
-	ctx.save();
-	ctx.globalAlpha = 0.1;
-	ctx.fillStyle = themeColor;
-	ctx.beginPath();
-	ctx.arc(canvasWidth - 25 * scale, 25 * scale, 75 * scale, 0, Math.PI * 2);
-	ctx.fill();
-	ctx.beginPath();
-	ctx.arc(10 * scale, canvasHeight - 10 * scale, 50 * scale, 0, Math.PI * 2);
-	ctx.fill();
-	ctx.restore();
+	ctx.save()
+	ctx.globalAlpha = 0.1
+	ctx.fillStyle = themeColor
+	ctx.beginPath()
+	ctx.arc(canvasWidth - 25 * scale, 25 * scale, 75 * scale, 0, Math.PI * 2)
+	ctx.fill()
+	ctx.beginPath()
+	ctx.arc(10 * scale, canvasHeight - 10 * scale, 50 * scale, 0, Math.PI * 2)
+	ctx.fill()
+	ctx.restore()
 }
 
 /**
@@ -203,44 +203,44 @@ export function drawDateBadge(
 	FONT_FAMILY: string,
 	isDarkMode: boolean = false,
 ): void {
-	const dateBoxW = 60 * scale;
-	const dateBoxH = 60 * scale;
-	const dateBoxX = padding;
-	const dateBoxY = coverHeight - dateBoxH;
+	const dateBoxW = 60 * scale
+	const dateBoxH = 60 * scale
+	const dateBoxX = padding
+	const dateBoxY = coverHeight - dateBoxH
 
 	const bgColor = isDarkMode
-		? "rgba(255, 255, 255, 0.15)"
-		: "rgba(0, 0, 0, 0.3)";
-	const textColor = isDarkMode ? "#e5e5e5" : "#ffffff";
+		? 'rgba(255, 255, 255, 0.15)'
+		: 'rgba(0, 0, 0, 0.3)'
+	const textColor = isDarkMode ? '#e5e5e5' : '#ffffff'
 	const separatorColor = isDarkMode
-		? "rgba(255, 255, 255, 0.4)"
-		: "rgba(255, 255, 255, 0.6)";
+		? 'rgba(255, 255, 255, 0.4)'
+		: 'rgba(255, 255, 255, 0.6)'
 
 	// Background
-	ctx.fillStyle = bgColor;
-	drawRoundedRect(ctx, dateBoxX, dateBoxY, dateBoxW, dateBoxH, 4 * scale);
-	ctx.fill();
+	ctx.fillStyle = bgColor
+	drawRoundedRect(ctx, dateBoxX, dateBoxY, dateBoxW, dateBoxH, 4 * scale)
+	ctx.fill()
 
 	// Day number
-	ctx.fillStyle = textColor;
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	ctx.font = `700 ${30 * scale}px ${FONT_FAMILY}`;
-	ctx.fillText(dateObj.day, dateBoxX + dateBoxW / 2, dateBoxY + 24 * scale);
+	ctx.fillStyle = textColor
+	ctx.textAlign = 'center'
+	ctx.textBaseline = 'middle'
+	ctx.font = `700 ${30 * scale}px ${FONT_FAMILY}`
+	ctx.fillText(dateObj.day, dateBoxX + dateBoxW / 2, dateBoxY + 24 * scale)
 
 	// Separator line
-	ctx.beginPath();
-	ctx.strokeStyle = separatorColor;
-	ctx.lineWidth = 1 * scale;
-	ctx.moveTo(dateBoxX + 10 * scale, dateBoxY + 42 * scale);
-	ctx.lineTo(dateBoxX + dateBoxW - 10 * scale, dateBoxY + 42 * scale);
-	ctx.stroke();
+	ctx.beginPath()
+	ctx.strokeStyle = separatorColor
+	ctx.lineWidth = 1 * scale
+	ctx.moveTo(dateBoxX + 10 * scale, dateBoxY + 42 * scale)
+	ctx.lineTo(dateBoxX + dateBoxW - 10 * scale, dateBoxY + 42 * scale)
+	ctx.stroke()
 
 	// Year month
-	ctx.font = `${10 * scale}px ${FONT_FAMILY}`;
+	ctx.font = `${10 * scale}px ${FONT_FAMILY}`
 	ctx.fillText(
 		`${dateObj.year} ${dateObj.month}`,
 		dateBoxX + dateBoxW / 2,
 		dateBoxY + 51 * scale,
-	);
+	)
 }

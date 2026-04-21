@@ -4,41 +4,41 @@
  * 渲染单个 TOC 链接项
  */
 
-import type { TOCItem as TOCItemType } from "../types/toc";
-import TOCBadge, { type BadgeVariant } from "./TOCBadge.astro";
+import type { TOCItem as TOCItemType } from '../types/toc'
+import TOCBadge, { type BadgeVariant } from './TOCBadge.astro'
 
 export interface Props {
 	/** TOC 条目数据 */
-	item: TOCItemType;
+	item: TOCItemType
 	/** 是否激活状态 */
-	active?: boolean;
+	active?: boolean
 	/** 自定义类名 */
-	class?: string;
+	class?: string
 }
 
-const { item, active = false, class: className = "" } = Astro.props;
+const { item, active = false, class: className = '' } = Astro.props
 
 // 根据深度计算缩进
-const indentClass = item.depth === 0 ? "" : item.depth === 1 ? "pl-6" : "pl-8";
+const indentClass = item.depth === 0 ? '' : item.depth === 1 ? 'pl-6' : 'pl-8'
 
 // 根据深度确定徽章变体
 const badgeVariant: BadgeVariant =
-	item.depth === 0 ? "number" : item.depth === 1 ? "dot" : "dot-small";
+	item.depth === 0 ? 'number' : item.depth === 1 ? 'dot' : 'dot-small'
 
 // 文本颜色类
 const textClass =
 	item.depth <= 1
-		? "text-[var(--text-secondary)]"
-		: "text-[var(--text-tertiary)]";
+		? 'text-[var(--text-secondary)]'
+		: 'text-[var(--text-tertiary)]'
 ---
 
 <a
 	href={`#${item.id}`}
 	class:list={[
-		"toc-item",
-		"flex items-center gap-2 px-2 py-2 rounded-lg transition-all w-full",
-		"hover:bg-[var(--toc-btn-hover)]",
-		active && "active bg-[var(--toc-btn-active)] font-medium",
+		'toc-item',
+		'flex items-center gap-2 px-2 py-2 rounded-lg transition-all w-full',
+		'hover:bg-[var(--toc-btn-hover)]',
+		active && 'active bg-[var(--toc-btn-active)] font-medium',
 		indentClass,
 		textClass,
 		className,
@@ -60,7 +60,7 @@ const textClass =
 			<TOCBadge variant={badgeVariant} active={active} />
 		)
 	}
-	<span class="toc-text flex-1 truncate text-sm">
+	<span class='toc-text flex-1 truncate text-sm'>
 		{item.text}
 	</span>
 </a>

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import type { Song } from "../../music-player/types";
+	import type { Song } from '../../music-player/types'
 
 	interface Props {
 		song: Song;
@@ -10,16 +10,16 @@
 		onclick: () => void;
 	}
 
-	const { song, isCurrent, isPlaying, onclick }: Props = $props();
+	const { song, isCurrent, isPlaying, onclick }: Props = $props()
 
 	function getAssetPath(path: string): string {
-		if (path.startsWith("http://") || path.startsWith("https://")) {
-			return path;
+		if (path.startsWith('http://') || path.startsWith('https://')) {
+			return path
 		}
-		if (path.startsWith("/")) {
-			return path;
+		if (path.startsWith('/')) {
+			return path
 		}
-		return `/${path}`;
+		return `/${path}`
 	}
 </script>
 
@@ -28,9 +28,9 @@
 	class:is-current={isCurrent}
 	{onclick}
 	onkeydown={(e) => {
-		if (e.key === "Enter" || e.key === " ") {
-			e.preventDefault();
-			onclick();
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault()
+			onclick()
 		}
 	}}
 	role="option"

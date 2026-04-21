@@ -1,7 +1,7 @@
 ---
-import path from "node:path";
+import path from 'node:path'
 
-import Comment from "@components/comment/index.astro";
+import Comment from '@components/comment/index.astro'
 import {
 	LastModified,
 	PostMeta,
@@ -9,43 +9,43 @@ import {
 	RandomPosts,
 	RelatedPosts,
 	ShareCard,
-} from "@components/features/posts";
-import { ReadingTime, WordCount } from "@components/features/posts/atoms";
-import License from "@components/misc/License.astro";
-import Markdown from "@components/misc/Markdown.astro";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { getRelatedPosts, getSortedPosts } from "@utils/content-utils";
-import { hasCustomPermalink, initPostIdMap } from "@utils/permalink-utils";
-import { getFileDirFromPath, removeFileExtension } from "@utils/url-utils";
-import type { CollectionEntry } from "astro:content";
-import { render } from "astro:content";
+} from '@components/features/posts'
+import { ReadingTime, WordCount } from '@components/features/posts/atoms'
+import License from '@components/misc/License.astro'
+import Markdown from '@components/misc/Markdown.astro'
+import MainGridLayout from '@layouts/MainGridLayout.astro'
+import { getRelatedPosts, getSortedPosts } from '@utils/content-utils'
+import { hasCustomPermalink, initPostIdMap } from '@utils/permalink-utils'
+import { getFileDirFromPath, removeFileExtension } from '@utils/url-utils'
+import type { CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
 import {
 	licenseConfig,
 	permalinkConfig,
 	randomPostsConfig,
 	relatedPostsConfig,
 	shareConfig,
-} from "src/config";
+} from 'src/config'
 
-import Image from "../../components/atoms/Image/Image.astro";
-import Encryptor from "../../components/features/auth/Encryptor.astro";
-import { profileConfig, siteConfig } from "../../config";
-import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import Image from '../../components/atoms/Image/Image.astro'
+import Encryptor from '../../components/features/auth/Encryptor.astro'
+import { profileConfig, siteConfig } from '../../config'
+import { formatDateToYYYYMMDD } from '../../utils/date-utils'
 
 export async function getStaticPaths() {
-	const blogEntries = await getSortedPosts();
+	const blogEntries = await getSortedPosts()
 
 	// 初始化文章 ID 映射（用于 %post_id% 占位符）
-	initPostIdMap(blogEntries);
+	initPostIdMap(blogEntries)
 
 	const paths: {
 		params: { slug: string };
-		props: { entry: CollectionEntry<"posts"> };
-	}[] = [];
+		props: { entry: CollectionEntry<'posts'> };
+	}[] = []
 
 	for (const entry of blogEntries) {
 		// 将 id 转换为 slug（移除扩展名）以匹配路由参数
-		const defaultSlug = removeFileExtension(entry.id);
+		const defaultSlug = removeFileExtension(entry.id)
 
 		// 如果文章有自定义 permalink，不在 /posts/ 下创建路径
 		// 而是通过根目录的 [permalink].astro 处理
@@ -54,8 +54,8 @@ export async function getStaticPaths() {
 			paths.push({
 				params: { slug: defaultSlug },
 				props: { entry },
-			});
-			continue;
+			})
+			continue
 		}
 
 		// 如果全局 permalink 功能启用，不在 /posts/ 下创建路径
@@ -65,123 +65,123 @@ export async function getStaticPaths() {
 			paths.push({
 				params: { slug: defaultSlug },
 				props: { entry },
-			});
+			})
 		} else {
 			// 全局 permalink 功能未启用
 			// 为每篇文章创建默认的 slug 路径
 			paths.push({
 				params: { slug: defaultSlug },
 				props: { entry },
-			});
+			})
 
 			// 如果文章有 alias，也创建对应的路径
 			if (entry.data.alias) {
 				// 移除开头的斜杠和结尾的斜杠
 				// 同时移除可能的 "posts/" 前缀，避免重复
 				let alias = entry.data.alias
-					.replace(/^\/+/, "")
-					.replace(/\/+$/, "");
-				if (alias.startsWith("posts/")) {
-					alias = alias.replace(/^posts\//, "");
+					.replace(/^\/+/, '')
+					.replace(/\/+$/, '')
+				if (alias.startsWith('posts/')) {
+					alias = alias.replace(/^posts\//, '')
 				}
 				paths.push({
 					params: { slug: alias },
 					props: { entry },
-				});
+				})
 			}
 		}
 	}
 
-	return paths;
+	return paths
 }
 
-const { entry } = Astro.props;
-const { Content, headings } = await render(entry);
-const { remarkPluginFrontmatter } = await render(entry);
+const { entry } = Astro.props
+const { Content, headings } = await render(entry)
+const { remarkPluginFrontmatter } = await render(entry)
 
 // 获取相关文章
 const relatedPosts = relatedPostsConfig.enable
 	? await getRelatedPosts(entry, relatedPostsConfig.maxCount)
-	: [];
+	: []
 
 // Process cover image for SharePoster
-let posterCoverUrl = entry.data.image;
+let posterCoverUrl = entry.data.image
 if (entry.data.image) {
 	const isLocal = !(
-		entry.data.image.startsWith("/") ||
-		entry.data.image.startsWith("http") ||
-		entry.data.image.startsWith("https") ||
-		entry.data.image.startsWith("data:")
-	);
+		entry.data.image.startsWith('/') ||
+		entry.data.image.startsWith('http') ||
+		entry.data.image.startsWith('https') ||
+		entry.data.image.startsWith('data:')
+	)
 	if (isLocal) {
-		const basePath = getFileDirFromPath(entry.filePath || "");
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		const basePath = getFileDirFromPath(entry.filePath || '')
+		const files = import.meta.glob<ImageMetadata>('../../**', {
+			import: 'default',
+		})
 		const normalizedPath = path
-			.normalize(path.join("../../", basePath, entry.data.image))
-			.replace(/\\/g, "/");
-		const file = files[normalizedPath];
+			.normalize(path.join('../../', basePath, entry.data.image))
+			.replace(/\\/g, '/')
+		const file = files[normalizedPath]
 		if (file) {
-			const img = await file();
-			posterCoverUrl = img.src;
+			const img = await file()
+			posterCoverUrl = img.src
 		}
-	} else if (entry.data.image.startsWith("http")) {
+	} else if (entry.data.image.startsWith('http')) {
 		try {
-			const response = await fetch(entry.data.image);
-			const arrayBuffer = await response.arrayBuffer();
-			const base64 = Buffer.from(arrayBuffer).toString("base64");
+			const response = await fetch(entry.data.image)
+			const arrayBuffer = await response.arrayBuffer()
+			const base64 = Buffer.from(arrayBuffer).toString('base64')
 			const contentType =
-				response.headers.get("content-type") || "image/jpeg";
-			posterCoverUrl = `data:${contentType};base64,${base64}`;
+				response.headers.get('content-type') || 'image/jpeg'
+			posterCoverUrl = `data:${contentType};base64,${base64}`
 		} catch {
-			posterCoverUrl = entry.data.image;
+			posterCoverUrl = entry.data.image
 		}
 	}
 }
 
 // Process avatar image for SharePoster
-let posterAvatarUrl = profileConfig.avatar;
+let posterAvatarUrl = profileConfig.avatar
 if (profileConfig.avatar) {
 	const isLocal = !(
-		profileConfig.avatar.startsWith("/") ||
-		profileConfig.avatar.startsWith("http") ||
-		profileConfig.avatar.startsWith("https") ||
-		profileConfig.avatar.startsWith("data:")
-	);
+		profileConfig.avatar.startsWith('/') ||
+		profileConfig.avatar.startsWith('http') ||
+		profileConfig.avatar.startsWith('https') ||
+		profileConfig.avatar.startsWith('data:')
+	)
 	if (isLocal) {
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		const files = import.meta.glob<ImageMetadata>('../../**', {
+			import: 'default',
+		})
 		const normalizedPath = path
-			.normalize(path.join("../../", profileConfig.avatar))
-			.replace(/\\/g, "/");
-		const file = files[normalizedPath];
+			.normalize(path.join('../../', profileConfig.avatar))
+			.replace(/\\/g, '/')
+		const file = files[normalizedPath]
 		if (file) {
-			const img = await file();
-			posterAvatarUrl = img.src;
+			const img = await file()
+			posterAvatarUrl = img.src
 		}
 	}
 }
 
 // 判断是否为加密文章
-const isEncrypted = !!(entry.data.encrypted && entry.data.password);
+const isEncrypted = !!(entry.data.encrypted && entry.data.password)
 
 const jsonLd = {
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
 	headline: entry.data.title,
 	description: entry.data.description || entry.data.title,
 	keywords: entry.data.tags,
 	author: {
-		"@type": "Person",
+		'@type': 'Person',
 		name: profileConfig.name,
 		url: Astro.site,
 	},
 	datePublished: formatDateToYYYYMMDD(entry.data.published),
 	inLanguage: entry.data.lang
-		? entry.data.lang.replace("_", "-")
-		: siteConfig.lang.replace("_", "-"),
+		? entry.data.lang.replace('_', '-')
+		: siteConfig.lang.replace('_', '-'),
 	// TODO include cover image here
 };
 ---
@@ -203,15 +203,15 @@ const jsonLd = {
 	/>
 	<!-- 引入右侧边栏布局管理器 -->
 	<script>
-		import("../../scripts/right-sidebar-layout.js");
+		import('../../scripts/right-sidebar-layout.js')
 	</script>
 	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative mb-4"
+		class="flex w-full rounded-(--radius-large) relative mb-4"
 	>
 		<div
 			id="post-container"
 			class:list={[
-				"card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
+				'card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full max-w-full',
 				{},
 			]}
 		>
@@ -278,7 +278,7 @@ const jsonLd = {
 						<Image
 							id="post-cover"
 							src={entry.data.image}
-							basePath={getFileDirFromPath(entry.filePath || "")}
+							basePath={getFileDirFromPath(entry.filePath || '')}
 							class="mb-8 rounded-xl banner-container onload-animation"
 							widths={[640, 1024, 1536, 2048]}
 							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
@@ -307,7 +307,7 @@ const jsonLd = {
 			{
 				shareConfig.enable && (
 					<ShareCard
-						class:list={[{ "encrypted-hidden": isEncrypted }]}
+						class:list={[{ 'encrypted-hidden': isEncrypted }]}
 						title={entry.data.title}
 						author={entry.data.author}
 						description={entry.data.description}
@@ -325,8 +325,8 @@ const jsonLd = {
 					<div
 						id="license-component"
 						class:list={[
-							"encrypted-hidden-wrapper",
-							{ "encrypted-hidden": isEncrypted },
+							'encrypted-hidden-wrapper',
+							{ 'encrypted-hidden': isEncrypted },
 						]}
 					>
 						<License

@@ -1,73 +1,72 @@
 <script lang="ts">
-	import { onDestroy, onMount } from "svelte";
+	import { onDestroy, onMount } from 'svelte'
 
-	import type { MusicPlayerState } from "@/stores/musicPlayerStore";
-	import { musicPlayerStore } from "@/stores/musicPlayerStore";
+	import type { MusicPlayerState } from '@/stores/musicPlayerStore'
+	import { musicPlayerStore } from '@/stores/musicPlayerStore'
 
-	import type { Song } from "../music-player/types";
-	import SidebarControls from "./components/SidebarControls.svelte";
-	import SidebarCover from "./components/SidebarCover.svelte";
-	import SidebarPlaylist from "./components/SidebarPlaylist.svelte";
-	import SidebarProgress from "./components/SidebarProgress.svelte";
-	import SidebarTrackInfo from "./components/SidebarTrackInfo.svelte";
+	import SidebarControls from './components/SidebarControls.svelte'
+	import SidebarCover from './components/SidebarCover.svelte'
+	import SidebarPlaylist from './components/SidebarPlaylist.svelte'
+	import SidebarProgress from './components/SidebarProgress.svelte'
+	import SidebarTrackInfo from './components/SidebarTrackInfo.svelte'
 
-	let state: MusicPlayerState = $state(musicPlayerStore.getState());
-	let showPlaylist = $state(false);
+	let state: MusicPlayerState = $state(musicPlayerStore.getState())
+	let showPlaylist = $state(false)
 
 	function handleStateUpdate(event: Event) {
-		const custom = event as CustomEvent<MusicPlayerState>;
+		const custom = event as CustomEvent<MusicPlayerState>
 		if (custom.detail) {
-			state = custom.detail;
+			state = custom.detail
 		}
 	}
 
 	onMount(() => {
-		window.addEventListener("music-sidebar:state", handleStateUpdate);
-	});
+		window.addEventListener('music-sidebar:state', handleStateUpdate)
+	})
 
 	onDestroy(() => {
-		if (typeof window !== "undefined") {
+		if (typeof window !== 'undefined') {
 			window.removeEventListener(
-				"music-sidebar:state",
+				'music-sidebar:state',
 				handleStateUpdate,
-			);
+			)
 		}
-	});
+	})
 
 	function togglePlay() {
-		musicPlayerStore.toggle();
+		musicPlayerStore.toggle()
 	}
 
 	function prev() {
-		musicPlayerStore.prev();
+		musicPlayerStore.prev()
 	}
 
 	function next() {
-		musicPlayerStore.next();
+		musicPlayerStore.next()
 	}
 
 	function toggleMode() {
-		musicPlayerStore.toggleMode();
+		musicPlayerStore.toggleMode()
 	}
 
 	function togglePlaylistView() {
-		showPlaylist = !showPlaylist;
+		showPlaylist = !showPlaylist
 	}
 
 	function playIndex(index: number) {
-		musicPlayerStore.playIndex(index);
+		musicPlayerStore.playIndex(index)
 	}
 
 	function seek(time: number) {
-		musicPlayerStore.seek(time);
+		musicPlayerStore.seek(time)
 	}
 
 	function toggleMute() {
-		musicPlayerStore.toggleMute();
+		musicPlayerStore.toggleMute()
 	}
 
 	function setVolume(volume: number) {
-		musicPlayerStore.setVolume(volume);
+		musicPlayerStore.setVolume(volume)
 	}
 </script>
 
@@ -117,7 +116,7 @@
 </div>
 
 <style>
-	@media (max-width: 520px) {
+	@media (width <= 520px) {
 		.music-sidebar-widget {
 			min-width: 0;
 		}

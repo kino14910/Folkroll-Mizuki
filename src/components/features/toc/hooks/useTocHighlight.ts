@@ -11,21 +11,21 @@ export function findActiveHeadingIndex(
 	scrollY?: number,
 	offsetTop = 150,
 ): number {
-	const scroll = scrollY ?? window.scrollY;
-	let activeIndex = -1;
+	const scroll = scrollY ?? window.scrollY
+	let activeIndex = -1
 
 	for (let i = 0; i < headings.length; i++) {
-		const heading = headings[i];
-		const rect = heading.getBoundingClientRect().top + scroll;
+		const heading = headings[i]
+		const rect = heading.getBoundingClientRect().top + scroll
 
 		if (rect < scroll + offsetTop) {
-			activeIndex = i;
+			activeIndex = i
 		} else {
-			break;
+			break
 		}
 	}
 
-	return activeIndex;
+	return activeIndex
 }
 
 /**
@@ -36,30 +36,30 @@ export function findActiveHeadingByObserver(
 ): string | null {
 	for (const entry of entries) {
 		if (entry.isIntersecting && entry.target.id) {
-			return entry.target.id;
+			return entry.target.id
 		}
 	}
-	return null;
+	return null
 }
 
 /**
  * 计算活动标题范围（用于 SidebarTOC 的多级高亮）
  */
 export function calculateActiveHeadingRange(activeStates: boolean[]): {
-	min: number;
-	max: number;
+	min: number
+	max: number
 } {
-	let min = activeStates.length - 1;
-	let max = -1;
+	let min = activeStates.length - 1
+	let max = -1
 
 	for (let i = activeStates.length - 1; i >= 0; i--) {
 		if (activeStates[i]) {
-			min = Math.min(min, i);
-			max = Math.max(max, i);
+			min = Math.min(min, i)
+			max = Math.max(max, i)
 		}
 	}
 
-	return { min, max };
+	return { min, max }
 }
 
 /**
@@ -70,26 +70,26 @@ export function createHeadingVisibilityObserver(
 	options: IntersectionObserverInit = {},
 ): IntersectionObserver {
 	const defaultOptions: IntersectionObserverInit = {
-		rootMargin: "-80px 0px -80% 0px",
+		rootMargin: '-80px 0px -80% 0px',
 		threshold: 0,
 		...options,
-	};
+	}
 
 	return new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
-			const id = (entry.target as HTMLElement)?.id;
+			const id = (entry.target as HTMLElement)?.id
 			if (id) {
-				onVisibilityChange(id, entry.isIntersecting);
+				onVisibilityChange(id, entry.isIntersecting)
 			}
-		});
-	}, defaultOptions);
+		})
+	}, defaultOptions)
 }
 
 /**
  * 判断值是否在范围内
  */
 export function isInRange(value: number, min: number, max: number): boolean {
-	return min < value && value < max;
+	return min < value && value < max
 }
 
 /**
@@ -100,11 +100,11 @@ export function isElementInViewport(
 	offsetTop = 0,
 	offsetBottom = 0,
 ): boolean {
-	const rect = element.getBoundingClientRect();
-	const windowHeight = window.innerHeight;
+	const rect = element.getBoundingClientRect()
+	const windowHeight = window.innerHeight
 	return (
 		rect.top + offsetTop >= 0 && rect.bottom - offsetBottom <= windowHeight
-	);
+	)
 }
 
 /**
@@ -116,21 +116,21 @@ export function calculateFallbackActiveHeading(
 	windowHeight = window.innerHeight,
 ): number {
 	for (let i = 0; i < sections.length; i++) {
-		const rect = sections[i].getBoundingClientRect();
-		const offsetTop = rect.top;
-		const offsetBottom = rect.bottom;
+		const rect = sections[i].getBoundingClientRect()
+		const offsetTop = rect.top
+		const offsetBottom = rect.bottom
 
 		const isInRange =
 			(offsetTop > 0 && offsetTop < windowHeight) ||
 			(offsetBottom > 0 && offsetBottom < windowHeight) ||
-			(offsetTop < 0 && offsetBottom > windowHeight);
+			(offsetTop < 0 && offsetBottom > windowHeight)
 
 		if (isInRange) {
-			activeStates[i] = true;
-			return i;
+			activeStates[i] = true
+			return i
 		} else if (offsetTop > windowHeight) {
-			break;
+			break
 		}
 	}
-	return -1;
+	return -1
 }

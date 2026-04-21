@@ -1,4 +1,4 @@
-import type { Project } from "../projects/types";
+import type { Project } from '../projects/types'
 
 export interface ProjectsCategoryProps {
 	category: string;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
 	interface Props {
 		isPlaying: boolean;
@@ -7,14 +7,14 @@
 		onclick: () => void;
 	}
 
-	const { isPlaying, isLoading, onclick }: Props = $props();
+	const { isPlaying, isLoading, onclick }: Props = $props()
 </script>
 
 <button
 	class="btn-regular w-12 h-12 rounded-full"
 	class:opacity-50={isLoading}
 	disabled={isLoading}
-	aria-label={isPlaying ? "暂停" : "播放"}
+	aria-label={isPlaying ? '暂停' : '播放'}
 	{onclick}
 >
 	{#if isLoading}

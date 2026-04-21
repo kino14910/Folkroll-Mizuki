@@ -1,54 +1,53 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
-	import { onDestroy, onMount } from "svelte";
+	import Icon from '@iconify/svelte'
+	import { onDestroy, onMount } from 'svelte'
 
-	import type { MusicPlayerState } from "@/stores/musicPlayerStore";
-	import { musicPlayerStore } from "@/stores/musicPlayerStore";
+	import type { MusicPlayerState } from '@/stores/musicPlayerStore'
+	import { musicPlayerStore } from '@/stores/musicPlayerStore'
 
-	let state: MusicPlayerState = musicPlayerStore.getState();
-	let unsubscribe: (() => void) | undefined;
+	let state: MusicPlayerState = musicPlayerStore.getState()
+	let unsubscribe: (() => void) | undefined
 
 	const popoverSupported =
-		typeof HTMLElement !== "undefined" &&
-		"popover" in HTMLElement.prototype;
+		typeof HTMLElement !== 'undefined' && 'popover' in HTMLElement.prototype
 
-	$: currentSongTitle = state.currentSong?.title || "音乐控制中心";
+	$: currentSongTitle = state.currentSong?.title || '音乐控制中心'
 	$: ariaLabel = state.isExpanded
 		? `收起音乐控制中心：${currentSongTitle}`
-		: `打开音乐控制中心：${currentSongTitle}`;
+		: `打开音乐控制中心：${currentSongTitle}`
 	$: statusIcon = state.isLoading
-		? "svg-spinners:90-ring-with-bg"
-		: "material-symbols:music-note-rounded";
+		? 'svg-spinners:90-ring-with-bg'
+		: 'material-symbols:music-note-rounded'
 
 	onMount(() => {
-		unsubscribe = musicPlayerStore.subscribe((nextState) => {
-			state = nextState;
-		});
+		unsubscribe = musicPlayerStore.subscribe(nextState => {
+			state = nextState
+		})
 
 		if (popoverSupported) {
-			const panel = document.getElementById("fab-music-panel");
+			const panel = document.getElementById('fab-music-panel')
 			if (panel) {
-				panel.addEventListener("toggle", ((e: ToggleEvent) => {
-					if (e.newState === "open") {
-						musicPlayerStore.expand();
+				panel.addEventListener('toggle', ((e: ToggleEvent) => {
+					if (e.newState === 'open') {
+						musicPlayerStore.expand()
 					} else {
-						musicPlayerStore.collapse();
+						musicPlayerStore.collapse()
 					}
-				}) as EventListener);
+				}) as EventListener)
 			}
 		} else {
-			const btn = document.getElementById("music-fab-btn");
+			const btn = document.getElementById('music-fab-btn')
 			if (btn) {
-				btn.addEventListener("click", () => {
-					musicPlayerStore.toggleExpanded();
-				});
+				btn.addEventListener('click', () => {
+					musicPlayerStore.toggleExpanded()
+				})
 			}
 		}
-	});
+	})
 
 	onDestroy(() => {
-		unsubscribe?.();
-	});
+		unsubscribe?.()
+	})
 </script>
 
 <button
@@ -128,7 +127,7 @@
 	}
 
 	.music-fab.playing::after {
-		content: "";
+		content: '';
 		position: absolute;
 		inset: 0;
 		border-radius: inherit;
@@ -162,7 +161,7 @@
 		}
 	}
 
-	@media (max-width: 768px) {
+	@media (width <= 768px) {
 		.music-fab {
 			border-radius: 0.75rem;
 		}
@@ -172,7 +171,7 @@
 		}
 	}
 
-	@media (max-width: 480px) {
+	@media (width <= 480px) {
 		.music-fab {
 			border-radius: 0.5rem;
 		}

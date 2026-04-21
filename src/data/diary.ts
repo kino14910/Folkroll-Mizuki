@@ -16,32 +16,32 @@ const diaryData: DiaryItem[] = [
 	{
 		id: 1,
 		content:
-			"The falling speed of cherry blossoms is five centimeters per second!",
-		date: "2025-01-15T10:30:00Z",
-		images: ["/images/diary/sakura.jpg", "/images/diary/1.webp"],
+			'The falling speed of cherry blossoms is five centimeters per second!',
+		date: '2025-01-15T10:30:00Z',
+		images: ['/images/diary/sakura.jpg', '/images/diary/1.webp'],
 	},
-];
+]
 
 // 获取日记列表（按时间倒序）
 export const getDiaryList = (limit?: number) => {
 	const sortedData = [...diaryData].sort(
 		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-	);
+	)
 
 	if (limit && limit > 0) {
-		return sortedData.slice(0, limit);
+		return sortedData.slice(0, limit)
 	}
 
-	return sortedData;
-};
+	return sortedData
+}
 
 // 获取所有标签
 export const getAllTags = () => {
-	const tags = new Set<string>();
+	const tags = new Set<string>()
 	diaryData.forEach((item) => {
 		if (item.tags) {
-			item.tags.forEach((tag) => tags.add(tag));
+			item.tags.forEach((tag) => tags.add(tag))
 		}
-	});
-	return Array.from(tags).sort();
-};
+	})
+	return Array.from(tags).sort()
+}

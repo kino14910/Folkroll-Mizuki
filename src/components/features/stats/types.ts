@@ -19,7 +19,7 @@ export interface StatCardProps {
 		from: string;
 		to: string;
 	};
-	size?: "small" | "medium" | "large";
+	size?: 'small' | 'medium' | 'large';
 	trend?: StatTrend;
 	link?: StatLink;
 }

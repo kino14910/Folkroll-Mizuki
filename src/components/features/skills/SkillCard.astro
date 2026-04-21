@@ -1,52 +1,52 @@
 ---
-import I18nKey from "../../../i18n/i18nKey";
-import { i18n } from "../../../i18n/translation";
-import Icon from "../../misc/Icon.astro";
-import type { SkillCardProps } from "./types";
+import I18nKey from '../../../i18n/i18nKey'
+import { i18n } from '../../../i18n/translation'
+import Icon from '../../misc/Icon.astro'
+import type { SkillCardProps } from './types'
 
-const { skill } = Astro.props as SkillCardProps;
+const { skill } = Astro.props as SkillCardProps
 
-const skillColor = skill.color || "#3B82F6";
+const skillColor = skill.color || '#3B82F6'
 
 const getLevelText = (level: string) => {
 	switch (level) {
-		case "expert":
-			return i18n(I18nKey.skillsExpert);
-		case "advanced":
-			return i18n(I18nKey.skillsAdvanced);
-		case "intermediate":
-			return i18n(I18nKey.skillsIntermediate);
-		case "beginner":
-			return i18n(I18nKey.skillsBeginner);
+		case 'expert':
+			return i18n(I18nKey.skillsExpert)
+		case 'advanced':
+			return i18n(I18nKey.skillsAdvanced)
+		case 'intermediate':
+			return i18n(I18nKey.skillsIntermediate)
+		case 'beginner':
+			return i18n(I18nKey.skillsBeginner)
 		default:
-			return level;
+			return level
 	}
-};
+}
 
 const getLevelWidth = (level: string) => {
 	switch (level) {
-		case "expert":
-			return "100%";
-		case "advanced":
-			return "80%";
-		case "intermediate":
-			return "60%";
-		case "beginner":
-			return "40%";
+		case 'expert':
+			return '100%'
+		case 'advanced':
+			return '80%'
+		case 'intermediate':
+			return '60%'
+		case 'beginner':
+			return '40%'
 		default:
-			return "20%";
+			return '20%'
 	}
-};
+}
 
 const formatExperience = (exp: { years: number; months: number }) => {
-	const parts: string[] = [];
+	const parts: string[] = []
 	if (exp.years > 0) {
-		parts.push(`${exp.years} ${i18n(I18nKey.skillYears)}`);
+		parts.push(`${exp.years} ${i18n(I18nKey.skillYears)}`)
 	}
 	if (exp.months > 0) {
-		parts.push(`${exp.months} ${i18n(I18nKey.skillMonths)}`);
+		parts.push(`${exp.months} ${i18n(I18nKey.skillMonths)}`)
 	}
-	return parts.join(" ");
+	return parts.join(' ')
 };
 ---
 

@@ -1,19 +1,19 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
-	import { onMount } from "svelte";
+	import Icon from '@iconify/svelte'
+	import { onMount } from 'svelte'
 
-	let dateCheckInterval: ReturnType<typeof setInterval> | null = null;
+	let dateCheckInterval: ReturnType<typeof setInterval> | null = null
 
 	function updateTodayDate() {
-		const now = new Date();
-		todayYear = now.getFullYear();
-		todayMonth = now.getMonth();
-		todayDate = now.getDate();
+		const now = new Date()
+		todayYear = now.getFullYear()
+		todayMonth = now.getMonth()
+		todayDate = now.getDate()
 	}
 
-	import CalendarGrid from "./components/CalendarGrid.svelte";
-	import MonthPicker from "./components/MonthPicker.svelte";
-	import YearPicker from "./components/YearPicker.svelte";
+	import CalendarGrid from './components/CalendarGrid.svelte'
+	import MonthPicker from './components/MonthPicker.svelte'
+	import YearPicker from './components/YearPicker.svelte'
 	import {
 		formatDateKey,
 		formatMonthKey,
@@ -21,12 +21,12 @@
 		getDaysInMonth,
 		getFirstDayOfMonth,
 		processPostsData,
-	} from "./hooks/useCalendar";
+	} from './hooks/useCalendar'
 	import type {
 		CalendarGridCell,
 		CalendarPost,
 		CalendarStats,
-	} from "./types/calendar";
+	} from './types/calendar'
 
 	interface Props {
 		monthNames: string[];
@@ -34,52 +34,52 @@
 		yearSuffix: string;
 	}
 
-	const { monthNames, weekDays, yearSuffix }: Props = $props();
+	const { monthNames, weekDays, yearSuffix }: Props = $props()
 
 	// State
-	let allPostsData: CalendarPost[] = $state([]);
-	let postDateMap: Record<string, CalendarPost[]> = $state({});
-	let postsByMonth: Record<string, CalendarPost[]> = $state({});
+	let allPostsData: CalendarPost[] = $state([])
+	let postDateMap: Record<string, CalendarPost[]> = $state({})
+	let postsByMonth: Record<string, CalendarPost[]> = $state({})
 	let stats: CalendarStats = $state({
 		hasPostInYear: {},
 		hasPostInMonth: {},
 		minYear: new Date().getFullYear(),
 		maxYear: new Date().getFullYear() + 5,
-	});
+	})
 
-	let currentYear = $state(new Date().getFullYear());
-	let currentMonth = $state(new Date().getMonth());
-	let selectedDateKey: string | null = $state(null);
-	let currentView: "day" | "month" | "year" = $state("day");
+	let currentYear = $state(new Date().getFullYear())
+	let currentMonth = $state(new Date().getMonth())
+	let selectedDateKey: string | null = $state(null)
+	let currentView: 'day' | 'month' | 'year' = $state('day')
 
 	// Today's date (reactive, updates at midnight)
-	let todayYear = $state(new Date().getFullYear());
-	let todayMonth = $state(new Date().getMonth());
-	let todayDate = $state(new Date().getDate());
+	let todayYear = $state(new Date().getFullYear())
+	let todayMonth = $state(new Date().getMonth())
+	let todayDate = $state(new Date().getDate())
 
 	const isBackToTodayVisible = $derived(
 		currentYear !== todayYear ||
 			currentMonth !== todayMonth ||
 			selectedDateKey !== null,
-	);
+	)
 
 	const emptyCellsCount = $derived(
 		getFirstDayOfMonth(currentYear, currentMonth),
-	);
+	)
 
 	const cells = $derived(
 		(() => {
-			const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-			const result: CalendarGridCell[] = [];
+			const daysInMonth = getDaysInMonth(currentYear, currentMonth)
+			const result: CalendarGridCell[] = []
 
 			for (let day = 1; day <= daysInMonth; day++) {
-				const dateKey = formatDateKey(currentYear, currentMonth, day);
-				const posts = postDateMap[dateKey] || [];
+				const dateKey = formatDateKey(currentYear, currentMonth, day)
+				const posts = postDateMap[dateKey] || []
 				const isToday =
 					currentYear === todayYear &&
 					currentMonth === todayMonth &&
-					day === todayDate;
-				const isSelected = selectedDateKey === dateKey;
+					day === todayDate
+				const isSelected = selectedDateKey === dateKey
 
 				result.push({
 					day,
@@ -90,156 +90,156 @@
 					isToday,
 					isSelected,
 					isEmpty: false,
-				});
+				})
 			}
 
-			return result;
+			return result
 		})(),
-	);
+	)
 
 	const currentPostId = $derived(
 		getCurrentPostId(window.location.pathname, allPostsData),
-	);
+	)
 
 	const displayedPosts = $derived(
 		(() => {
 			if (selectedDateKey && postDateMap[selectedDateKey]) {
-				return postDateMap[selectedDateKey];
+				return postDateMap[selectedDateKey]
 			}
-			const monthKey = formatMonthKey(currentYear, currentMonth);
-			return postsByMonth[monthKey] || [];
+			const monthKey = formatMonthKey(currentYear, currentMonth)
+			return postsByMonth[monthKey] || []
 		})(),
-	);
+	)
 
 	// Functions
 	async function fetchCalendarData() {
 		try {
-			const res = await fetch("/api/calendar-data.json");
-			const data = await res.json();
+			const res = await fetch('/api/calendar-data.json')
+			const data = await res.json()
 			if (Array.isArray(data)) {
-				allPostsData = data;
-				const processed = processPostsData(allPostsData);
-				postDateMap = processed.postDateMap;
-				postsByMonth = processed.postsByMonth;
-				stats = processed.stats;
+				allPostsData = data
+				const processed = processPostsData(allPostsData)
+				postDateMap = processed.postDateMap
+				postsByMonth = processed.postsByMonth
+				stats = processed.stats
 
 				const currentPostIdValue = getCurrentPostId(
 					window.location.pathname,
 					allPostsData,
-				);
+				)
 				if (currentPostIdValue) {
 					const matchedPost = allPostsData.find(
 						(p) => p.id === currentPostIdValue,
-					);
+					)
 					if (matchedPost) {
-						const [y, m] = matchedPost.date.split("-");
-						currentYear = parseInt(y);
-						currentMonth = parseInt(m) - 1;
+						const [y, m] = matchedPost.date.split('-')
+						currentYear = parseInt(y)
+						currentMonth = parseInt(m) - 1
 					}
 				}
 			}
 		} catch (error) {
-			console.error("Failed to fetch calendar data:", error);
+			console.error('Failed to fetch calendar data:', error)
 		}
 	}
 
 	function handlePrevMonth() {
-		currentMonth--;
+		currentMonth--
 		if (currentMonth < 0) {
-			currentMonth = 11;
-			currentYear--;
+			currentMonth = 11
+			currentYear--
 		}
 	}
 
 	function handleNextMonth() {
-		currentMonth++;
+		currentMonth++
 		if (currentMonth > 11) {
-			currentMonth = 0;
-			currentYear++;
+			currentMonth = 0
+			currentYear++
 		}
 	}
 
 	function handleBackToToday() {
-		currentYear = todayYear;
-		currentMonth = todayMonth;
-		selectedDateKey = null;
-		if (currentView !== "day") {
-			closeSelectionPanel();
+		currentYear = todayYear
+		currentMonth = todayMonth
+		selectedDateKey = null
+		if (currentView !== 'day') {
+			closeSelectionPanel()
 		}
 	}
 
 	function handleTitleClick() {
-		if (currentView === "day") {
-			showMonthPicker();
-		} else if (currentView === "month") {
-			showYearPicker();
+		if (currentView === 'day') {
+			showMonthPicker()
+		} else if (currentView === 'month') {
+			showYearPicker()
 		} else {
-			closeSelectionPanel();
+			closeSelectionPanel()
 		}
 	}
 
 	function handleCellClick(dateKey: string) {
 		if (selectedDateKey === dateKey) {
-			selectedDateKey = null;
+			selectedDateKey = null
 		} else {
-			selectedDateKey = dateKey;
+			selectedDateKey = dateKey
 		}
 	}
 
 	function handleMonthSelect(month: number) {
-		currentMonth = month;
-		closeSelectionPanel();
+		currentMonth = month
+		closeSelectionPanel()
 	}
 
 	function handleYearSelect(year: number) {
-		currentYear = year;
-		showMonthPicker();
+		currentYear = year
+		showMonthPicker()
 	}
 
 	function showMonthPicker() {
-		currentView = "month";
+		currentView = 'month'
 	}
 
 	function showYearPicker() {
-		currentView = "year";
+		currentView = 'year'
 	}
 
 	function closeSelectionPanel() {
-		currentView = "day";
+		currentView = 'day'
 	}
 
 	onMount(() => {
-		fetchCalendarData();
+		fetchCalendarData()
 
 		// Check for date change every minute
 		dateCheckInterval = setInterval(() => {
-			const now = new Date();
+			const now = new Date()
 			if (
 				now.getFullYear() !== todayYear ||
 				now.getMonth() !== todayMonth ||
 				now.getDate() !== todayDate
 			) {
-				updateTodayDate();
+				updateTodayDate()
 			}
-		}, 60000);
+		}, 60000)
 
 		return () => {
 			if (dateCheckInterval) {
-				clearInterval(dateCheckInterval);
+				clearInterval(dateCheckInterval)
 			}
-		};
-	});
+		}
+	})
 </script>
 
 <div class="flex justify-between items-center mb-2 mt-2">
 	<div
 		class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-4 flex items-center
-			before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
-			before:absolute before:left-[-16px] before:top-[13.5px]"
+			before:w-1 before:h-4 before:rounded-md before:bg-(--primary)
+			before:absolute before:-left-4 before:top-[13.5px]"
 	>
 		<button
 			type="button"
-			class="flex justify-center items-center cursor-pointer hover:bg-[var(--btn-plain-bg-hover)] px-2 py-2 -ml-2 rounded-lg transition-colors"
+			class="flex justify-center items-center cursor-pointer hover:bg-(--btn-plain-bg-hover) px-2 py-2 -ml-2 rounded-lg transition-colors"
 			onclick={handleTitleClick}
 			aria-label="Select month or year"
 		>
@@ -256,7 +256,7 @@
 		{#if isBackToTodayVisible}
 			<button
 				type="button"
-				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
+				class="p-1.5 rounded-md hover:bg-(--btn-plain-bg-hover)-(--primary) transition-all"
 				onclick={handleBackToToday}
 				aria-label="Back to today"
 			>
@@ -268,7 +268,7 @@
 		{/if}
 		<button
 			type="button"
-			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors {currentView ===
+			class="p-1.5 rounded-md hover:bg-(--btn-plain-bg-hover) text-neutral-600 dark:text-neutral-400 hover:text-(--primary) transition-colors {currentView ===
 			'day'
 				? ''
 				: 'invisible'}"
@@ -279,7 +279,7 @@
 		</button>
 		<button
 			type="button"
-			class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-neutral-600 dark:text-neutral-400 hover:text-[var(--primary)] transition-colors {currentView ===
+			class="p-1.5 rounded-md hover:bg-(--btn-plain-bg-hover) text-neutral-600 dark:text-neutral-400 hover:text-(--primary) transition-colors {currentView ===
 			'day'
 				? ''
 				: 'invisible'}"
@@ -305,23 +305,23 @@
 
 		<div class="mt-4">
 			<div
-				class="h-[1px] w-full bg-neutral-200 dark:bg-neutral-700 mb-2"
+				class="h-px w-full bg-neutral-200 dark:bg-neutral-700 mb-2"
 				class:hidden={displayedPosts.length === 0}
 			></div>
 			<div
-				class="flex flex-col gap-1 max-h-[9.375rem] overflow-y-auto custom-scrollbar"
+				class="flex flex-col gap-1 max-h-37.5low-y-auto custom-scrollbar"
 			>
 				{#if displayedPosts.length > 0}
 					{#each displayedPosts as post (post.id)}
 						{@const isCurrentPost = post.id === currentPostId}
-						{@const [, m, d] = post.date.split("-")}
+						{@const [, m, d] = post.date.split('-')}
 						{@const dateStr = `${parseInt(m)}-${parseInt(d)}`}
 						<a
 							href="/posts/{post.id}/"
 							class="flex items-center justify-between text-sm transition-colors px-2 py-2 rounded-lg group border border-transparent
 								{isCurrentPost
-								? 'bg-[var(--primary)]/10 text-[var(--primary)] border-[var(--primary)]/10'
-								: 'text-neutral-700 dark:text-neutral-300 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)]'}"
+								? 'bg-(--primary)/10-[var(--primary)] border-(--primary)/10'
+								: 'text-neutral-700 dark:text-neutral-300 hover:text-(--primary) dark:hover:text-(--primary) hover:bg-(--btn-plain-bg-hover)'}"
 						>
 							<span
 								class="truncate flex-1 font-bold transition-colors"
@@ -330,8 +330,8 @@
 							<span
 								class="text-xs ml-2 whitespace-nowrap transition-colors
 								{isCurrentPost
-									? 'text-[var(--primary)]/80'
-									: 'text-neutral-400 group-hover:text-[var(--primary)]/70'}"
+									? 'text-(--primary)/80'
+									: 'text-neutral-400 group-hover:text-(--primary)/70'}"
 							>
 								{dateStr}
 							</span>
@@ -342,8 +342,8 @@
 		</div>
 	</div>
 
-	{#if currentView === "month"}
-		<div class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col">
+	{#if currentView === 'month'}
+		<div class="absolute inset-0 bg-(--card-bg) z-10 flex flex-col">
 			<MonthPicker
 				{monthNames}
 				{currentYear}
@@ -352,8 +352,8 @@
 				onMonthSelect={handleMonthSelect}
 			/>
 		</div>
-	{:else if currentView === "year"}
-		<div class="absolute inset-0 bg-[var(--card-bg)] z-10 flex flex-col">
+	{:else if currentView === 'year'}
+		<div class="absolute inset-0 bg-(--card-bg) z-10 flex flex-col">
 			<YearPicker {currentYear} {stats} onYearSelect={handleYearSelect} />
 		</div>
 	{/if}

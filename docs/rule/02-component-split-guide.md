@@ -293,7 +293,7 @@ function handleVolumeChange(vol: number) {
 </script>
 
 <div class="music-player">
-  <button on:click={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
+  <button onclick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
   <input type="range" bind:value={currentTime} />
   <input type="range" bind:value={volume} />
   <!-- 更多 UI -->
@@ -345,13 +345,13 @@ export function useAudio() {
 </script>
 
 <div class="play-controls">
-  <button on:click={onPrev}>
+  <button onclick={onPrev}>
     <Icon name="material-symbols:skip-previous" />
   </button>
-  <button on:click={onTogglePlay}>
+  <button onclick={onTogglePlay}>
     <Icon name={isPlaying ? 'material-symbols:pause' : 'material-symbols:play-arrow'} />
   </button>
-  <button on:click={onNext}>
+  <button onclick={onNext}>
     <Icon name="material-symbols:skip-next" />
   </button>
 </div>
@@ -477,11 +477,11 @@ Calendar/
 </script>
 
 <header class="calendar-header">
-  <button on:click={onPrevMonth}>
+  <button onclick={onPrevMonth}>
     <Icon name="material-symbols:chevron-left" />
   </button>
   <div class="title">{year}年{month + 1}月</div>
-  <button on:click={onNextMonth}>
+  <button onclick={onNextMonth}>
     <Icon name="material-symbols:chevron-right" />
   </button>
 </header>
@@ -500,7 +500,7 @@ Calendar/
     <div
       class="date-cell"
       class:selected={isSameDay(date, selectedDate)}
-      on:click={() => onSelectDate(date)}
+      onclick={() => onSelectDate(date)}
     >
       {date.getDate()}
     </div>
@@ -578,7 +578,7 @@ const calendar = useCalendar()
 
 <form>
   <input type="password" bind:value={password} />
-  <button on:click={handleSubmit}>解锁</button>
+  <button onclick={handleSubmit}>解锁</button>
 </form>
 
 <style>
@@ -1009,11 +1009,11 @@ interface Props {
 ---
 
 <div class="controls">
-  <button on:click={onPrev}>Prev</button>
-  <button on:click={onTogglePlay}>
+  <button onclick={onPrev}>Prev</button>
+  <button onclick={onTogglePlay}>
     {isPlaying ? 'Pause' : 'Play'}
   </button>
-  <button on:click={onNext}>Next</button>
+  <button onclick={onNext}>Next</button>
 </div>
 ```
 

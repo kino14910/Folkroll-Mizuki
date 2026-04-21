@@ -1,224 +1,224 @@
 <script lang="ts">
-	import I18nKey from "@i18n/i18nKey";
-	import { i18n } from "@i18n/translation";
-	import Icon from "@iconify/svelte";
-	import { navigateToPage } from "@utils/navigation-utils";
-	import { url } from "@utils/url-utils";
-	import { onDestroy, onMount } from "svelte";
+	import I18nKey from '@i18n/i18nKey'
+	import { i18n } from '@i18n/translation'
+	import Icon from '@iconify/svelte'
+	import { navigateToPage } from '@utils/navigation-utils'
+	import { url } from '@utils/url-utils'
+	import { onDestroy, onMount } from 'svelte'
 
-	import type { SearchResult } from "@/global";
+	import type { SearchResult } from '@/global'
 
-	let keywordDesktop = $state("");
-	let keywordMobile = $state("");
-	let result: SearchResult[] = $state([]);
-	let pagefindLoaded = false;
-	let initialized = $state(false);
-	let isDesktopSearchExpanded = $state(false);
-	let debounceTimer: NodeJS.Timeout;
-	let windowJustFocused = false;
-	let focusTimer: NodeJS.Timeout;
-	let blurTimer: NodeJS.Timeout;
+	let keywordDesktop = $state('')
+	let keywordMobile = $state('')
+	let result: SearchResult[] = $state([])
+	let pagefindLoaded = false
+	let initialized = $state(false)
+	let isDesktopSearchExpanded = $state(false)
+	let debounceTimer: NodeJS.Timeout
+	let windowJustFocused = false
+	let focusTimer: NodeJS.Timeout
+	let blurTimer: NodeJS.Timeout
 
 	const fakeResult: SearchResult[] = [
 		{
-			url: url("/"),
+			url: url('/'),
 			meta: {
-				title: "This Is a Fake Search Result",
+				title: 'This Is a Fake Search Result',
 			},
 			excerpt:
-				"Because the search cannot work in the <mark>dev</mark> environment.",
+				'Because the search cannot work in the <mark>dev</mark> environment.',
 		},
 		{
-			url: url("/"),
+			url: url('/'),
 			meta: {
-				title: "If You Want to Test the Search",
+				title: 'If You Want to Test the Search',
 			},
 			excerpt:
-				"Try running <mark>npm build && npm preview</mark> instead.",
+				'Try running <mark>npm build && npm preview</mark> instead.',
 		},
-	];
+	]
 
 	const togglePanel = () => {
-		const panel = document.getElementById("search-panel");
-		panel?.classList.toggle("float-panel-closed");
+		const panel = document.getElementById('search-panel')
+		panel?.classList.toggle('float-panel-closed')
 		if (
-			!panel?.classList.contains("float-panel-closed") &&
-			typeof window.loadPagefind === "function"
+			!panel?.classList.contains('float-panel-closed') &&
+			typeof window.loadPagefind === 'function'
 		) {
-			window.loadPagefind();
+			window.loadPagefind()
 		}
-	};
+	}
 
 	const toggleDesktopSearch = () => {
 		// 如果窗口刚获得焦点，不自动展开搜索框
 		if (windowJustFocused) {
-			return;
+			return
 		}
-		isDesktopSearchExpanded = !isDesktopSearchExpanded;
+		isDesktopSearchExpanded = !isDesktopSearchExpanded
 		if (isDesktopSearchExpanded) {
-			if (typeof window.loadPagefind === "function") {
-				window.loadPagefind();
+			if (typeof window.loadPagefind === 'function') {
+				window.loadPagefind()
 			}
 			setTimeout(() => {
 				const input = document.getElementById(
-					"search-input-desktop",
-				) as HTMLInputElement;
-				input?.focus();
-			}, 0);
+					'search-input-desktop',
+				) as HTMLInputElement
+				input?.focus()
+			}, 0)
 		}
-	};
+	}
 
 	const collapseDesktopSearch = () => {
 		if (!keywordDesktop) {
-			isDesktopSearchExpanded = false;
+			isDesktopSearchExpanded = false
 		}
-	};
+	}
 
 	const handleBlur = () => {
 		// 延迟处理以允许搜索结果的点击事件先于折叠逻辑执行
 		blurTimer = setTimeout(() => {
-			isDesktopSearchExpanded = false;
+			isDesktopSearchExpanded = false
 			// 仅隐藏面板并折叠，保留搜索关键词和结果以便下次展开时查看
-			setPanelVisibility(false, true);
-		}, 200);
-	};
+			setPanelVisibility(false, true)
+		}, 200)
+	}
 
 	const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
-		const panel = document.getElementById("search-panel");
+		const panel = document.getElementById('search-panel')
 		if (!panel || !isDesktop) {
-			return;
+			return
 		}
 		if (show) {
-			panel.classList.remove("float-panel-closed");
+			panel.classList.remove('float-panel-closed')
 		} else {
-			panel.classList.add("float-panel-closed");
+			panel.classList.add('float-panel-closed')
 		}
-	};
+	}
 
 	const closeSearchPanel = (): void => {
-		const panel = document.getElementById("search-panel");
+		const panel = document.getElementById('search-panel')
 		if (panel) {
-			panel.classList.add("float-panel-closed");
+			panel.classList.add('float-panel-closed')
 		}
 		// 清空搜索关键词和结果
-		keywordDesktop = "";
-		keywordMobile = "";
-		result = [];
-	};
+		keywordDesktop = ''
+		keywordMobile = ''
+		result = []
+	}
 
 	const handleResultClick = (event: Event, url: string): void => {
-		event.preventDefault();
-		closeSearchPanel();
-		navigateToPage(url);
-	};
+		event.preventDefault()
+		closeSearchPanel()
+		navigateToPage(url)
+	}
 
 	const search = async (
 		keyword: string,
 		isDesktop: boolean,
 	): Promise<void> => {
 		if (!keyword) {
-			setPanelVisibility(false, isDesktop);
-			result = [];
-			return;
+			setPanelVisibility(false, isDesktop)
+			result = []
+			return
 		}
 		if (!initialized) {
-			return;
+			return
 		}
 		try {
-			let searchResults: SearchResult[] = [];
+			let searchResults: SearchResult[] = []
 			if (import.meta.env.PROD && pagefindLoaded && window.pagefind) {
-				const response = await window.pagefind.search(keyword);
+				const response = await window.pagefind.search(keyword)
 				searchResults = await Promise.all(
-					response.results.map((item) => item.data()),
-				);
+					response.results.map(item => item.data()),
+				)
 			} else if (import.meta.env.DEV) {
-				searchResults = fakeResult;
+				searchResults = fakeResult
 			} else {
-				searchResults = [];
+				searchResults = []
 				console.error(
-					"Pagefind is not available in production environment.",
-				);
+					'Pagefind is not available in production environment.',
+				)
 			}
-			result = searchResults;
-			setPanelVisibility(result.length > 0, isDesktop);
+			result = searchResults
+			setPanelVisibility(result.length > 0, isDesktop)
 		} catch (error) {
-			console.error("Search error:", error);
-			result = [];
-			setPanelVisibility(false, isDesktop);
+			console.error('Search error:', error)
+			result = []
+			setPanelVisibility(false, isDesktop)
 		}
-	};
+	}
 
 	onMount(() => {
 		const initializeSearch = () => {
-			initialized = true;
+			initialized = true
 			pagefindLoaded =
-				typeof window !== "undefined" &&
+				typeof window !== 'undefined' &&
 				!!window.pagefind &&
-				typeof window.pagefind.search === "function";
-			console.log("Pagefind status on init:", pagefindLoaded);
-		};
+				typeof window.pagefind.search === 'function'
+			console.log('Pagefind status on init:', pagefindLoaded)
+		}
 		if (import.meta.env.DEV) {
 			console.log(
-				"Pagefind is not available in development mode. Using mock data.",
-			);
-			initializeSearch();
+				'Pagefind is not available in development mode. Using mock data.',
+			)
+			initializeSearch()
 		} else {
-			document.addEventListener("pagefindready", () => {
-				console.log("Pagefind ready event received.");
-				initializeSearch();
-			});
-			document.addEventListener("pagefindloaderror", () => {
+			document.addEventListener('pagefindready', () => {
+				console.log('Pagefind ready event received.')
+				initializeSearch()
+			})
+			document.addEventListener('pagefindloaderror', () => {
 				console.warn(
-					"Pagefind load error event received. Search functionality will be limited.",
-				);
-				initializeSearch(); // Initialize with pagefindLoaded as false
-			});
+					'Pagefind load error event received. Search functionality will be limited.',
+				)
+				initializeSearch() // Initialize with pagefindLoaded as false
+			})
 			// Fallback in case events are not caught or pagefind is already loaded by the time this script runs
 			setTimeout(() => {
 				if (!initialized) {
-					console.log("Fallback: Initializing search after timeout.");
-					initializeSearch();
+					console.log('Fallback: Initializing search after timeout.')
+					initializeSearch()
 				}
-			}, 2000); // Adjust timeout as needed
+			}, 2000) // Adjust timeout as needed
 		}
 
 		// 监听窗口焦点事件，防止切换窗口时自动展开搜索框
 		const handleFocus = () => {
-			windowJustFocused = true;
-			clearTimeout(focusTimer);
+			windowJustFocused = true
+			clearTimeout(focusTimer)
 			focusTimer = setTimeout(() => {
-				windowJustFocused = false;
-			}, 500); // 500ms 后才允许 mouseenter 触发展开
-		};
+				windowJustFocused = false
+			}, 500) // 500ms 后才允许 mouseenter 触发展开
+		}
 
-		window.addEventListener("focus", handleFocus);
+		window.addEventListener('focus', handleFocus)
 
 		return () => {
-			window.removeEventListener("focus", handleFocus);
-		};
-	});
+			window.removeEventListener('focus', handleFocus)
+		}
+	})
 
 	$effect(() => {
 		if (initialized) {
-			const keyword = keywordDesktop || keywordMobile;
-			const isDesktop = !!keywordDesktop || isDesktopSearchExpanded;
+			const keyword = keywordDesktop || keywordMobile
+			const isDesktop = !!keywordDesktop || isDesktopSearchExpanded
 
-			clearTimeout(debounceTimer);
+			clearTimeout(debounceTimer)
 			if (keyword) {
 				debounceTimer = setTimeout(() => {
-					search(keyword, isDesktop);
-				}, 300);
+					search(keyword, isDesktop)
+				}, 300)
 			} else {
-				result = [];
-				setPanelVisibility(false, isDesktop);
+				result = []
+				setPanelVisibility(false, isDesktop)
 			}
 		}
-	});
+	})
 
 	onDestroy(() => {
-		clearTimeout(debounceTimer);
-		clearTimeout(focusTimer);
-	});
+		clearTimeout(debounceTimer)
+		clearTimeout(focusTimer)
+	})
 </script>
 
 <!-- search bar for desktop view (collapsed by default) -->
@@ -233,15 +233,15 @@
 		aria-label="Search"
 		onmouseenter={() => {
 			if (!isDesktopSearchExpanded) {
-				toggleDesktopSearch();
+				toggleDesktopSearch()
 			}
 		}}
 		onmouseleave={collapseDesktopSearch}
 		onclick={() => {
 			const input = document.getElementById(
-				"search-input-desktop",
-			) as HTMLInputElement;
-			input?.focus();
+				'search-input-desktop',
+			) as HTMLInputElement
+			input?.focus()
 		}}
 	>
 		<Icon
@@ -257,11 +257,11 @@
 			placeholder={i18n(I18nKey.search)}
 			bind:value={keywordDesktop}
 			onfocus={() => {
-				clearTimeout(blurTimer);
+				clearTimeout(blurTimer)
 				if (!isDesktopSearchExpanded) {
-					toggleDesktopSearch();
+					toggleDesktopSearch()
 				}
-				search(keywordDesktop, true);
+				search(keywordDesktop, true)
 			}}
 			onblur={handleBlur}
 			class="transition-all pl-10 text-sm bg-transparent outline-0
@@ -310,7 +310,7 @@
 	{#each result as item}
 		<a
 			href={item.url}
-			onclick={(e) => handleResultClick(e, item.url)}
+			onclick={e => handleResultClick(e, item.url)}
 			class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
        rounded-xl text-lg px-3 py-2 hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active)"
 		>

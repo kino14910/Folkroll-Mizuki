@@ -6,14 +6,14 @@
  * Get the first day of the month (0-6, where 0 is Monday)
  */
 export function getFirstDayOfMonth(year: number, month: number): number {
-	return (new Date(year, month, 1).getDay() + 6) % 7;
+	return (new Date(year, month, 1).getDay() + 6) % 7
 }
 
 /**
  * Get the number of days in a month
  */
 export function getDaysInMonth(year: number, month: number): number {
-	return new Date(year, month + 1, 0).getDate();
+	return new Date(year, month + 1, 0).getDate()
 }
 
 /**
@@ -23,20 +23,20 @@ export function generateCalendarGrid(
 	year: number,
 	month: number,
 ): { day: number; dateKey: string; hasPost: boolean; postCount: number }[] {
-	const daysInMonth = getDaysInMonth(year, month);
+	const daysInMonth = getDaysInMonth(year, month)
 	const grid: {
 		day: number;
 		dateKey: string;
 		hasPost: boolean;
 		postCount: number;
-	}[] = [];
+	}[] = []
 
 	for (let day = 1; day <= daysInMonth; day++) {
-		const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-		grid.push({ day, dateKey, hasPost: false, postCount: 0 });
+		const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+		grid.push({ day, dateKey, hasPost: false, postCount: 0 })
 	}
 
-	return grid;
+	return grid
 }
 
 /**
@@ -50,14 +50,14 @@ export function isToday(
 	todayMonth: number,
 	todayDate: number,
 ): boolean {
-	return year === todayYear && month === todayMonth && day === todayDate;
+	return year === todayYear && month === todayMonth && day === todayDate
 }
 
 /**
  * Format month key for comparison
  */
 export function formatMonthKey(year: number, month: number): string {
-	return `${year}-${month}`;
+	return `${year}-${month}`
 }
 
 /**
@@ -68,7 +68,7 @@ export function formatDateKey(
 	month: number,
 	day: number,
 ): string {
-	return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+	return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
 }
 
 /**
@@ -78,7 +78,7 @@ export function getPostsForDate(
 	dateKey: string,
 	postDateMap: Record<string, { id: string; title: string; date: string }[]>,
 ): { id: string; title: string; date: string }[] {
-	return postDateMap[dateKey] || [];
+	return postDateMap[dateKey] || []
 }
 
 /**
@@ -88,7 +88,7 @@ export function getPostsForMonth(
 	monthKey: string,
 	postsByMonth: Record<string, { id: string; title: string; date: string }[]>,
 ): { id: string; title: string; date: string }[] {
-	return postsByMonth[monthKey] || [];
+	return postsByMonth[monthKey] || []
 }
 
 /**
@@ -109,47 +109,47 @@ export function processPostsData(
 	const postDateMap: Record<
 		string,
 		{ id: string; title: string; date: string }[]
-	> = {};
+	> = {}
 	const postsByMonth: Record<
 		string,
 		{ id: string; title: string; date: string }[]
-	> = {};
+	> = {}
 	const stats = {
 		hasPostInYear: {} as Record<string, boolean>,
 		hasPostInMonth: {} as Record<string, boolean>,
 		minYear: new Date().getFullYear(),
 		maxYear: new Date().getFullYear() + 5,
-	};
+	}
 
 	if (!posts || posts.length === 0) {
-		return { postDateMap, postsByMonth, stats };
+		return { postDateMap, postsByMonth, stats }
 	}
 
 	posts.forEach((post) => {
-		const [yStr, mStr] = post.date.split("-");
-		const year = parseInt(yStr);
-		const month = parseInt(mStr);
-		stats.hasPostInYear[year] = true;
-		stats.hasPostInMonth[`${year}-${month}`] = true;
+		const [yStr, mStr] = post.date.split('-')
+		const year = parseInt(yStr)
+		const month = parseInt(mStr)
+		stats.hasPostInYear[year] = true
+		stats.hasPostInMonth[`${year}-${month}`] = true
 		if (year < stats.minYear) {
-			stats.minYear = year;
+			stats.minYear = year
 		}
 
-		const dateKey = post.date;
-		const monthKey = `${year}-${month - 1}`;
+		const dateKey = post.date
+		const monthKey = `${year}-${month - 1}`
 
 		if (!postDateMap[dateKey]) {
-			postDateMap[dateKey] = [];
+			postDateMap[dateKey] = []
 		}
-		postDateMap[dateKey].push(post);
+		postDateMap[dateKey].push(post)
 
 		if (!postsByMonth[monthKey]) {
-			postsByMonth[monthKey] = [];
+			postsByMonth[monthKey] = []
 		}
-		postsByMonth[monthKey].push(post);
-	});
+		postsByMonth[monthKey].push(post)
+	})
 
-	return { postDateMap, postsByMonth, stats };
+	return { postDateMap, postsByMonth, stats }
 }
 
 /**
@@ -160,14 +160,14 @@ export function getCurrentPostId(
 	allPostsData: { id: string; date: string; title: string }[],
 ): string | null {
 	if (!allPostsData || allPostsData.length === 0) {
-		return null;
+		return null
 	}
-	const decodedPath = decodeURIComponent(path);
-	const normalizedPath = decodedPath.endsWith("/")
+	const decodedPath = decodeURIComponent(path)
+	const normalizedPath = decodedPath.endsWith('/')
 		? decodedPath.slice(0, -1)
-		: decodedPath;
+		: decodedPath
 	const matchedPost = allPostsData.find((post) =>
 		normalizedPath.endsWith(`/${post.id}`),
-	);
-	return matchedPost ? matchedPost.id : null;
+	)
+	return matchedPost ? matchedPost.id : null
 }

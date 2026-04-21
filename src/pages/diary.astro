@@ -1,26 +1,26 @@
 ---
-import { FilterTabs } from "@components/atoms/filter-tabs";
-import { MomentCard } from "@components/features/diary";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { Icon } from "astro-icon/components";
+import { FilterTabs } from '@components/atoms/filter-tabs'
+import { MomentCard } from '@components/features/diary'
+import MainGridLayout from '@layouts/MainGridLayout.astro'
+import { Icon } from 'astro-icon/components'
 
-import { siteConfig } from "../config";
-import { getAllTags, getDiaryList } from "../data/diary";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { siteConfig } from '../config'
+import { getAllTags, getDiaryList } from '../data/diary'
+import I18nKey from '../i18n/i18nKey'
+import { i18n } from '../i18n/translation'
 
 if (!siteConfig.featurePages.diary) {
-	return Astro.redirect("/404/");
+	return Astro.redirect('/404/')
 }
 
-const moments = getDiaryList();
-const allTags = getAllTags();
+const moments = getDiaryList()
+const allTags = getAllTags()
 
 const filterTabs = [
 	{
-		value: "all",
+		value: 'all',
 		label: i18n(I18nKey.albumsFilterAll),
-		icon: "material-symbols:apps",
+		icon: 'material-symbols:apps',
 		count: moments.length,
 	},
 	...allTags.map((tag) => ({
@@ -28,32 +28,32 @@ const filterTabs = [
 		label: tag,
 		count: moments.filter((m) => m.tags && m.tags.includes(tag)).length,
 	})),
-];
+]
 
-const minutesAgo = i18n(I18nKey.diaryMinutesAgo);
-const hoursAgo = i18n(I18nKey.diaryHoursAgo);
-const daysAgo = i18n(I18nKey.diaryDaysAgo);
+const minutesAgo = i18n(I18nKey.diaryMinutesAgo)
+const hoursAgo = i18n(I18nKey.diaryHoursAgo)
+const daysAgo = i18n(I18nKey.diaryDaysAgo)
 
-const title = i18n(I18nKey.diary);
+const title = i18n(I18nKey.diary)
 const subtitle = i18n(I18nKey.diarySubtitle);
 ---
 
 <MainGridLayout title={title} description={subtitle}>
 	<script>
-		import("../scripts/right-sidebar-layout.js");
-		import { loadIconify } from "../utils/icon-loader";
+		import('../scripts/right-sidebar-layout.js')
+import { loadIconify } from '../utils/icon-loader'
 
-		loadIconify().catch((error) => {
-			console.error("Failed to load Iconify:", error);
-		});
+loadIconify().catch((error) => {
+			console.error('Failed to load Iconify:', error)
+})
 	</script>
 
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
 	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) relative min-h-32"
 	>
-		<div class="card-base z-10 relative w-full overflow-hidden">
+		<div class="card-base z-10 relative w-full max-w-full">
 			<!-- Gradient Banner -->
 			<div class="px-6 sm:px-9 py-6">
 				<div

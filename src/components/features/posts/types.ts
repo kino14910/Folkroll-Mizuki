@@ -1,9 +1,9 @@
-import type { Page } from "astro";
-import type { CollectionEntry } from "astro:content";
+import type { Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
 
 export interface PostCardProps {
 	class?: string;
-	entry: CollectionEntry<"posts">;
+	entry: CollectionEntry<'posts'>;
 	style?: string;
 }
 
@@ -24,5 +24,5 @@ export interface PostMetaProps {
 }
 
 export interface PostPageProps {
-	page: Page<CollectionEntry<"posts">>;
+	page: Page<CollectionEntry<'posts'>>;
 }

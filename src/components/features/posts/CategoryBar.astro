@@ -1,63 +1,68 @@
 ---
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
-import { Icon } from "astro-icon/components";
+import I18nKey from '@i18n/i18nKey'
+import { i18n } from '@i18n/translation'
+import { Icon } from 'astro-icon/components'
 
-import { getCategoryList, getSortedPostsList } from "@/utils/content-utils";
-import { getCategoryUrl, url } from "@/utils/url-utils";
+import { getCategoryList, getSortedPostsList } from '@/utils/content-utils'
+import { getCategoryUrl, url } from '@/utils/url-utils'
 
-const categories = await getCategoryList();
-const totalPosts = (await getSortedPostsList()).length;
-const homeUrl = url("/");
-const archiveUrl = url("/archive/");
+const categories = await getCategoryList()
+const totalPosts = (await getSortedPostsList()).length
+const homeUrl = url('/')
+const archiveUrl = url('/archive/')
 ---
 
 <div
-	class="card-base category-bar p-3 onload-animation"
-	id="category-bar"
+	class='card-base category-bar p-3 onload-animation'
+	id='category-bar'
 	data-home-path={homeUrl}
 	data-archive-path={archiveUrl}
 >
-	<div class="category-bar-inner flex gap-2">
+	<div class='category-bar-inner flex gap-2'>
 		<a
 			href={homeUrl}
-			class="category-pill text-sm px-2 py-1 rounded-lg shrink-0
-				   transition-colors duration-200 flex items-center justify-center"
-			data-category-name=""
+			class='category-pill text-sm px-2 py-1 rounded-lg shrink-0
+				   transition-colors duration-200 flex items-center justify-center'
+			data-category-name=''
 			aria-label={i18n(I18nKey.home)}
 		>
-			<Icon name="material-symbols:home" class="text-lg" />
+			<Icon name='material-symbols:home' class='text-lg' />
 		</a>
 		<a
 			href={archiveUrl}
-			class="category-pill text-sm px-3 py-1 rounded-lg whitespace-nowrap shrink-0
-				   transition-colors duration-200 flex items-center justify-center"
-			data-category-name="__archive__"
+			class='category-pill text-sm px-3 py-1 rounded-lg whitespace-nowrap shrink-0
+				   transition-colors duration-200 flex items-center justify-center'
+			data-category-name='__archive__'
 		>
+			<Icon name='material-symbols:check' class='category-check' />
 			{i18n(I18nKey.archive)}
-			<span class="text-xs opacity-60 ml-1">{totalPosts}</span>
+			<span class='text-sm opacity-60'>{totalPosts}</span>
 		</a>
-		<div class="category-divider shrink-0"></div>
-		<div class="scroll-area relative">
-			<div class="scroll-fade scroll-fade-left" aria-hidden="true"></div>
-			<div class="category-scroll flex gap-2 overflow-x-auto">
+		<div class='category-divider shrink-0'></div>
+		<div class='scroll-area relative'>
+			<div class='scroll-fade scroll-fade-left' aria-hidden='true'></div>
+			<div class='category-scroll flex gap-2 overflow-x-auto'>
 				{
-					categories.map((cat) => (
+					categories.map(cat => (
 						<a
 							href={getCategoryUrl(cat.name)}
-							class="category-pill text-sm px-3 py-1 rounded-lg whitespace-nowrap
-								   transition-colors duration-200 flex items-center justify-center"
+							class='category-pill text-sm px-2 py-1 rounded-lg whitespace-nowrap
+								   transition-colors duration-200 flex items-center justify-center'
 							data-category-name={cat.name}
 						>
+							<Icon
+								name='material-symbols:check'
+								class='category-check text-sm'
+							/>
 							{cat.name}
-							<span class="text-xs opacity-60 ml-1">
+							<span class='text-sm opacity-60 pl-1'>
 								{cat.count}
 							</span>
 						</a>
 					))
 				}
 			</div>
-			<div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
+			<div class='scroll-fade scroll-fade-right' aria-hidden='true'></div>
 		</div>
 	</div>
 </div>
@@ -110,177 +115,193 @@ const archiveUrl = url("/archive/");
 	}
 	.category-pill {
 		border: 1.5px solid var(--line-divider);
-		color: var(--primary);
+		color: var(--on-container);
 		background: transparent;
 	}
 	.category-pill:hover {
-		color: var(--primary);
-		background: #323b48;
+		color: var(--on-container);
+		background: var(--chip-hover-bg);
 	}
 	.category-pill[data-active] {
-		background: color-mix(in srgb, var(--primary) 75%, transparent);
-		color: color-mix(in srgb, var(--primary) 20%, white);
+		background: var(--chip-active-bg);
+		color: var(--on-surface);
+		border-color: transparent;
 	}
 	.category-pill[data-active]:hover {
-		background: color-mix(in srgb, var(--primary) 85%, transparent);
+		background: var(--chip-active-hover-bg);
+	}
+	.category-check {
+		width: 0;
+		overflow: hidden;
+		opacity: 0;
+		flex-shrink: 0;
+		transition:
+			width 200ms cubic-bezier(0.2, 0, 0, 1),
+			opacity 200ms cubic-bezier(0.2, 0, 0, 1),
+			margin 200ms cubic-bezier(0.2, 0, 0, 1);
+		margin-right: 0;
+	}
+	.category-pill[data-active] .category-check {
+		width: 1rem;
+		opacity: 1;
 	}
 </style>
 
 <script>
 	function updateCategoryBar() {
-		const bar = document.getElementById("category-bar");
+		const bar = document.getElementById('category-bar')
 		if (!bar) {
-			return;
+			return
 		}
 
-		const pathname = window.location.pathname.replace(/\/$/, "");
-		const homePath = (bar.getAttribute("data-home-path") || "/").replace(
+		const pathname = window.location.pathname.replace(/\/$/, '')
+		const homePath = (bar.getAttribute('data-home-path') || '/').replace(
 			/\/$/,
-			"",
-		);
+			'',
+		)
 		// 归档页路径也需要标准化，避免 /archive 与 /archive/ 不一致导致无法匹配
 		const archivePath = (
-			bar.getAttribute("data-archive-path") || "/archive"
-		).replace(/\/$/, "");
+			bar.getAttribute('data-archive-path') || '/archive'
+		).replace(/\/$/, '')
 		const isHome =
-			pathname === homePath || pathname === "" || pathname === "/";
-		const isArchive = pathname === archivePath;
+			pathname === homePath || pathname === '' || pathname === '/'
+		const isArchive = pathname === archivePath
 		// 分页页面（如 /2/, /3/）也属于首页的延续
 		const isHomePagination =
-			/^\/\d+$/.test(pathname) ||
-			(homePath !== "" &&
-				new RegExp(
-					"^" +
-						homePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
-						"\\/\\d+$",
-				).test(pathname));
+			/^\/\d+$/.test(pathname)
+			|| (homePath !== ''
+				&& new RegExp(
+					'^'
+						+ homePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+						+ '\\/\\d+$',
+				).test(pathname))
 
 		// 在首页、首页分页和归档页显示
 		if (!isHome && !isHomePagination && !isArchive) {
-			bar.style.display = "none";
-			return;
+			bar.style.display = 'none'
+			return
 		}
-		bar.style.display = "";
+		bar.style.display = ''
 
 		// 高亮当前分类
-		const pills = bar.querySelectorAll<HTMLAnchorElement>(".category-pill");
-		const params = new URLSearchParams(window.location.search);
-		const activeCategory = params.get("category") || "";
-		const hasTag = params.has("tag");
-		const hasUncategorized = params.has("uncategorized");
+		const pills = bar.querySelectorAll<HTMLAnchorElement>('.category-pill')
+		const params = new URLSearchParams(window.location.search)
+		const activeCategory = params.get('category') || ''
+		const hasTag = params.has('tag')
+		const hasUncategorized = params.has('uncategorized')
 
-		pills.forEach((pill) => pill.removeAttribute("data-active"));
+		pills.forEach(pill => pill.removeAttribute('data-active'))
 
 		if (isHome || isHomePagination) {
 			bar.querySelector<HTMLAnchorElement>(
 				'.category-pill[data-category-name=""]',
-			)?.setAttribute("data-active", "");
+			)?.setAttribute('data-active', '')
 		} else if (activeCategory) {
-			pills.forEach((pill) => {
+			pills.forEach(pill => {
 				if (
-					pill.getAttribute("data-category-name") === activeCategory
+					pill.getAttribute('data-category-name') === activeCategory
 				) {
-					pill.setAttribute("data-active", "");
+					pill.setAttribute('data-active', '')
 				}
-			});
+			})
 		} else if (isArchive && !hasTag && !hasUncategorized) {
 			bar.querySelector<HTMLAnchorElement>(
 				'.category-pill[data-category-name="__archive__"]',
-			)?.setAttribute("data-active", "");
+			)?.setAttribute('data-active', '')
 		}
 
 		// 自动滚动到当前高亮的分类
 		const activePill = bar.querySelector<HTMLAnchorElement>(
-			".category-pill[data-active]",
-		);
-		const scroll = bar.querySelector<HTMLElement>(".category-scroll");
+			'.category-pill[data-active]',
+		)
+		const scroll = bar.querySelector<HTMLElement>('.category-scroll')
 		if (activePill && scroll) {
 			const scrollLeft =
-				activePill.offsetLeft -
-				scroll.offsetLeft -
-				(scroll.clientWidth - activePill.offsetWidth) / 2;
+				activePill.offsetLeft
+				- scroll.offsetLeft
+				- (scroll.clientWidth - activePill.offsetWidth) / 2
 			scroll.scrollTo({
 				left: Math.max(0, scrollLeft),
-				behavior: "smooth",
-			});
+				behavior: 'smooth',
+			})
 		}
 
 		// 更新横幅标题：归档页有分类筛选时显示分类名
 		if (isArchive && activeCategory) {
 			const bannerTitle = document.querySelector(
-				".banner-page-title-text",
-			);
+				'.banner-page-title-text',
+			)
 			if (bannerTitle) {
-				bannerTitle.textContent = decodeURIComponent(activeCategory);
+				bannerTitle.textContent = decodeURIComponent(activeCategory)
 			}
 		}
 	}
 
 	function initScrollFeatures() {
-		const bar = document.getElementById("category-bar");
+		const bar = document.getElementById('category-bar')
 		if (!bar) {
-			return;
+			return
 		}
 
-		const scroll = bar.querySelector<HTMLElement>(".category-scroll");
+		const scroll = bar.querySelector<HTMLElement>('.category-scroll')
 		if (!scroll) {
-			return;
+			return
 		}
 
 		// 鼠标滚轮横向滚动
 		scroll.addEventListener(
-			"wheel",
-			(e) => {
+			'wheel',
+			e => {
 				if (scroll.scrollWidth <= scroll.clientWidth) {
-					return;
+					return
 				}
-				e.preventDefault();
-				scroll.scrollLeft += e.deltaY;
+				e.preventDefault()
+				scroll.scrollLeft += e.deltaY
 			},
 			{ passive: false },
-		);
+		)
 
 		// 监听滚动更新提示图标
-		scroll.addEventListener("scroll", updateScrollHint);
-		window.addEventListener("resize", updateScrollHint);
-		updateScrollHint();
+		scroll.addEventListener('scroll', updateScrollHint)
+		window.addEventListener('resize', updateScrollHint)
+		updateScrollHint()
 	}
 
 	function updateScrollHint() {
-		const bar = document.getElementById("category-bar");
+		const bar = document.getElementById('category-bar')
 		if (!bar) {
-			return;
+			return
 		}
-		const scroll = bar.querySelector<HTMLElement>(".category-scroll");
-		const fadeLeft = bar.querySelector<HTMLElement>(".scroll-fade-left");
-		const fadeRight = bar.querySelector<HTMLElement>(".scroll-fade-right");
+		const scroll = bar.querySelector<HTMLElement>('.category-scroll')
+		const fadeLeft = bar.querySelector<HTMLElement>('.scroll-fade-left')
+		const fadeRight = bar.querySelector<HTMLElement>('.scroll-fade-right')
 		if (!scroll || !fadeLeft || !fadeRight) {
-			return;
+			return
 		}
 
-		const hasOverflow = scroll.scrollWidth > scroll.clientWidth + 1;
-		const atStart = scroll.scrollLeft <= 1;
+		const hasOverflow = scroll.scrollWidth > scroll.clientWidth + 1
+		const atStart = scroll.scrollLeft <= 1
 		const atEnd =
-			scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 1;
+			scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 1
 
 		if (hasOverflow && !atStart) {
-			fadeLeft.setAttribute("data-visible", "");
+			fadeLeft.setAttribute('data-visible', '')
 		} else {
-			fadeLeft.removeAttribute("data-visible");
+			fadeLeft.removeAttribute('data-visible')
 		}
 
 		if (hasOverflow && !atEnd) {
-			fadeRight.setAttribute("data-visible", "");
+			fadeRight.setAttribute('data-visible', '')
 		} else {
-			fadeRight.removeAttribute("data-visible");
+			fadeRight.removeAttribute('data-visible')
 		}
 	}
 
-	updateCategoryBar();
-	initScrollFeatures();
-	document.addEventListener("astro:page-load", () => {
-		updateCategoryBar();
-		initScrollFeatures();
-	});
-	document.addEventListener("swup:contentReplaced", updateCategoryBar);
+	updateCategoryBar()
+	initScrollFeatures()
+	document.addEventListener('astro:page-load', () => {
+		updateCategoryBar()
+		initScrollFeatures()
+	})
+	document.addEventListener('swup:contentReplaced', updateCategoryBar)
 </script>

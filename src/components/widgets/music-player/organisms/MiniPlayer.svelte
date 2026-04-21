@@ -1,18 +1,18 @@
 <script lang="ts">
-	import TrackDisplay from "../molecules/TrackDisplay.svelte";
-	import type { Song } from "../types";
+	import TrackDisplay from '../molecules/TrackDisplay.svelte'
+	import type { Song } from '../types'
 
 	interface Props {
-		song: Song;
-		currentTime: number;
-		duration: number;
-		isPlaying: boolean;
-		isLoading: boolean;
-		isHidden: boolean;
-		onCoverClick: () => void;
-		onInfoClick: () => void;
-		onHideClick: () => void;
-		onExpandClick: () => void;
+		song: Song
+		currentTime: number
+		duration: number
+		isPlaying: boolean
+		isLoading: boolean
+		isHidden: boolean
+		onCoverClick: () => void
+		onInfoClick: () => void
+		onHideClick: () => void
+		onExpandClick: () => void
 	}
 
 	const {
@@ -26,7 +26,7 @@
 		onInfoClick,
 		onHideClick,
 		onExpandClick,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
 <div

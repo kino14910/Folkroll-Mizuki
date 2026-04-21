@@ -1,4 +1,4 @@
-import type { LinkPreset, NavBarLink } from "../../../types/config";
+import type { LinkPreset, NavBarLink } from '../../../types/config'
 
 export interface NavMenuPanelProps {
 	links: NavBarLink[];
@@ -9,8 +9,8 @@ export interface DropdownMenuProps {
 	class?: string;
 }
 
-export interface ProcessedNavBarLink extends Omit<NavBarLink, "children"> {
+export interface ProcessedNavBarLink extends Omit<NavBarLink, 'children'> {
 	children?: ProcessedNavBarLink[];
 }
 
-export type { LinkPreset };
+export type { LinkPreset }

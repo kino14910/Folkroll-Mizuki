@@ -15,7 +15,7 @@
   }
 
   .frame {
-    @apply !shadow-none;
+    @apply shadow-none!;
   }
 
   .title {
@@ -79,6 +79,9 @@
 .expressive-code .frame pre,
 .expressive-code .frame code {
   user-select: text;
+  font-family: 'Roboto mono';
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 /* 代码行号不可选，但行内容可选 */
@@ -168,7 +171,8 @@
 }
 
 /* 移动端适配 (Mobile) */
-@media (max-width: 768px) {
+@media (width <= 768px) {
+
   /* 调整复制按钮大小和位置 */
   .expressive-code .copy-btn {
     width: 1.75rem;
@@ -208,6 +212,7 @@
 
 /* 主题适配 (Theme Support) */
 @media (prefers-color-scheme: light) {
+
   .expressive-code.collapsible .collapse-toggle-btn,
   .expressive-code .copy-btn {
     box-shadow:

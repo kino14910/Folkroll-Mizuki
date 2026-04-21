@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import type { RepeatMode } from "../types";
+	import type { RepeatMode } from '../types'
 
 	interface Props {
-		mode: "shuffle" | "repeat";
+		mode: 'shuffle' | 'repeat';
 		isActive: boolean;
 		repeatMode?: RepeatMode;
 		onclick: () => void;
@@ -17,10 +17,10 @@
 		repeatMode = 0,
 		onclick,
 		disabled = false,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
-{#if mode === "shuffle"}
+{#if mode === 'shuffle'}
 	<button
 		class="w-10 h-10 rounded-lg"
 		class:btn-regular={isActive}

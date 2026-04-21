@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import Key from "../../../../i18n/i18nKey";
-	import { i18n } from "../../../../i18n/translation";
-	import CoverImage from "../atoms/CoverImage.svelte";
-	import TrackInfo from "../atoms/TrackInfo.svelte";
-	import type { Song } from "../types";
+	import Key from '../../../../i18n/i18nKey'
+	import { i18n } from '../../../../i18n/translation'
+	import CoverImage from '../atoms/CoverImage.svelte'
+	import TrackInfo from '../atoms/TrackInfo.svelte'
+	import type { Song } from '../types'
 
 	interface Props {
 		song: Song;
@@ -13,7 +13,7 @@
 		duration: number;
 		isPlaying: boolean;
 		isLoading: boolean;
-		size?: "mini" | "expanded";
+		size?: 'mini' | 'expanded';
 		showControls?: boolean;
 		showPlaylist?: boolean;
 		onCoverClick?: () => void;
@@ -29,7 +29,7 @@
 		duration,
 		isPlaying,
 		isLoading,
-		size = "mini",
+		size = 'mini',
 		showControls = false,
 		showPlaylist = false,
 		onCoverClick,
@@ -37,15 +37,15 @@
 		onHideClick,
 		onExpandClick,
 		onPlaylistClick,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
 <div
-	class={size === "mini"
-		? "flex items-center gap-3 mb-0"
-		: "flex items-center gap-4 mb-4"}
+	class={size === 'mini'
+		? 'flex items-center gap-3 mb-0'
+		: 'flex items-center gap-4 mb-4'}
 >
-	{#if size === "mini"}
+	{#if size === 'mini'}
 		<CoverImage
 			cover={song.cover}
 			{isPlaying}
@@ -58,9 +58,9 @@
 			class="flex-1 min-w-0 cursor-pointer"
 			onclick={onInfoClick}
 			onkeydown={(e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					e.preventDefault();
-					onInfoClick?.();
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault()
+					onInfoClick?.()
 				}
 			}}
 			role="button"
@@ -73,8 +73,8 @@
 			<button
 				class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
 				onclick={(e) => {
-					e.stopPropagation();
-					onHideClick?.();
+					e.stopPropagation()
+					onHideClick?.()
 				}}
 				title={i18n(Key.musicPlayerHide)}
 			>
@@ -83,8 +83,8 @@
 			<button
 				class="btn-plain w-8 h-8 rounded-lg flex items-center justify-center"
 				onclick={(e) => {
-					e.stopPropagation();
-					onExpandClick?.();
+					e.stopPropagation()
+					onExpandClick?.()
 				}}
 			>
 				<Icon icon="material-symbols:expand-less" class="text-lg" />

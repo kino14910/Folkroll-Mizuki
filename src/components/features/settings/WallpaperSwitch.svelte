@@ -3,18 +3,18 @@
 		WALLPAPER_BANNER,
 		WALLPAPER_FULLSCREEN,
 		WALLPAPER_NONE,
-	} from "@constants/constants";
-	import I18nKey from "@i18n/i18nKey";
-	import { i18n } from "@i18n/translation";
-	import Icon from "@iconify/svelte";
-	import { panelManager } from "@utils/panel-manager.js";
+	} from '@constants/constants'
+	import I18nKey from '@i18n/i18nKey'
+	import { i18n } from '@i18n/translation'
+	import Icon from '@iconify/svelte'
+	import { panelManager } from '@utils/panel-manager.js'
 	import {
 		getStoredWallpaperMode,
 		setWallpaperMode,
-	} from "@utils/setting-utils";
-	import { onMount } from "svelte";
+	} from '@utils/setting-utils'
+	import { onMount } from 'svelte'
 
-	import type { WALLPAPER_MODE } from "@/types/config";
+	import type { WALLPAPER_MODE } from '@/types/config'
 
 	const wallpaperOptions: {
 		mode: WALLPAPER_MODE;
@@ -23,40 +23,40 @@
 	}[] = [
 		{
 			mode: WALLPAPER_BANNER,
-			icon: "material-symbols:image-outline",
+			icon: 'material-symbols:image-outline',
 			label: I18nKey.wallpaperBanner,
 		},
 		{
 			mode: WALLPAPER_FULLSCREEN,
-			icon: "material-symbols:wallpaper",
+			icon: 'material-symbols:wallpaper',
 			label: I18nKey.wallpaperFullscreen,
 		},
 		{
 			mode: WALLPAPER_NONE,
-			icon: "material-symbols:hide-image-outline",
+			icon: 'material-symbols:hide-image-outline',
 			label: I18nKey.wallpaperNone,
 		},
-	];
+	]
 
-	let mode: WALLPAPER_MODE = $state(WALLPAPER_BANNER);
+	let mode: WALLPAPER_MODE = $state(WALLPAPER_BANNER)
 
 	onMount(() => {
-		mode = getStoredWallpaperMode();
-	});
+		mode = getStoredWallpaperMode()
+	})
 
 	const currentIcon = $derived(
 		wallpaperOptions.find((opt) => opt.mode === mode)?.icon ||
 			wallpaperOptions[0].icon,
-	);
+	)
 
 	function switchWallpaperMode(newMode: WALLPAPER_MODE) {
-		mode = newMode;
-		setWallpaperMode(newMode);
+		mode = newMode
+		setWallpaperMode(newMode)
 	}
 
 	async function togglePanel() {
-		await panelManager.closeAllPanelsExcept("wallpaper-mode-panel");
-		await panelManager.togglePanel("wallpaper-mode-panel");
+		await panelManager.closeAllPanelsExcept('wallpaper-mode-panel')
+		await panelManager.togglePanel('wallpaper-mode-panel')
 	}
 </script>
 

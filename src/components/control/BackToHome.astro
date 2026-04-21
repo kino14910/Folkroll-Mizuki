@@ -1,48 +1,48 @@
 ---
-import FloatingButton from "@components/common/FloatingButton.astro";
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
+import FloatingButton from '@components/common/FloatingButton.astro'
+import I18nKey from '@i18n/i18nKey'
+import { i18n } from '@i18n/translation'
 ---
 
 <FloatingButton
-	id="back-to-home-btn"
-	icon="material-symbols:home-outline-rounded"
+	id='back-to-home-btn'
+	icon='material-symbols:home-outline-rounded'
 	ariaLabel={i18n(I18nKey.home)}
-	onclick="backToHome()"
-	class="hide"
+	onclick='backToHome()'
+	class='hide'
 />
 
-<script is:raw is:inline define:vars={{ homeUrl: "/" }}>
+<script is:raw is:inline define:vars={{ homeUrl: '/' }}>
 	window.backToHome = function () {
 		if (window.swup) {
-			window.swup.navigate(homeUrl);
+			window.swup.navigate(homeUrl)
 		} else {
-			window.location.href = homeUrl;
+			window.location.href = homeUrl
 		}
-	};
+	}
 </script>
 
-<script is:inline define:vars={{ homeUrl: "/" }}>
+<script is:inline define:vars={{ homeUrl: '/' }}>
 	function updateBackToHomeVisibility() {
-		const btn = document.getElementById("back-to-home-btn");
+		const btn = document.getElementById('back-to-home-btn')
 		if (!btn) {
-			return;
+			return
 		}
 
-		const path = window.location.pathname.replace(/\/$/, "") || "/";
-		const homePath = homeUrl.replace(/\/$/, "") || "/";
+		const path = window.location.pathname.replace(/\/$/, '') || '/'
+		const homePath = homeUrl.replace(/\/$/, '') || '/'
 		if (path === homePath) {
-			btn.classList.add("hide");
+			btn.classList.add('hide')
 		} else {
-			btn.classList.remove("hide");
+			btn.classList.remove('hide')
 		}
 	}
 
-	updateBackToHomeVisibility();
+	updateBackToHomeVisibility()
 
-	document.addEventListener("astro:page-load", updateBackToHomeVisibility);
+	document.addEventListener('astro:page-load', updateBackToHomeVisibility)
 	document.addEventListener(
-		"swup:contentReplaced",
+		'swup:contentReplaced',
 		updateBackToHomeVisibility,
-	);
+	)
 </script>

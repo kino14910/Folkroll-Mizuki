@@ -1,9 +1,9 @@
 <script lang="ts">
-	import ModeButton from "../atoms/ModeButton.svelte";
-	import NextButton from "../atoms/NextButton.svelte";
-	import PlayButton from "../atoms/PlayButton.svelte";
-	import PrevButton from "../atoms/PrevButton.svelte";
-	import type { RepeatMode } from "../types";
+	import ModeButton from '../atoms/ModeButton.svelte'
+	import NextButton from '../atoms/NextButton.svelte'
+	import PlayButton from '../atoms/PlayButton.svelte'
+	import PrevButton from '../atoms/PrevButton.svelte'
+	import type { RepeatMode } from '../types'
 
 	interface Props {
 		isPlaying: boolean;
@@ -29,7 +29,7 @@
 		onNextClick,
 		onShuffleClick,
 		onRepeatClick,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
 <div class="controls flex items-center justify-center gap-2 mb-4">

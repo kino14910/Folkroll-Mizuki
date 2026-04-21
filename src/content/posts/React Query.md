@@ -3,6 +3,7 @@ title: 'React Query'
 description: 'React Query 数据获取和状态管理库'
 published: 2024-01-25
 category: '前端'
+tags: ['React']
 ---
 
 **React Query**（现在官方名称为 **TanStack Query**）是一个用于 **数据获取（data fetching）和状态管理** 的强大 React 库。它的核心目标是：**简化服务端状态（server state）的管理**，让你无需手动编写大量样板代码来处理加载、错误、缓存、同步等问题。

@@ -1,14 +1,14 @@
-import type { MarkdownHeading } from "astro";
+import type { MarkdownHeading } from 'astro'
 
 import type {
 	WidgetComponentConfig,
 	WidgetComponentType,
-} from "@/types/config";
+} from '@/types/config'
 
 /**
  * Widget 组件类型
  */
-export type WidgetType = WidgetComponentType;
+export type WidgetType = WidgetComponentType
 
 /**
  * Widget 组件配置
@@ -20,7 +20,7 @@ export interface WidgetConfig extends WidgetComponentConfig {
 /**
  * Widget 组件映射表类型
  */
-export type WidgetComponentMap = Partial<Record<WidgetType, unknown>>;
+export type WidgetComponentMap = Partial<Record<WidgetType, unknown>>
 
 /**
  * 渲染组件选项
@@ -43,7 +43,7 @@ export interface RenderComponentResult {
 /**
  * 设备类型
  */
-export type DeviceType = "mobile" | "tablet" | "desktop";
+export type DeviceType = 'mobile' | 'tablet' | 'desktop'
 
 /**
  * 响应式边栏配置
@@ -75,9 +75,9 @@ export interface SidebarManagerInterface {
 /**
  * 侧边栏元素 ID 类型
  */
-export type SidebarElementId = "sidebar" | "right-sidebar";
+export type SidebarElementId = 'sidebar' | 'right-sidebar'
 
 /**
  * 侧边栏位置
  */
-export type SidebarPosition = "left" | "right" | "drawer";
+export type SidebarPosition = 'left' | 'right' | 'drawer'

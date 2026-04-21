@@ -1,14 +1,14 @@
 ---
-import { expressiveCodeConfig, siteConfig } from "@/config";
+import { expressiveCodeConfig, siteConfig } from '@/config'
 ---
 
 <!-- 全局配置载体 -->
 <div
-	id="config-carrier"
+	id='config-carrier'
 	data-hue={siteConfig.themeColor.hue}
 	data-hide-code-blocks-during-transition={expressiveCodeConfig.hideDuringThemeTransition
-		? "true"
-		: "false"}
+		? 'true'
+		: 'false'}
 >
 </div>
 
@@ -21,13 +21,13 @@ import { expressiveCodeConfig, siteConfig } from "@/config";
 	}}
 >
 	// 将 TOC 配置传递到前端
-	window.siteConfig = window.siteConfig || {};
+	window.siteConfig = window.siteConfig || {}
 	window.siteConfig.toc = {
 		enable: tocEnable,
 		depth: tocDepth,
 		useJapaneseBadge: tocUseJapaneseBadge,
-	};
+	}
 
 	// 添加调试信息
-	console.log("TOC Config:", window.siteConfig.toc);
+	console.log('TOC Config:', window.siteConfig.toc)
 </script>

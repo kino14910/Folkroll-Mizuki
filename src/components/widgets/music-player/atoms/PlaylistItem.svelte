@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import type { Song } from "../types";
+	import type { Song } from '../types'
 
 	interface Props {
 		song: Song;
@@ -19,16 +19,16 @@
 		isPlaying,
 		onclick,
 		lazy = true,
-	}: Props = $props();
+	}: Props = $props()
 
 	function getAssetPath(path: string): string {
-		if (path.startsWith("http://") || path.startsWith("https://")) {
-			return path;
+		if (path.startsWith('http://') || path.startsWith('https://')) {
+			return path
 		}
-		if (path.startsWith("/")) {
-			return path;
+		if (path.startsWith('/')) {
+			return path
 		}
-		return `/${path}`;
+		return `/${path}`
 	}
 </script>
 
@@ -38,9 +38,9 @@
 	class:text-[var(--primary)]={isCurrent}
 	{onclick}
 	onkeydown={(e) => {
-		if (e.key === "Enter" || e.key === " ") {
-			e.preventDefault();
-			onclick();
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault()
+			onclick()
 		}
 	}}
 	role="button"
@@ -65,7 +65,7 @@
 		<img
 			src={getAssetPath(song.cover)}
 			alt={song.title}
-			loading={lazy ? "lazy" : "eager"}
+			loading={lazy ? 'lazy' : 'eager'}
 			decoding="async"
 			class="w-full h-full object-cover"
 		/>

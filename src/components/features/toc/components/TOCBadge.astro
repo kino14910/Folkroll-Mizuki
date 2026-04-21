@@ -4,29 +4,29 @@
  * 支持数字、圆点、小圆点三种变体
  */
 
-export type BadgeVariant = "number" | "dot" | "dot-small";
+export type BadgeVariant = 'number' | 'dot' | 'dot-small'
 
 export interface Props {
 	/** 徽章文本（仅 number 变体使用） */
-	text?: string;
+	text?: string
 	/** 徽章变体类型 */
-	variant?: BadgeVariant;
+	variant?: BadgeVariant
 	/** 是否激活状态 */
-	active?: boolean;
+	active?: boolean
 }
 
-const { text = "", variant = "number", active = false } = Astro.props;
+const { text = '', variant = 'number', active = false } = Astro.props
 ---
 
 {
-	variant === "number" && (
-		<span class:list={["toc-badge", active && "active"]}>{text}</span>
+	variant === 'number' && (
+		<span class:list={['toc-badge', active && 'active']}>{text}</span>
 	)
 }
-{variant === "dot" && <span class:list={["toc-dot", active && "active"]} />}
+{variant === 'dot' && <span class:list={['toc-dot', active && 'active']} />}
 {
-	variant === "dot-small" && (
-		<span class:list={["toc-dot-small", active && "active"]} />
+	variant === 'dot-small' && (
+		<span class:list={['toc-dot-small', active && 'active']} />
 	)
 }
 

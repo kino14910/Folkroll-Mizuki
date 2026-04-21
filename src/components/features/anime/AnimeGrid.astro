@@ -1,51 +1,51 @@
 ---
-import AnimeCard from "./AnimeCard.astro";
+import AnimeCard from './AnimeCard.astro'
 
 interface StatusInfo {
-	text: string;
-	class: string;
-	icon: string;
+	text: string
+	class: string
+	icon: string
 }
 
 interface AnimeItem {
-	title: string;
-	cover: string;
-	link: string;
-	status: string;
-	rating: number;
-	progress: number;
-	totalEpisodes: number;
-	description: string;
-	year: string;
-	studio: string;
-	genre: string[];
+	title: string
+	cover: string
+	link: string
+	status: string
+	rating: number
+	progress: number
+	totalEpisodes: number
+	description: string
+	year: string
+	studio: string
+	genre: string[]
 }
 
 interface Props {
-	visibleAnimeList: AnimeItem[];
-	hiddenAnimeList: AnimeItem[];
-	statusMap: Record<string, StatusInfo>;
-	yearLabel: string;
-	studioLabel: string;
+	visibleAnimeList: AnimeItem[]
+	hiddenAnimeList: AnimeItem[]
+	statusMap: Record<string, StatusInfo>
+	yearLabel: string
+	studioLabel: string
 }
 
 const { visibleAnimeList, hiddenAnimeList, statusMap, yearLabel, studioLabel } =
-	Astro.props;
+	Astro.props
 
-const hasHiddenItems = hiddenAnimeList.length > 0;
+const hasHiddenItems = hiddenAnimeList.length > 0
 ---
 
 <div
-	id="anime-list-container"
-	class="anime-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300"
+	id='anime-list-container'
+	class='anime-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300'
 >
 	{
-		visibleAnimeList.map((anime) => {
+		visibleAnimeList.map(anime => {
 			const statusInfo = statusMap[anime.status] || {
 				text: anime.status,
-				class: "btn-regular",
-				icon: "?",
-			};
+				class: 'btn-regular',
+				icon: '?',
+			}
 			return (
 				<AnimeCard
 					anime={anime}
@@ -53,19 +53,19 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 					yearLabel={yearLabel}
 					studioLabel={studioLabel}
 				/>
-			);
+			)
 		})
 	}
 </div>
 
-<template id="anime-lazy-store">
+<template id='anime-lazy-store'>
 	{
-		hiddenAnimeList.map((anime) => {
+		hiddenAnimeList.map(anime => {
 			const statusInfo = statusMap[anime.status] || {
 				text: anime.status,
-				class: "btn-regular",
-				icon: "?",
-			};
+				class: 'btn-regular',
+				icon: '?',
+			}
 			return (
 				<AnimeCard
 					anime={anime}
@@ -73,7 +73,7 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 					yearLabel={yearLabel}
 					studioLabel={studioLabel}
 				/>
-			);
+			)
 		})
 	}
 </template>
@@ -81,10 +81,10 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 {
 	hasHiddenItems && (
 		<div
-			id="infinite-scroll-sentinel"
-			class="w-full h-20 flex items-center justify-center mt-8"
+			id='infinite-scroll-sentinel'
+			class='w-full h-20 flex items-center justify-center mt-8'
 		>
-			<div class="anime-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+			<div class='anime-loading-spinner w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin' />
 		</div>
 	)
 }

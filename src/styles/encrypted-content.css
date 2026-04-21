@@ -19,7 +19,7 @@
 
 /* frame容器样式 - 与expressive-code.css保持一致 */
 #decrypted-content .expressive-code .frame {
-  @apply !shadow-none relative rounded-lg overflow-hidden;
+  @apply shadow-none! relative rounded-lg overflow-hidden;
   background: var(--codeblock-bg);
 }
 
@@ -80,7 +80,8 @@
   background: transparent !important;
   padding: 0 !important;
   border-radius: 0 !important;
-  counter-reset: line; /* 重置行号计数器 */
+  counter-reset: line;
+  /* 重置行号计数器 */
   /* 移除强制白色，让语法高亮颜色显示 */
 }
 
@@ -157,13 +158,13 @@
 
 /* 深色主题 - 函数调用 - 绿色 */
 :global(.dark) #decrypted-content .astro-code code .hljs-function,
-:global(.dark) #decrypted-content .astro-code code .hljs-function > .hljs-title {
+:global(.dark) #decrypted-content .astro-code code .hljs-function>.hljs-title {
   color: #a6e22e !important;
 }
 
 /* 深色主题 - 类名、构造函数 - 青色 */
 :global(.dark) #decrypted-content .astro-code code .hljs-class,
-:global(.dark) #decrypted-content .astro-code code .hljs-class > .hljs-title {
+:global(.dark) #decrypted-content .astro-code code .hljs-class>.hljs-title {
   color: #66d9ef !important;
 }
 
@@ -241,13 +242,13 @@
 
 /* 亮色主题 - 函数调用 - 紫色 */
 :root:not(.dark) #decrypted-content .astro-code code .hljs-function,
-:root:not(.dark) #decrypted-content .astro-code code .hljs-function > .hljs-title {
+:root:not(.dark) #decrypted-content .astro-code code .hljs-function>.hljs-title {
   color: #6f42c1 !important;
 }
 
 /* 亮色主题 - 类名、构造函数 - 深蓝色 */
 :root:not(.dark) #decrypted-content .astro-code code .hljs-class,
-:root:not(.dark) #decrypted-content .astro-code code .hljs-class > .hljs-title {
+:root:not(.dark) #decrypted-content .astro-code code .hljs-class>.hljs-title {
   color: #005cc5 !important;
   font-weight: 600;
 }
@@ -324,6 +325,7 @@
     opacity: 1;
     margin-right: 3rem;
   }
+
   #decrypted-content .frame.has-language-badge [data-language]:active::before {
     opacity: 0;
   }
@@ -334,12 +336,14 @@
   #decrypted-content .frame.has-language-badge [data-language]::before {
     opacity: 1;
   }
+
   #decrypted-content .frame.has-language-badge:hover [data-language]::before {
     opacity: 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
+
   /* 在移动端隐藏语言标识（与全局行为一致） */
   #decrypted-content .frame.has-language-badge [data-language]::before {
     display: none !important;

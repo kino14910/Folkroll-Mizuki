@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
-	import type { Action } from "svelte/action";
+	import type { Snippet } from 'svelte'
+	import type { Action } from 'svelte/action'
 
-	import VolumeButton from "../atoms/VolumeButton.svelte";
-	import VolumeSlider from "../atoms/VolumeSlider.svelte";
+	import VolumeButton from '../atoms/VolumeButton.svelte'
+	import VolumeSlider from '../atoms/VolumeSlider.svelte'
 
 	interface Props {
 		volume: number;
@@ -27,7 +27,7 @@
 		onSliderKeyDown,
 		ariaLabel,
 		children,
-	}: Props = $props();
+	}: Props = $props()
 </script>
 
 <div class="bottom-controls flex items-center gap-2">

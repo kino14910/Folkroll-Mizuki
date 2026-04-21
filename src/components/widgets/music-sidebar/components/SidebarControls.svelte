@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
-	import NextButton from "../../music-player/atoms/NextButton.svelte";
-	import PlayButton from "../../music-player/atoms/PlayButton.svelte";
-	import PrevButton from "../../music-player/atoms/PrevButton.svelte";
+	import NextButton from '../../music-player/atoms/NextButton.svelte'
+	import PlayButton from '../../music-player/atoms/PlayButton.svelte'
+	import PrevButton from '../../music-player/atoms/PrevButton.svelte'
 
 	interface Props {
 		isPlaying: boolean;
@@ -25,17 +25,17 @@
 		onNext,
 		onTogglePlay,
 		onTogglePlaylist,
-	}: Props = $props();
+	}: Props = $props()
 
 	const repeatIcon = $derived(
 		isShuffled
-			? "material-symbols:shuffle-rounded"
+			? 'material-symbols:shuffle-rounded'
 			: repeatMode === 1
-				? "material-symbols:repeat-one-rounded"
-				: "material-symbols:repeat-rounded",
-	);
+				? 'material-symbols:repeat-one-rounded'
+				: 'material-symbols:repeat-rounded',
+	)
 
-	const modeActive = $derived(isShuffled || repeatMode > 0);
+	const modeActive = $derived(isShuffled || repeatMode > 0)
 </script>
 
 <div class="controls-row">
@@ -104,7 +104,7 @@
 		flex-shrink: 0;
 	}
 
-	@media (max-width: 520px) {
+	@media (width <= 520px) {
 		.controls-row {
 			gap: 0.15rem;
 			padding-inline: 0;

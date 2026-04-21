@@ -3,6 +3,7 @@ title: 'GraphQL'
 description: 'GraphQL 核心概念和使用方法'
 published: 2024-01-11
 category: '编程'
+tags: ['API']
 ---
 
 ## 🧩 **1. 核心概念**

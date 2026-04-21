@@ -1,5 +1,5 @@
-import { STORAGE_KEY_VOLUME } from "../constants";
-import type { AudioPlayerState } from "./useAudioPlayer";
+import { STORAGE_KEY_VOLUME } from '../constants'
+import type { AudioPlayerState } from './useAudioPlayer'
 
 export interface VolumeDragState {
 	isVolumeDragging: boolean;
@@ -14,29 +14,29 @@ export function createVolumeDragState(): VolumeDragState {
 		isPointerDown: false,
 		volumeBarRect: null,
 		rafId: null,
-	};
+	}
 }
 
 export function loadVolumeFromStorage(state: AudioPlayerState) {
 	try {
-		if (typeof localStorage !== "undefined") {
-			const savedVolume = localStorage.getItem(STORAGE_KEY_VOLUME);
+		if (typeof localStorage !== 'undefined') {
+			const savedVolume = localStorage.getItem(STORAGE_KEY_VOLUME)
 			if (savedVolume !== null && !isNaN(parseFloat(savedVolume))) {
-				state.volume = parseFloat(savedVolume);
+				state.volume = parseFloat(savedVolume)
 			}
 		}
 	} catch (e) {
-		console.warn("Failed to load volume settings from localStorage:", e);
+		console.warn('Failed to load volume settings from localStorage:', e)
 	}
 }
 
 export function saveVolumeToStorage(state: AudioPlayerState) {
 	try {
-		if (typeof localStorage !== "undefined") {
-			localStorage.setItem(STORAGE_KEY_VOLUME, state.volume.toString());
+		if (typeof localStorage !== 'undefined') {
+			localStorage.setItem(STORAGE_KEY_VOLUME, state.volume.toString())
 		}
 	} catch (e) {
-		console.warn("Failed to save volume settings to localStorage:", e);
+		console.warn('Failed to save volume settings to localStorage:', e)
 	}
 }
 
@@ -48,15 +48,15 @@ function updateVolumeLogic(
 	audioPlayerState: AudioPlayerState,
 ) {
 	if (!audio || !volumeBar) {
-		return;
+		return
 	}
 
-	const rect = dragState.volumeBarRect || volumeBar.getBoundingClientRect();
+	const rect = dragState.volumeBarRect || volumeBar.getBoundingClientRect()
 	const percent = Math.max(
 		0,
 		Math.min(1, (clientX - rect.left) / rect.width),
-	);
-	audioPlayerState.volume = percent;
+	)
+	audioPlayerState.volume = percent
 }
 
 export function startVolumeDrag(
@@ -67,21 +67,21 @@ export function startVolumeDrag(
 	audioPlayerState: AudioPlayerState,
 ) {
 	if (!volumeBar) {
-		return;
+		return
 	}
-	event.preventDefault();
+	event.preventDefault()
 
-	dragState.isPointerDown = true;
-	volumeBar.setPointerCapture(event.pointerId);
+	dragState.isPointerDown = true
+	volumeBar.setPointerCapture(event.pointerId)
 
-	dragState.volumeBarRect = volumeBar.getBoundingClientRect();
+	dragState.volumeBarRect = volumeBar.getBoundingClientRect()
 	updateVolumeLogic(
 		event.clientX,
 		dragState,
 		volumeBar,
 		audio,
 		audioPlayerState,
-	);
+	)
 }
 
 export function handleVolumeMove(
@@ -92,13 +92,13 @@ export function handleVolumeMove(
 	audioPlayerState: AudioPlayerState,
 ) {
 	if (!dragState.isPointerDown) {
-		return;
+		return
 	}
-	event.preventDefault();
+	event.preventDefault()
 
-	dragState.isVolumeDragging = true;
+	dragState.isVolumeDragging = true
 	if (dragState.rafId) {
-		return;
+		return
 	}
 
 	dragState.rafId = requestAnimationFrame(() => {
@@ -108,9 +108,9 @@ export function handleVolumeMove(
 			volumeBar,
 			audio,
 			audioPlayerState,
-		);
-		dragState.rafId = null;
-	});
+		)
+		dragState.rafId = null
+	})
 }
 
 export function stopVolumeDrag(
@@ -120,31 +120,31 @@ export function stopVolumeDrag(
 	audioPlayerState: AudioPlayerState,
 ) {
 	if (!dragState.isPointerDown) {
-		return;
+		return
 	}
-	dragState.isPointerDown = false;
-	dragState.isVolumeDragging = false;
-	dragState.volumeBarRect = null;
+	dragState.isPointerDown = false
+	dragState.isVolumeDragging = false
+	dragState.volumeBarRect = null
 	if (volumeBar) {
-		volumeBar.releasePointerCapture(event.pointerId);
+		volumeBar.releasePointerCapture(event.pointerId)
 	}
 
 	if (dragState.rafId) {
-		cancelAnimationFrame(dragState.rafId);
-		dragState.rafId = null;
+		cancelAnimationFrame(dragState.rafId)
+		dragState.rafId = null
 	}
 
-	saveVolumeToStorage(audioPlayerState);
+	saveVolumeToStorage(audioPlayerState)
 }
 
 export function handleVolumeKeyDown(
 	event: KeyboardEvent,
 	onToggleMute: () => void,
 ) {
-	if (event.key === "Enter" || event.key === " ") {
-		event.preventDefault();
-		if (event.key === "Enter") {
-			onToggleMute();
+	if (event.key === 'Enter' || event.key === ' ') {
+		event.preventDefault()
+		if (event.key === 'Enter') {
+			onToggleMute()
 		}
 	}
 }

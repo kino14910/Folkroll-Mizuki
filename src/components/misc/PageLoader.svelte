@@ -1,107 +1,90 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte'
 
-	type Phase = "entering" | "covering" | "exiting" | "done";
+	type Phase = 'entering' | 'covering' | 'exiting' | 'done'
 
-	interface BeforeSwapEvent extends Event {
-		newDocument: Document;
-		direction: string;
-		resume: () => void;
-	}
+	let phase: Phase = $state('covering')
 
-	let phase: Phase = $state("covering");
+	const HOLD_DURATION = 400
+	const EXIT_DURATION = 800
 
-	const ENTER_DURATION = 600;
-	const HOLD_DURATION = 400;
-	const EXIT_DURATION = 800;
-
-	let timers: ReturnType<typeof setTimeout>[] = [];
-	let enterComplete = false;
-	let pendingSwapEvent: BeforeSwapEvent | null = null;
+	let timers: ReturnType<typeof setTimeout>[] = []
+	let hooksRegistered = false
 
 	function clearTimers() {
-		timers.forEach(clearTimeout);
-		timers = [];
+		timers.forEach(clearTimeout)
+		timers = []
 	}
 
 	function scheduleExit() {
 		const exitTimer = setTimeout(() => {
-			phase = "exiting";
-		}, HOLD_DURATION);
+			phase = 'exiting'
+		}, HOLD_DURATION)
 
 		const doneTimer = setTimeout(() => {
-			phase = "done";
-			document.body.style.overflow = "";
-		}, HOLD_DURATION + EXIT_DURATION);
+			phase = 'done'
+			document.body.style.overflow = ''
+		}, HOLD_DURATION + EXIT_DURATION)
 
-		timers.push(exitTimer, doneTimer);
+		timers.push(exitTimer, doneTimer)
 	}
 
 	function onNavigationStart() {
-		enterComplete = false;
-		pendingSwapEvent = null;
-		clearTimers();
-		document.body.style.overflow = "hidden";
-		phase = "entering";
+		clearTimers()
+		document.body.style.overflow = 'hidden'
+		phase = 'entering'
 
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
-				phase = "covering";
-			});
-		});
-
-		const enterTimer = setTimeout(() => {
-			enterComplete = true;
-			if (pendingSwapEvent) {
-				pendingSwapEvent.resume();
-				pendingSwapEvent = null;
-			}
-		}, ENTER_DURATION);
-		timers.push(enterTimer);
-	}
-
-	function onBeforeSwap(event: Event) {
-		if (!enterComplete) {
-			event.preventDefault();
-			pendingSwapEvent = event as BeforeSwapEvent;
-		}
+				phase = 'covering'
+			})
+		})
 	}
 
 	function onNavigationEnd() {
-		clearTimers();
-		scheduleExit();
+		clearTimers()
+		scheduleExit()
+	}
+
+	function registerSwupHooks() {
+		if (!window.swup || hooksRegistered) {return}
+		window.swup.hooks.on('visit:start', onNavigationStart)
+		window.swup.hooks.on('page:view', onNavigationEnd)
+		hooksRegistered = true
+	}
+
+	function unregisterSwupHooks() {
+		if (!window.swup || !hooksRegistered) {return}
+		window.swup.hooks.off('visit:start', onNavigationStart)
+		window.swup.hooks.off('page:view', onNavigationEnd)
+		hooksRegistered = false
 	}
 
 	onMount(() => {
-		document.body.style.overflow = "hidden";
-		scheduleExit();
+		document.body.style.overflow = 'hidden'
+		scheduleExit()
 
-		document.addEventListener(
-			"astro:before-preparation",
-			onNavigationStart,
-		);
-		document.addEventListener("astro:before-swap", onBeforeSwap);
-		document.addEventListener("astro:page-load", onNavigationEnd);
+		if (window.swup) {
+			registerSwupHooks()
+		} else {
+			document.addEventListener('swup:enable', registerSwupHooks)
+		}
 
 		return () => {
-			document.body.style.overflow = "";
-			clearTimers();
-			document.removeEventListener(
-				"astro:before-preparation",
-				onNavigationStart,
-			);
-			document.removeEventListener("astro:before-swap", onBeforeSwap);
-			document.removeEventListener("astro:page-load", onNavigationEnd);
-		};
-	});
+			document.body.style.overflow = ''
+			clearTimers()
+			unregisterSwupHooks()
+			document.removeEventListener('swup:enable', registerSwupHooks)
+		}
+	})
 </script>
 
 <div
 	class="loader-wrapper"
-	class:entering={phase === "entering"}
-	class:covering={phase === "covering"}
-	class:exiting={phase === "exiting"}
-	class:done={phase === "done"}
+	class:entering={phase === 'entering'}
+	class:covering={phase === 'covering'}
+	class:exiting={phase === 'exiting'}
+	class:done={phase === 'done'}
 >
 	<div class="loader-inner">
 		<svg

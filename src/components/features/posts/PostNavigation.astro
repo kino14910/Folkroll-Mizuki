@@ -1,12 +1,13 @@
 ---
-import { getPostUrlBySlug } from "@utils/url-utils";
-import { Icon } from "astro-icon/components";
+import { getPostUrlBySlug } from '@utils/url-utils'
+
+import PaginationCard from './PaginationCard.astro'
 
 interface Props {
-	prevSlug?: string;
-	prevTitle?: string;
-	nextSlug?: string;
-	nextTitle?: string;
+	prevSlug: string;
+	prevTitle: string;
+	nextSlug: string;
+	nextTitle: string;
 	class?: string;
 }
 
@@ -16,53 +17,36 @@ const {
 	nextSlug,
 	nextTitle,
 	class: className,
-} = Astro.props;
+} = Astro.props
 
 const onlyOneButton = (prevSlug && !nextSlug) || (!prevSlug && nextSlug);
 ---
 
 <div
 	class:list={[
-		"flex flex-col mb-4 gap-4 overflow-hidden w-full",
+		'flex flex-col mb-4 gap-4 w-full font-normal',
 		className,
-		!onlyOneButton && "md:flex-row md:justify-between",
+		!onlyOneButton && 'md:flex-row md:justify-between',
 	]}
 >
 	{
 		prevSlug && (
-			<a
+			<PaginationCard
 				href={getPostUrlBySlug(prevSlug)}
-				class="w-full font-bold overflow-hidden active:scale-95"
-			>
-				<div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4">
-					<Icon
-						name="material-symbols:chevron-left-rounded"
-						class="text-[2rem] text-[var(--primary)]"
-					/>
-					<div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-						{prevTitle}
-					</div>
-				</div>
-			</a>
+				title={prevTitle}
+				label='previous'
+			/>
 		)
 	}
 
 	{
 		nextSlug && (
-			<a
+			<PaginationCard
 				href={getPostUrlBySlug(nextSlug)}
-				class="w-full font-bold overflow-hidden active:scale-95"
-			>
-				<div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4">
-					<div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-						{nextTitle}
-					</div>
-					<Icon
-						name="material-symbols:chevron-right-rounded"
-						class="text-[2rem] text-[var(--primary)]"
-					/>
-				</div>
-			</a>
+				title={nextTitle}
+				label='up next'
+				isNext={true}
+			/>
 		)
 	}
 </div>

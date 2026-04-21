@@ -1,35 +1,35 @@
 ---
-import type { MarkdownHeading } from "astro";
+import type { MarkdownHeading } from 'astro'
 
-import SidebarColumn from "@/components/layout/SidebarColumn.astro";
-import { widgetManager } from "@/utils/widget-manager";
+import SidebarColumn from '@/components/layout/SidebarColumn.astro'
+import { widgetManager } from '@/utils/widget-manager'
 
 interface Props {
 	class?: string;
 	headings?: MarkdownHeading[];
 }
 
-const { class: className, headings } = Astro.props;
+const { class: className, headings } = Astro.props
 
 const mobileTopComponents = widgetManager.getComponentsByPosition(
-	"top",
-	"left",
-	"mobile",
-);
+	'top',
+	'left',
+	'mobile',
+)
 const mobileStickyComponents = widgetManager.getComponentsByPosition(
-	"sticky",
-	"left",
-	"mobile",
-);
+	'sticky',
+	'left',
+	'mobile',
+)
 const tabletTopComponents = widgetManager.getComponentsByPosition(
-	"top",
-	"left",
-	"tablet",
-);
+	'top',
+	'left',
+	'tablet',
+)
 const tabletStickyComponents = widgetManager.getComponentsByPosition(
-	"sticky",
-	"left",
-	"tablet",
+	'sticky',
+	'left',
+	'tablet',
 );
 ---
 
@@ -37,7 +37,7 @@ const tabletStickyComponents = widgetManager.getComponentsByPosition(
 	side="left"
 	containerId="sidebar"
 	stickyId="sidebar-sticky"
-	rootClass={`${className ?? ""} w-full sidebar-root`}
+	rootClass={`${className ?? ''} w-full sidebar-root`}
 	headings={headings}
 	showMobile={true}
 	showTablet={true}
@@ -45,19 +45,19 @@ const tabletStickyComponents = widgetManager.getComponentsByPosition(
 />
 
 <style>
-	@media (max-width: 1280px) {
+	@media (width < 768px) {
 		#sidebar {
 			display: var(--sidebar-mobile-display, block);
 		}
 	}
 
-	@media (min-width: 769px) and (max-width: 1279px) {
+	@media (768px <= width <= 1280px) {
 		#sidebar {
 			display: var(--sidebar-tablet-display, block);
 		}
 	}
 
-	@media (min-width: 1280px) {
+	@media (width > 1280px) {
 		#sidebar {
 			display: var(--sidebar-desktop-display, block);
 		}
@@ -68,109 +68,109 @@ const tabletStickyComponents = widgetManager.getComponentsByPosition(
 	is:inline
 	define:vars={{
 		breakpoints: widgetManager.getBreakpoints(),
-		mobileShowSidebar: widgetManager.shouldShowSidebar("mobile"),
-		tabletShowSidebar: widgetManager.shouldShowSidebar("tablet"),
-		desktopShowSidebar: widgetManager.shouldShowSidebar("desktop"),
+		mobileShowSidebar: widgetManager.shouldShowSidebar('mobile'),
+		tabletShowSidebar: widgetManager.shouldShowSidebar('tablet'),
+		desktopShowSidebar: widgetManager.shouldShowSidebar('desktop'),
 		hasMobileComponents:
 			mobileTopComponents.length > 0 || mobileStickyComponents.length > 0,
 		hasTabletComponents:
 			tabletTopComponents.length > 0 || tabletStickyComponents.length > 0,
 	}}
 >
-	const SIDEBAR_MANAGER_KEY = "__mizukiSidebarManagerInitialized";
+	const SIDEBAR_MANAGER_KEY = '__mizukiSidebarManagerInitialized'
 
-	class SidebarManager {
+class SidebarManager {
 		constructor() {
-			this.init();
-		}
+			this.init()
+	}
 
 		init() {
-			this.updateResponsiveDisplay();
-			if (!window.__mizukiSidebarResizeHandler) {
+			this.updateResponsiveDisplay()
+		if (!window.__mizukiSidebarResizeHandler) {
 				window.__mizukiSidebarResizeHandler = () =>
-					this.updateResponsiveDisplay();
-				window.addEventListener(
-					"resize",
+					this.updateResponsiveDisplay()
+			window.addEventListener(
+					'resize',
 					window.__mizukiSidebarResizeHandler,
-				);
-			}
+				)
+		}
 
 			if (
-				typeof window !== "undefined" &&
+				typeof window !== 'undefined' &&
 				window.swup &&
 				!window.__mizukiSidebarSwupHooked
 			) {
-				window.__mizukiSidebarSwupHooked = true;
-				window.swup.hooks.on("content:replace", () => {
+				window.__mizukiSidebarSwupHooked = true
+			window.swup.hooks.on('content:replace', () => {
 					setTimeout(() => {
-						const sidebar = document.getElementById("sidebar");
-						if (!sidebar) {
-							return;
-						}
+						const sidebar = document.getElementById('sidebar')
+					if (!sidebar) {
+							return
+					}
 
-						const width = window.innerWidth;
-						let deviceType;
-						let hasComponents = false;
-						let showConfig = false;
+						const width = window.innerWidth
+					let deviceType
+					let hasComponents = false
+					let showConfig = false
 
-						if (width < breakpoints.mobile) {
-							deviceType = "mobile";
-							hasComponents = hasMobileComponents;
-							showConfig = mobileShowSidebar;
-						} else if (width < breakpoints.tablet) {
-							deviceType = "tablet";
-							hasComponents = hasTabletComponents;
-							showConfig = tabletShowSidebar;
-						} else {
-							deviceType = "desktop";
-							hasComponents = hasTabletComponents;
-							showConfig = desktopShowSidebar;
-						}
+					if (width < breakpoints.mobile) {
+							deviceType = 'mobile'
+						hasComponents = hasMobileComponents
+						showConfig = mobileShowSidebar
+					} else if (width < breakpoints.tablet) {
+							deviceType = 'tablet'
+						hasComponents = hasTabletComponents
+						showConfig = tabletShowSidebar
+					} else {
+							deviceType = 'desktop'
+						hasComponents = hasTabletComponents
+						showConfig = desktopShowSidebar
+					}
 
 						sidebar.style.setProperty(
 							`--sidebar-${deviceType}-display`,
-							showConfig && hasComponents ? "block" : "none",
-						);
-					}, 100);
-				});
+							showConfig && hasComponents ? 'block' : 'none',
+						)
+				}, 100)
+			})
 			}
 		}
 
 		updateResponsiveDisplay() {
-			const width = window.innerWidth;
+			const width = window.innerWidth
 
-			let deviceType;
-			let hasComponents = false;
-			let showConfig = false;
+		let deviceType
+		let hasComponents = false
+		let showConfig = false
 
-			if (width < breakpoints.mobile) {
-				deviceType = "mobile";
-				hasComponents = hasMobileComponents;
-				showConfig = mobileShowSidebar;
-			} else if (width < breakpoints.tablet) {
-				deviceType = "tablet";
-				hasComponents = hasTabletComponents;
-				showConfig = tabletShowSidebar;
-			} else {
-				deviceType = "desktop";
-				hasComponents = hasTabletComponents;
-				showConfig = desktopShowSidebar;
-			}
+		if (width < breakpoints.mobile) {
+				deviceType = 'mobile'
+			hasComponents = hasMobileComponents
+			showConfig = mobileShowSidebar
+		} else if (width < breakpoints.tablet) {
+				deviceType = 'tablet'
+			hasComponents = hasTabletComponents
+			showConfig = tabletShowSidebar
+		} else {
+				deviceType = 'desktop'
+			hasComponents = hasTabletComponents
+			showConfig = desktopShowSidebar
+		}
 
-			const shouldShow = showConfig && hasComponents;
-			const sidebar = document.getElementById("sidebar");
+			const shouldShow = showConfig && hasComponents
+		const sidebar = document.getElementById('sidebar')
 
-			if (sidebar) {
+		if (sidebar) {
 				sidebar.style.setProperty(
 					`--sidebar-${deviceType}-display`,
-					shouldShow ? "block" : "none",
-				);
-			}
+					shouldShow ? 'block' : 'none',
+				)
+		}
 		}
 	}
 
 	if (!window[SIDEBAR_MANAGER_KEY]) {
-		window[SIDEBAR_MANAGER_KEY] = true;
-		new SidebarManager();
-	}
+		window[SIDEBAR_MANAGER_KEY] = true
+	new SidebarManager()
+}
 </script>

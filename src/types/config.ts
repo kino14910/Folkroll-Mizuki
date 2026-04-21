@@ -4,7 +4,7 @@ import type {
 	WALLPAPER_BANNER,
 	WALLPAPER_FULLSCREEN,
 	WALLPAPER_NONE,
-} from "../constants/constants";
+} from '../constants/constants'
 
 export interface SiteConfig {
 	title: string;
@@ -41,16 +41,16 @@ export interface SiteConfig {
 		| 12;
 
 	lang:
-		| "en"
-		| "zh_CN"
-		| "zh_TW"
-		| "ja"
-		| "ko"
-		| "es"
-		| "th"
-		| "vi"
-		| "tr"
-		| "id";
+		| 'en'
+		| 'zh_CN'
+		| 'zh_TW'
+		| 'ja'
+		| 'ko'
+		| 'es'
+		| 'th'
+		| 'vi'
+		| 'tr'
+		| 'id';
 
 	themeColor: {
 		hue: number;
@@ -71,7 +71,7 @@ export interface SiteConfig {
 
 	// 文章列表布局配置
 	postListLayout: {
-		defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
+		defaultMode: 'list' | 'grid'; // 默认布局模式：list=列表模式，grid=网格模式
 		allowSwitch: boolean; // 是否允许用户切换布局
 		categoryBar?: {
 			enable: boolean; // 是否在文章列表页显示分类导航条
@@ -80,7 +80,7 @@ export interface SiteConfig {
 
 	// 顶栏标题配置
 	navbarTitle?: {
-		mode?: "text-icon" | "logo"; // 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
+		mode?: 'text-icon' | 'logo'; // 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
 		text: string; // 顶栏标题文本
 		icon?: string; // 顶栏标题图标路径
 		logo?: string; // 网站Logo图片路径
@@ -124,7 +124,7 @@ export interface SiteConfig {
 
 	// 添加番剧页面配置
 	anime?: {
-		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
+		mode?: 'bangumi' | 'local' | 'bilibili'; // 番剧页面模式
 	};
 
 	// 标签样式配置
@@ -134,8 +134,8 @@ export interface SiteConfig {
 
 	// 壁纸模式配置
 	wallpaperMode: {
-		defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
+		defaultMode: 'banner' | 'fullscreen' | 'none'; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+		showModeSwitchOnMobile?: 'off' | 'mobile' | 'desktop' | 'both'; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
 	};
 
 	banner: {
@@ -146,7 +146,7 @@ export interface SiteConfig {
 					desktop?: string | string[];
 					mobile?: string | string[];
 			  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-		position?: "top" | "center" | "bottom";
+		position?: 'top' | 'center' | 'bottom';
 		carousel?: {
 			enable: boolean; // 是否启用轮播
 			interval: number; // 轮播间隔时间（秒）
@@ -177,7 +177,7 @@ export interface SiteConfig {
 			url?: string;
 		};
 		navbar?: {
-			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
+			transparentMode?: 'semi' | 'full' | 'semifull'; // 导航栏透明模式
 		};
 	};
 	toc: {
@@ -198,7 +198,7 @@ export interface SiteConfig {
 
 export interface Favicon {
 	src: string;
-	theme?: "light" | "dark";
+	theme?: 'light' | 'dark';
 	sizes?: string;
 }
 
@@ -278,7 +278,7 @@ export interface PermalinkConfig {
 
 export interface CommentConfig {
 	enable: boolean; // 是否启用评论功能
-	system?: "twikoo" | "giscus"; // 评论系统选择
+	system?: 'twikoo' | 'giscus'; // 评论系统选择
 	twikoo?: TwikooConfig;
 	giscus?: GiscusConfig;
 }
@@ -304,12 +304,12 @@ interface TwikooConfig {
 	lang?: string;
 }
 
-export type LIGHT_DARK_MODE = typeof LIGHT_MODE | typeof DARK_MODE;
+export type LIGHT_DARK_MODE = typeof LIGHT_MODE | typeof DARK_MODE
 
 export type WALLPAPER_MODE =
 	| typeof WALLPAPER_BANNER
 	| typeof WALLPAPER_FULLSCREEN
-	| typeof WALLPAPER_NONE;
+	| typeof WALLPAPER_NONE
 
 export interface BlogPostData {
 	body: string;
@@ -337,7 +337,7 @@ export interface AnnouncementConfig {
 	title?: string; // 公告栏标题
 	content: string; // 公告栏内容
 	icon?: string; // 公告栏图标
-	type?: "info" | "warning" | "success" | "error"; // 公告类型
+	type?: 'info' | 'warning' | 'success' | 'error'; // 公告类型
 	closable?: boolean; // 是否可关闭
 	link?: {
 		enable: boolean; // 是否启用链接
@@ -350,8 +350,8 @@ export interface AnnouncementConfig {
 export interface MusicPlayerConfig {
 	enable: boolean; // 是否启用音乐播放器功能
 	showFloatingPlayer: boolean; // 是否显示悬浮播放器 UI
-	floatingEntryMode?: "default" | "fab"; // 悬浮入口模式：默认独立播放器或集成到 FAB 组
-	mode: "meting" | "local"; // 音乐播放器模式
+	floatingEntryMode?: 'default' | 'fab'; // 悬浮入口模式：默认独立播放器或集成到 FAB 组
+	mode: 'meting' | 'local'; // 音乐播放器模式
 	meting_api: string; // Meting API 地址
 	id: string; // 歌单ID
 	server: string; // 音乐源服务器
@@ -365,27 +365,27 @@ export interface FooterConfig {
 
 // 组件配置类型定义
 export type WidgetComponentType =
-	| "profile"
-	| "announcement"
-	| "categories"
-	| "tags"
-	| "toc"
-	| "card-toc" // 卡片式目录组件
-	| "music-player"
-	| "music-sidebar"
-	| "pio" // 添加 pio 组件类型
-	| "site-stats" // 站点统计组件
-	| "calendar" // 日历组件
-	| "custom";
+	| 'profile'
+	| 'announcement'
+	| 'categories'
+	| 'tags'
+	| 'toc'
+	| 'card-toc' // 卡片式目录组件
+	| 'music-player'
+	| 'music-sidebar'
+	| 'pio' // 添加 pio 组件类型
+	| 'site-stats' // 站点统计组件
+	| 'calendar' // 日历组件
+	| 'custom'
 
 export interface WidgetComponentConfig {
 	type: WidgetComponentType; // 组件类型
-	position: "top" | "sticky"; // 组件位置：顶部固定区域或粘性区域
+	position: 'top' | 'sticky'; // 组件位置：顶部固定区域或粘性区域
 	class?: string; // 自定义CSS类名
 	style?: string; // 自定义内联样式
 	animationDelay?: number; // 动画延迟时间（毫秒）
 	responsive?: {
-		hidden?: ("mobile" | "tablet" | "desktop")[]; // 在指定设备上隐藏
+		hidden?: ('mobile' | 'tablet' | 'desktop')[]; // 在指定设备上隐藏
 		collapseThreshold?: number; // 折叠阈值
 	};
 	customProps?: Record<string, any>; // 自定义属性，用于扩展组件功能
@@ -447,7 +447,7 @@ export interface FullscreenWallpaperConfig {
 				desktop?: string | string[];
 				mobile?: string | string[];
 		  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-	position?: "top" | "center" | "bottom"; // 壁纸位置，等同于 object-position
+	position?: 'top' | 'center' | 'bottom'; // 壁纸位置，等同于 object-position
 	carousel?: {
 		enable: boolean; // 是否启用轮播
 		interval: number; // 轮播间隔时间（秒）
@@ -463,10 +463,10 @@ export interface FullscreenWallpaperConfig {
 export interface PioConfig {
 	enable: boolean; // 是否启用看板娘
 	models?: string[]; // 模型文件路径数组
-	position?: "left" | "right"; // 看板娘位置
+	position?: 'left' | 'right'; // 看板娘位置
 	width?: number; // 看板娘宽度
 	height?: number; // 看板娘高度
-	mode?: "static" | "fixed" | "draggable"; // 展现模式
+	mode?: 'static' | 'fixed' | 'draggable'; // 展现模式
 	hiddenOnMobile?: boolean; // 是否在移动设备上隐藏
 	dialog?: {
 		welcome?: string | string[]; // 欢迎词
@@ -477,7 +477,7 @@ export interface PioConfig {
 		link?: string; // 关于链接
 		custom?: {
 			selector: string; // CSS选择器
-			type: "read" | "link"; // 类型
+			type: 'read' | 'link'; // 类型
 			text?: string; // 自定义文本
 		}[];
 	};

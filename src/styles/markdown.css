@@ -3,19 +3,20 @@
 .custom-md {
   * {
     letter-spacing: 0.1ch;
+    font-family: asciiFont, cjkFont
   }
 
-  h1 {
+  /* h1 {
     @apply text-3xl;
   }
 
   h2 {
     @apply text-2xl;
   }
-
+  
   p {
-    @apply text-lg;
-  }
+    @apply text-base;
+  } */
 
   :is(h1, h2, h3, h4, h5, h6) {
     .anchor {
@@ -44,6 +45,10 @@
       border-bottom: 1px dashed var(--link-hover);
       text-decoration: none;
     }
+  }
+
+  hr {
+    @apply m-6
   }
 
   /* --- 代码块 --- */
@@ -99,7 +104,7 @@
 
   /* --- 表格样式 --- */
   .table-wrapper {
-    @apply w-full overflow-x-auto m-0 rounded-(--radius-3xl);
+    @apply w-full overflow-x-auto m-0 rounded-(--radius-large) text-lg;
     -webkit-overflow-scrolling: touch;
 
     /* --- 滚动条样式 --- */
@@ -109,7 +114,7 @@
 
     &::-webkit-scrollbar-track {
       background: transparent;
-      margin: 0 calc(var(--radius-3xl) + 2px);
+      margin: 0 calc(var(--radius-large) + 2px);
     }
 
     &::-webkit-scrollbar-thumb {
@@ -127,13 +132,11 @@
   }
 
   table {
-    @apply w-full border-separate m-0 bg-(--card-bg);
+    @apply w-full border-separate m-0 bg-(--card-bg) overflow-hidden;
     border-spacing: 0;
 
     border: 1px solid var(--line-divider);
-    border-radius: var(--radius-3xl);
-
-    overflow: hidden;
+    border-radius: var(--radius-large);
   }
 
   th,

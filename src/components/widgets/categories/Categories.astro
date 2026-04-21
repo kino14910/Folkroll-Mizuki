@@ -1,28 +1,28 @@
 ---
-import I18nKey from "../../../i18n/i18nKey";
-import { i18n } from "../../../i18n/translation";
-import { getCategoryList } from "../../../utils/content-utils";
-import { widgetManager } from "../../../utils/widget-manager";
-import ButtonLink from "../../control/ButtonLink.astro";
-import WidgetLayout from "../common/WidgetLayout.astro";
+import I18nKey from '../../../i18n/i18nKey'
+import { i18n } from '../../../i18n/translation'
+import { getCategoryList } from '../../../utils/content-utils'
+import { widgetManager } from '../../../utils/widget-manager'
+import ButtonLink from '../../control/ButtonLink.astro'
+import WidgetLayout from '../common/WidgetLayout.astro'
 
-const categories = await getCategoryList();
+const categories = await getCategoryList()
 
-const COLLAPSED_HEIGHT = "7.5rem";
+const COLLAPSED_HEIGHT = '7.5rem'
 
 // 使用统一的组件管理器检查是否应该折叠
 const categoriesComponent = widgetManager
 	.getConfig()
-	.properties.find((p) => p.type === "categories");
+	.properties.find((p) => p.type === 'categories')
 const isCollapsed = categoriesComponent
 	? widgetManager.isCollapsed(categoriesComponent, categories.length)
-	: false;
+	: false
 
 interface Props {
 	class?: string;
 	style?: string;
 }
-const className = Astro.props.class;
+const className = Astro.props.class
 const style = Astro.props.style;
 ---
 

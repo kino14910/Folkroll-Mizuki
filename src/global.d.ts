@@ -1,8 +1,8 @@
-export {};
+export {}
 
 declare global {
 	interface HTMLElementTagNameMap {
-		"table-of-contents": HTMLElement & {
+		'table-of-contents': HTMLElement & {
 			init?: () => void;
 			regenerateTOC?: () => void;
 		};
@@ -25,7 +25,7 @@ declare global {
 	 */
 	interface SiteConfigTOC {
 		enable?: boolean;
-		mode?: "float" | "sidebar";
+		mode?: 'float' | 'sidebar';
 		depth?: number;
 		useJapaneseBadge?: boolean;
 	}
@@ -37,7 +37,7 @@ declare global {
 		lang?: string;
 		toc?: SiteConfigTOC;
 		wallpaperMode?: {
-			defaultMode?: "banner" | "fullscreen" | "none";
+			defaultMode?: 'banner' | 'fullscreen' | 'none';
 		};
 	}
 
@@ -94,7 +94,7 @@ declare global {
 		bind: (selector: string, options: object) => void;
 	}
 
-	var Fancybox: Fancybox | undefined;
+	var Fancybox: Fancybox | undefined
 }
 
 interface SearchResult {
@@ -123,4 +123,4 @@ interface SearchResult {
 	sub_results?: SearchResult[];
 }
 
-export { SearchResult };
+export { SearchResult }

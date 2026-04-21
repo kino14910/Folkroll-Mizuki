@@ -1,27 +1,27 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from 'astro-icon/components'
 
-import I18nKey from "../../../i18n/i18nKey";
-import { i18n } from "../../../i18n/translation";
-import type { ProjectCardProps } from "./types";
+import I18nKey from '../../../i18n/i18nKey'
+import { i18n } from '../../../i18n/translation'
+import type { ProjectCardProps } from './types'
 
-const { project, maxTechStack = 4 } = Astro.props as ProjectCardProps;
+const { project, maxTechStack = 4 } = Astro.props as ProjectCardProps
 
-const hasImage = !!project.image;
-const showImageArea = project.showImage !== false && hasImage;
-const hasVisitUrl = !!project.visitUrl;
-const hasSourceCode = !!project.sourceCode;
+const hasImage = !!project.image
+const showImageArea = project.showImage !== false && hasImage
+const hasVisitUrl = !!project.visitUrl
+const hasSourceCode = !!project.sourceCode
 
 const getStatusText = (status: string) => {
 	switch (status) {
-		case "completed":
-			return i18n(I18nKey.projectsCompleted);
-		case "in-progress":
-			return i18n(I18nKey.projectsInProgress);
-		case "planned":
-			return i18n(I18nKey.projectsPlanned);
+		case 'completed':
+			return i18n(I18nKey.projectsCompleted)
+		case 'in-progress':
+			return i18n(I18nKey.projectsInProgress)
+		case 'planned':
+			return i18n(I18nKey.projectsPlanned)
 		default:
-			return status;
+			return status
 	}
 };
 ---
@@ -121,10 +121,10 @@ const getStatusText = (status: string) => {
 							target="_blank"
 							rel="noopener noreferrer"
 							class="btn-regular flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
-							style={hasVisitUrl ? "" : "flex: 1;"}
+							style={hasVisitUrl ? '' : 'flex: 1;'}
 						>
 							<Icon name="mdi:github" class="text-base w-4 h-4" />
-							{!hasVisitUrl && "GitHub"}
+							{!hasVisitUrl && 'GitHub'}
 						</a>
 					)}
 				</div>

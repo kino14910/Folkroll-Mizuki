@@ -7,9 +7,9 @@ export interface Song {
 	duration: number;
 }
 
-export type PlayerMode = "local" | "meting";
+export type PlayerMode = 'local' | 'meting'
 
-export type RepeatMode = 0 | 1 | 2;
+export type RepeatMode = 0 | 1 | 2
 
 export interface PlayerState {
 	isPlaying: boolean;

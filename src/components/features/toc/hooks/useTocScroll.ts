@@ -7,11 +7,11 @@
  * 计算阅读进度（0-1）
  */
 export function calculateReadingProgress(): number {
-	const scrollTop = window.scrollY || document.documentElement.scrollTop;
+	const scrollTop = window.scrollY || document.documentElement.scrollTop
 	const docHeight =
 		document.documentElement.scrollHeight -
-		document.documentElement.clientHeight;
-	return docHeight > 0 ? scrollTop / docHeight : 0;
+		document.documentElement.clientHeight
+	return docHeight > 0 ? scrollTop / docHeight : 0
 }
 
 /**
@@ -21,13 +21,13 @@ export function updateProgressRing(
 	circle: SVGCircleElement,
 	progress: number,
 ): void {
-	const radius = circle.r.baseVal.value;
-	const circumference = radius * 2 * Math.PI;
+	const radius = circle.r.baseVal.value
+	const circumference = radius * 2 * Math.PI
 	const offset = Math.max(
 		0,
 		Math.min(circumference, circumference - progress * circumference),
-	);
-	circle.style.strokeDashoffset = offset.toString();
+	)
+	circle.style.strokeDashoffset = offset.toString()
 }
 
 /**
@@ -38,17 +38,17 @@ export function createScrollHandler(
 	options: AddEventListenerOptions = {},
 ): (event: Event) => void {
 	const handler = (_event: Event) => {
-		callback();
-	};
-
-	if (typeof window !== "undefined") {
-		window.addEventListener("scroll", handler, {
-			passive: true,
-			...options,
-		});
+		callback()
 	}
 
-	return handler;
+	if (typeof window !== 'undefined') {
+		window.addEventListener('scroll', handler, {
+			passive: true,
+			...options,
+		})
+	}
+
+	return handler
 }
 
 /**
@@ -60,24 +60,24 @@ export function scrollActiveIntoView(
 	tocHeight: number,
 ): void {
 	if (activeElements.length === 0 || !container) {
-		return;
+		return
 	}
 
-	const topmost = activeElements[0];
-	const bottommost = activeElements[activeElements.length - 1];
+	const topmost = activeElements[0]
+	const bottommost = activeElements[activeElements.length - 1]
 
 	const visibleHeight =
 		bottommost.getBoundingClientRect().bottom -
-		topmost.getBoundingClientRect().top;
+		topmost.getBoundingClientRect().top
 
-	let top: number;
+	let top: number
 	if (visibleHeight < 0.9 * tocHeight) {
-		top = topmost.offsetTop - 32;
+		top = topmost.offsetTop - 32
 	} else {
-		top = bottommost.offsetTop - tocHeight * 0.8;
+		top = bottommost.offsetTop - tocHeight * 0.8
 	}
 
-	container.scrollTo({ top, left: 0, behavior: "smooth" });
+	container.scrollTo({ top, left: 0, behavior: 'smooth' })
 }
 
 /**
@@ -88,14 +88,14 @@ export function calculateActiveIndicatorPosition(
 	minEntry: HTMLElement,
 	maxEntry: HTMLElement,
 ): { top: number; height: number } {
-	const containerRect = container.getBoundingClientRect();
-	const minRect = minEntry.getBoundingClientRect();
-	const maxRect = maxEntry.getBoundingClientRect();
+	const containerRect = container.getBoundingClientRect()
+	const minRect = minEntry.getBoundingClientRect()
+	const maxRect = maxEntry.getBoundingClientRect()
 
-	const top = minRect.top - containerRect.top + container.scrollTop;
-	const height = maxRect.bottom - minRect.top;
+	const top = minRect.top - containerRect.top + container.scrollTop
+	const height = maxRect.bottom - minRect.top
 
-	return { top, height };
+	return { top, height }
 }
 
 /**
@@ -105,11 +105,11 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
 	fn: T,
 	delay: number,
 ): (...args: Parameters<T>) => void {
-	let timeoutId: ReturnType<typeof setTimeout>;
+	let timeoutId: ReturnType<typeof setTimeout>
 	return (...args: Parameters<T>) => {
-		clearTimeout(timeoutId);
-		timeoutId = setTimeout(() => fn(...args), delay);
-	};
+		clearTimeout(timeoutId)
+		timeoutId = setTimeout(() => fn(...args), delay)
+	}
 }
 
 /**
@@ -119,14 +119,14 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 	fn: T,
 	limit: number,
 ): (...args: Parameters<T>) => void {
-	let inThrottle = false;
+	let inThrottle = false
 	return (...args: Parameters<T>) => {
 		if (!inThrottle) {
-			fn(...args);
-			inThrottle = true;
+			fn(...args)
+			inThrottle = true
 			setTimeout(() => {
-				inThrottle = false;
-			}, limit);
+				inThrottle = false
+			}, limit)
 		}
-	};
+	}
 }

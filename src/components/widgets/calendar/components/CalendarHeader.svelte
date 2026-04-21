@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte'
 
 	interface Props {
 		monthNames: string[];
 		yearSuffix: string;
 		currentYear: number;
 		currentMonth: number;
-		currentView: "day" | "month" | "year";
+		currentView: 'day' | 'month' | 'year';
 		isBackToTodayVisible: boolean;
 		onPrevMonth: () => void;
 		onNextMonth: () => void;
@@ -25,11 +25,11 @@
 		onNextMonth,
 		onBackToToday,
 		onTitleClick,
-	}: Props = $props();
+	}: Props = $props()
 
 	const title = $derived(
 		`${currentYear}${yearSuffix} ${monthNames[currentMonth]}`,
-	);
+	)
 </script>
 
 <div class="flex justify-between items-center mb-2 mt-2">

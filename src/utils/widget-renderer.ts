@@ -2,10 +2,10 @@
  * Widget 渲染工具
  * 提供侧边栏组件渲染的通用逻辑
  */
-import type { MarkdownHeading } from "astro";
+import type { MarkdownHeading } from 'astro'
 
-import type { WidgetConfig } from "./types/widget";
-import { widgetManager } from "./widget-manager";
+import type { WidgetConfig } from './types/widget'
+import { widgetManager } from './widget-manager'
 
 /**
  * 组件渲染结果
@@ -25,12 +25,12 @@ export function getComponentStyles(
 	component: WidgetConfig,
 	index: number,
 ): { class: string; style: string } {
-	const componentClass = widgetManager.getComponentClass(component, index);
-	const componentStyle = widgetManager.getComponentStyle(component, index);
+	const componentClass = widgetManager.getComponentClass(component, index)
+	const componentStyle = widgetManager.getComponentStyle(component, index)
 	return {
 		class: componentClass,
 		style: componentStyle,
-	};
+	}
 }
 
 /**
@@ -48,23 +48,23 @@ export function buildComponentProps(
 	const { class: componentClass, style: componentStyle } = getComponentStyles(
 		component,
 		index,
-	);
+	)
 
 	const props: Record<string, unknown> = {
 		class: componentClass,
 		style: componentStyle,
 		...component.customProps,
-	};
+	}
 
 	// TOC 组件需要传入 headings
 	if (
-		(component.type === "toc" || component.type === "card-toc") &&
+		(component.type === 'toc' || component.type === 'card-toc') &&
 		headings
 	) {
-		props.headings = headings;
+		props.headings = headings
 	}
 
-	return props;
+	return props
 }
 
 /**
@@ -76,12 +76,12 @@ export function buildComponentProps(
 export function getDeviceType(
 	width: number,
 	breakpoints: { mobile: number; tablet: number },
-): "mobile" | "tablet" | "desktop" {
+): 'mobile' | 'tablet' | 'desktop' {
 	if (width < breakpoints.mobile) {
-		return "mobile";
+		return 'mobile'
 	}
 	if (width < breakpoints.tablet) {
-		return "tablet";
+		return 'tablet'
 	}
-	return "desktop";
+	return 'desktop'
 }

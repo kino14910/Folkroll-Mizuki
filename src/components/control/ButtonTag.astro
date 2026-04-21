@@ -6,22 +6,22 @@
  * 这是一个特定用途的组件，新的通用按钮需求请使用 atoms/Button。
  */
 interface ButtonTagProps {
-	size?: string;
-	dot?: boolean;
-	href?: string;
-	label?: string;
+	size?: string
+	dot?: boolean
+	href?: string
+	label?: string
 }
-const { dot, href, label }: ButtonTagProps = Astro.props;
+const { dot, href, label }: ButtonTagProps = Astro.props
 ---
 
 <a
 	href={href}
 	aria-label={label}
-	class="btn-regular h-8 text-sm px-3 rounded-lg"
+	class='btn-regular h-8 text-sm px-3 rounded-lg'
 >
 	{
 		dot && (
-			<div class="h-1 w-1 bg-[var(--btn-content)] dark:bg-[var(--card-bg)] transition rounded-md mr-2" />
+			<div class='h-1 w-1 bg-(--btn-content) dark:bg-(--card-bg) transition rounded-md mr-2' />
 		)
 	}
 	<slot />

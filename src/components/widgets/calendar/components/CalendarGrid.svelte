@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CalendarGridCell } from "../types/calendar";
+	import type { CalendarGridCell } from '../types/calendar'
 
 	interface Props {
 		weekDays: string[];
@@ -8,33 +8,33 @@
 		onCellClick: (dateKey: string) => void;
 	}
 
-	const { weekDays, emptyCellsCount, cells, onCellClick }: Props = $props();
+	const { weekDays, emptyCellsCount, cells, onCellClick }: Props = $props()
 
 	function getCellClass(cell: CalendarGridCell): string {
 		let bgClass =
-			"hover:bg-[var(--btn-plain-bg-hover)] text-neutral-700 dark:text-neutral-300 border border-transparent";
+			'hover:bg-[var(--btn-plain-bg-hover)] text-neutral-700 dark:text-neutral-300 border border-transparent'
 
 		if (cell.isEmpty) {
-			return "aspect-square";
+			return 'aspect-square'
 		}
 
 		if (cell.isSelected) {
 			bgClass =
-				"bg-[var(--primary)] text-white shadow-md border border-transparent";
+				'bg-[var(--primary)] text-white shadow-md border border-transparent'
 		} else if (cell.isToday) {
 			bgClass =
-				"text-[var(--primary)] font-bold bg-[var(--primary)]/10 border border-[var(--primary)]";
+				'text-[var(--primary)] font-bold bg-[var(--primary)]/10 border border-[var(--primary)]'
 		} else if (cell.hasPost) {
 			bgClass =
-				"font-bold text-neutral-900 dark:text-neutral-100 hover:bg-[var(--btn-plain-bg-hover)] border border-transparent";
+				'font-bold text-neutral-900 dark:text-neutral-100 hover:bg-[var(--btn-plain-bg-hover)] border border-transparent'
 		}
 
-		return `calendar-day aspect-square flex items-center justify-center rounded-md cursor-pointer relative transition-all duration-200 ${bgClass}`;
+		return `calendar-day aspect-square flex items-center justify-center rounded-md cursor-pointer relative transition-all duration-200 ${bgClass}`
 	}
 
 	function handleCellClick(cell: CalendarGridCell) {
 		if (!cell.isEmpty && cell.dateKey) {
-			onCellClick(cell.dateKey);
+			onCellClick(cell.dateKey)
 		}
 	}
 </script>

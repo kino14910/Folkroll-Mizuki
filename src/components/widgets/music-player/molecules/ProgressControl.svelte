@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ProgressBar from "../atoms/ProgressBar.svelte";
+	import ProgressBar from '../atoms/ProgressBar.svelte'
 
 	interface Props {
 		currentTime: number;
@@ -9,7 +9,7 @@
 	}
 
 	const { currentTime, duration, onProgressClick, onProgressKeyDown }: Props =
-		$props();
+		$props()
 </script>
 
 <div class="progress-section mb-4">
