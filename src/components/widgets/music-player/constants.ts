@@ -37,6 +37,14 @@ export const LOCAL_PLAYLIST: Song[] = [
 		url: 'assets/music/url/cl.mp3',
 		duration: 200,
 	},
+	{
+		id: 5,
+		title: '夢を撃ち抜く瞬間に！ (サードシーズンジュウサンワフルバージョン)',
+		artist: 'Poppin\'Party&Roselia',
+		cover: 'assets/music/cover/Poppin\'Party&Roselia - 夢を撃ち抜く瞬間に！ (サードシーズンジュウサンワフルバージョン).jpg',
+		url: 'assets/music/url/Poppin\'Party&Roselia - 夢を撃ち抜く瞬間に！ (サードシーズンジュウサンワフルバージョン).flac',
+		duration: 200,
+	},
 ]
 
 export const DEFAULT_SONG: Song = {
