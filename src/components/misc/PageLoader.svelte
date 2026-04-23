@@ -6,7 +6,7 @@
 	let phase: Phase = $state('covering')
 	let animationKey = $state(0)
 
-	const HOLD_DURATION = 400
+	const HOLD_DURATION = 1200
 	const EXIT_DURATION = 800
 
 	let timers: ReturnType<typeof setTimeout>[] = []
@@ -185,7 +185,7 @@
 	.logo-svg path {
 		stroke-dasharray: 81px 100px;
 		stroke-dashoffset: -99px;
-		animation: snake 2s linear infinite;
+		animation: snake 2.4s linear infinite;
 	}
 
 	@keyframes snake {
